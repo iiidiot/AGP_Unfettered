@@ -1,0 +1,4 @@
+# use it for placeholder, when you add any file in this folder, plz remove this ignore file
+*
+# Except this file
+!.gitignore
