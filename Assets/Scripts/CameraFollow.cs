@@ -19,7 +19,7 @@ public class CameraFollow : MonoBehaviour {
 	private float minY;
 
 	void Start () {
-		target = GameObject.Find("Sphere").transform;
+		target = GameObject.Find("Player").transform;
 	}
 	
 	// Update is called once per frame
