@@ -5,28 +5,40 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
 	
+	private static PlayerController instance;
+
+	public static PlayerController Instance
+	{
+		get
+		{
+			if(instance == null )
+			{
+				instance = GameObject.FindObjectOfType<PlayerController>();
+			}
+			return instance;
+		}
+	}
 	[SerializeField]
 	private float movementSpeed = 15f;
 
 	private bool facingRight = true;
 
 	[SerializeField]
-	private float groundRadius;
-	[SerializeField]
 	private float jumpFrouce = 500f;
 	[SerializeField]
-	private LayerMask whatisGround;
-	private Rigidbody2D myRigibody;
+	private Rigidbody myRigibody;
 
-	private bool jump;
+	private Animator myAnimator;
+	public bool Jump{get; set;}
 
-	private bool onGround;
+	public bool OnGround{get; set;}
 
 	[SerializeField]
-	private Transform[] groundPoints; 
+	private Transform groundPoints; 
 	// Use this for initialization
 	void Start () {
-		myRigibody = GetComponent<Rigidbody2D>();
+		myRigibody = GetComponent<Rigidbody>();
+		myAnimator = GetComponent<Animator>();
 
 	}
 	
@@ -38,10 +50,10 @@ public class PlayerController : MonoBehaviour {
 	void FixedUpdate () 
 	{
 		float horizontal = Input.GetAxis("Horizontal");
-		onGround = IsGrounded();
 		HandleMovement(horizontal);
+		OnGround = IsGrounded();
 		Flip(horizontal);
-		ResetParameter();
+		HandleLayer();
 	}
 
 
@@ -58,39 +70,43 @@ public class PlayerController : MonoBehaviour {
 
     private void HandleMovement(float horizontal)
     {
+		if(myRigibody.velocity.y < 0){
+			myAnimator.SetBool("land", true);
+		}
+
 		myRigibody.velocity = new Vector2(horizontal * movementSpeed, myRigibody.velocity.y);
 
-		if(jump && myRigibody.velocity.y == 0){
-			onGround = false;
+		myAnimator.SetFloat("speed", Mathf.Abs(horizontal));
+		Debug.Log(OnGround);
+		if(Jump && OnGround){
+
+			OnGround = false;
 			myRigibody.AddForce(new Vector2(0, jumpFrouce));
+			myAnimator.SetTrigger("jump");
+			myAnimator.SetBool("land", false);
 		}
     }
-
-    private bool IsGrounded()
-    {
-		if(myRigibody.velocity.y <= 0)
-		{
-			foreach(Transform point in groundPoints)
-			{
-				Collider2D[] collider = Physics2D.OverlapCircleAll(point.position, groundRadius, whatisGround);
-				foreach(Collider2D colliderItem in collider){
-					if(colliderItem.gameObject != gameObject){
-						return true;
-					}
-				}
-			}	
-		}
-		return false;
-    }
-
     private void HanldeInput()
     {
 		if(Input.GetKeyDown(KeyCode.Space)){
-			jump = true;
+			Jump = true;
 		}
     }
 
-	private void ResetParameter(){
-		jump = false;
+	private void HandleLayer()
+	{
+		if(!OnGround)
+		{
+			myAnimator.SetLayerWeight(1,1);
+		}else
+		{
+			myAnimator.SetLayerWeight(1,0);
+		}
 	}
+
+	private bool IsGrounded()
+	{
+		return Physics.Raycast(groundPoints.position, -Vector3.up, 1f);
+	}
+	
 }
