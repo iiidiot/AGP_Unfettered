@@ -24,11 +24,8 @@ public class PlayerController : MonoBehaviour {
 	private bool facingRight = true;
 
 	[SerializeField]
-	private float groundRadius;
-	[SerializeField]
 	private float jumpFrouce = 500f;
 	[SerializeField]
-	private LayerMask whatisGround;
 	private Rigidbody myRigibody;
 
 	private Animator myAnimator;
@@ -37,7 +34,7 @@ public class PlayerController : MonoBehaviour {
 	public bool OnGround{get; set;}
 
 	[SerializeField]
-	private Transform[] groundPoints; 
+	private Transform groundPoints; 
 	// Use this for initialization
 	void Start () {
 		myRigibody = GetComponent<Rigidbody>();
@@ -54,6 +51,7 @@ public class PlayerController : MonoBehaviour {
 	{
 		float horizontal = Input.GetAxis("Horizontal");
 		HandleMovement(horizontal);
+		OnGround = IsGrounded();
 		Flip(horizontal);
 		HandleLayer();
 	}
@@ -106,18 +104,9 @@ public class PlayerController : MonoBehaviour {
 		}
 	}
 
-	void OnCollisionEnter(Collision collision)
+	private bool IsGrounded()
 	{
-		if(collision.gameObject.CompareTag("Ground"))
-		{
-			OnGround = true;
-		}
+		return Physics.Raycast(groundPoints.position, -Vector3.up, 1f);
 	}
-	void OnCollisionExit(Collision collision)
-	{
-		if(collision.gameObject.CompareTag("Ground"))
-		{
-			OnGround = false;
-		}
-	}
+	
 }
