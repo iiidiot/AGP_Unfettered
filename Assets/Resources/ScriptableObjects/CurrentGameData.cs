@@ -11,8 +11,8 @@ using System.IO;
 
 public static class CurrentGameData {
 
-    public static List<int> itemIDs;
-    public static int health;
+    public static List<int> itemIDs = new List<int>() { 1, 2 };
+    public static int health = 10;
 }
 
 
