@@ -72,6 +72,7 @@ public class PlayerController : MonoBehaviour {
     {
 		if(myRigibody.velocity.y < 0){
 			myAnimator.SetBool("land", true);
+			//myAnimator.SetTrigger("jump");
 		}
 
 		myRigibody.velocity = new Vector2(horizontal * movementSpeed, myRigibody.velocity.y);
@@ -81,7 +82,7 @@ public class PlayerController : MonoBehaviour {
 		if(Jump && OnGround){
 
 			OnGround = false;
-			myRigibody.AddForce(new Vector2(0, jumpFrouce));
+			myRigibody.velocity = new Vector2(horizontal * movementSpeed, jumpFrouce);
 			myAnimator.SetTrigger("jump");
 			myAnimator.SetBool("land", false);
 		}
