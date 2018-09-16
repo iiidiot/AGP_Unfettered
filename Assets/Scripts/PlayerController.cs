@@ -18,13 +18,18 @@ public class PlayerController : MonoBehaviour {
 			return instance;
 		}
 	}
+
+	[SerializeField]
+	private float jumpHeight = 5.0f;
+
+	[SerializeField]
+	private float jumpDuration = 0.5f;
+
 	[SerializeField]
 	private float movementSpeed = 15f;
 
 	private bool facingRight = true;
 
-	[SerializeField]
-	private float jumpFrouce = 500f;
 	[SerializeField]
 	private Rigidbody myRigibody;
 
@@ -39,12 +44,14 @@ public class PlayerController : MonoBehaviour {
 	void Start () {
 		myRigibody = GetComponent<Rigidbody>();
 		myAnimator = GetComponent<Animator>();
-
+		setGravity();
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		HanldeInput();
+		// delete it when finalized the jump parameter
+		setGravity();
 	}
 
 	void FixedUpdate () 
@@ -78,11 +85,12 @@ public class PlayerController : MonoBehaviour {
 		myRigibody.velocity = new Vector2(horizontal * movementSpeed, myRigibody.velocity.y);
 
 		myAnimator.SetFloat("speed", Mathf.Abs(horizontal));
-		Debug.Log(OnGround);
+		//Debug.Log(OnGround);
 		if(Jump && OnGround){
-
 			OnGround = false;
-			myRigibody.velocity = new Vector2(horizontal * movementSpeed, jumpFrouce);
+			Debug.Log("gravity:"+Physics.gravity.y);
+			// physic simulation is not deterministic, so add 1 to the maxheight to offset the error， maybe it's not so precision.
+			myRigibody.velocity = new Vector2(horizontal * movementSpeed, Mathf.Sqrt(-2.0f * Physics.gravity.y * (jumpHeight+1)));
 			myAnimator.SetTrigger("jump");
 			myAnimator.SetBool("land", false);
 		}
@@ -109,5 +117,9 @@ public class PlayerController : MonoBehaviour {
 	{
 		return Physics.Raycast(groundPoints.position, -Vector3.up, 1f);
 	}
-	
+
+	private void setGravity(){
+		float gravity = (-2 * jumpHeight) / (Mathf.Pow((jumpDuration)/2, 2));
+		Physics.gravity = new Vector3(0, gravity, 0);
+	}
 }
