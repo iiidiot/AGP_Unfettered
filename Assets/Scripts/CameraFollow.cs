@@ -4,29 +4,43 @@ using UnityEngine;
 
 public class CameraFollow : MonoBehaviour {
 
+    public Transform followTarget;
+    public Vector3 offset;
+    public float co = 2.0f;
+    public float smooth = 1.0f;
+    public float Y_threshold = 1.0f;
+
+    public bool isMove = false;
+
 	// Use this for initialization
-	private Transform target;
-	[SerializeField]
-	private float maxX;
-
-	[SerializeField]
-	private float maxY;
-
-	[SerializeField]
-	private float minX;
-
-	[SerializeField]
-	private float minY;
-
 	void Start () {
-		target = GameObject.Find("Player").transform;
+        offset = transform.position - followTarget.position;
 	}
-	
-	// Update is called once per frame
-	void LateUpdate () 
-	{
-		transform.position = new Vector3(Mathf.Clamp(target.position.x, minX, maxX), 
-								Mathf.Clamp(target.position.y, minY, maxY),
-									transform.position.z);
-	}
+    void Update()
+    {
+        if (Mathf.Abs(followTarget.position.y - transform.position.y) > Y_threshold)
+        {
+            isMove = true;
+        }
+        if (Mathf.Abs(followTarget.position.y - transform.position.y) < 0.01)
+        {
+            isMove = false;
+        }
+    }
+
+    // Update is called once per frame
+    void LateUpdate () {
+        //x 跟随
+        transform.position = new Vector3((followTarget.position + offset).x, transform.position.y, transform.position.z);
+
+
+        //y 平滑跟上
+        float newCamY = (followTarget.position + offset).y;
+        float deltaY = (newCamY - transform.position.y) / co;
+        //transform.Translate(0, deltaY, 0);
+        if (isMove)
+        {
+            transform.position = Vector3.Lerp(transform.position, followTarget.position + offset, Time.deltaTime * smooth);
+        }
+    }
 }
