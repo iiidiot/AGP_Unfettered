@@ -85,14 +85,16 @@ public class PlayerController : MonoBehaviour {
 		myRigibody.velocity = new Vector2(horizontal * movementSpeed, myRigibody.velocity.y);
 
 		myAnimator.SetFloat("speed", Mathf.Abs(horizontal));
-		//Debug.Log(OnGround);
+
 		if(Jump && OnGround){
-			OnGround = false;
-			Debug.Log("gravity:"+Physics.gravity.y);
+
 			// physic simulation is not deterministic, so add 1 to the maxheight to offset the error， maybe it's not so precision.
 			myRigibody.velocity = new Vector2(horizontal * movementSpeed, Mathf.Sqrt(-2.0f * Physics.gravity.y * (jumpHeight+1)));
-			myAnimator.SetTrigger("jump");
+			
 			myAnimator.SetBool("land", false);
+			myAnimator.SetTrigger("jump");
+			Jump = false;
+			OnGround = false;
 		}
     }
     private void HanldeInput()
@@ -115,7 +117,7 @@ public class PlayerController : MonoBehaviour {
 
 	private bool IsGrounded()
 	{
-		return Physics.Raycast(groundPoints.position, -Vector3.up, 1f);
+		return Physics.Raycast(groundPoints.position, -Vector3.up, 0.1f);
 	}
 
 	private void setGravity(){
