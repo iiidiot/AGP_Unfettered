@@ -39,7 +39,7 @@ public class PlayerController : MonoBehaviour {
 	public bool OnGround{get; set;}
 
 	[SerializeField]
-	private Transform groundPoints; 
+	private Transform[] groundPoints;
 	// Use this for initialization
 	void Start () {
 		myRigibody = GetComponent<Rigidbody>();
@@ -117,7 +117,13 @@ public class PlayerController : MonoBehaviour {
 
 	private bool IsGrounded()
 	{
-		return Physics.Raycast(groundPoints.position, -Vector3.up, 0.1f);
+		if(myRigibody.velocity.y <= 0){
+			foreach(Transform point in groundPoints){
+				if(Physics.Raycast(point.position, -Vector3.up, 2f))
+				return true;
+			}
+		}
+		return false;
 	}
 
 	private void setGravity(){
