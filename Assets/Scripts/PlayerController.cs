@@ -61,6 +61,7 @@ public class PlayerController : MonoBehaviour {
 		OnGround = IsGrounded();
 		Flip(horizontal);
 		HandleLayer();
+		resetParameter();
 	}
 
 
@@ -119,7 +120,7 @@ public class PlayerController : MonoBehaviour {
 	{
 		if(myRigibody.velocity.y <= 0){
 			foreach(Transform point in groundPoints){
-				if(Physics.Raycast(point.position, -Vector3.up, 2f))
+				if(Physics.Raycast(point.position, -Vector3.up, 0.1f))
 				return true;
 			}
 		}
@@ -129,5 +130,9 @@ public class PlayerController : MonoBehaviour {
 	private void setGravity(){
 		float gravity = (-2 * jumpHeight) / (Mathf.Pow((jumpDuration)/2, 2));
 		Physics.gravity = new Vector3(0, gravity, 0);
+	}
+
+	private void resetParameter(){
+		Jump = false;
 	}
 }
