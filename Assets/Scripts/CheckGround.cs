@@ -4,28 +4,19 @@ using UnityEngine;
 
 public class CheckGround : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 
-	void OnCollisionEnter(Collision collision)
+	void OnTriggerEnter(Collider collider)
 	{
 		
-		if(collision.gameObject.CompareTag("Ground"))
+		if(collider.tag == "Ground" )
 		{
 			PlayerController.Instance.OnGround = true;
 		}
 		Debug.Log("point:"+PlayerController.Instance.OnGround);
 	}
-	void OnCollisionExit(Collision collision)
+	void OnTriggerExit(Collider collider)
 	{
-		if(collision.gameObject.CompareTag("Ground"))
+		if(collider.tag == "Ground" )
 		{
 			PlayerController.Instance.OnGround = false;
 		}
