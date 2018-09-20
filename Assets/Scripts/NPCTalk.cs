@@ -4,12 +4,13 @@ using System.Collections;
 
 public class NPCTalk : MonoBehaviour
 {
+    public float Y_offset = 80;
+
     private GameObject dialog;
     private string[] allLines;
     private int count = 0;
     private int timeDelay = 0;
-    public float Y_offset = 80;
-    private const int gap = 60;
+    private const int gap = 300;
 
     // Use this for initialization
     void Start()
@@ -33,7 +34,7 @@ public class NPCTalk : MonoBehaviour
             string content = allLines[count++];
             if (content[0] == 'p') {        // player talk
                 dialog.GetComponent<Text>().color = Color.red;
-                dialog.GetComponent<RectTransform>().position = Camera.main.WorldToScreenPoint(GameObject.Find("Player").transform.position) + new Vector3(0, Y_offset, 0);
+                dialog.GetComponent<RectTransform>().position = Camera.main.WorldToScreenPoint(GameObject.FindGameObjectWithTag("Player").transform.position) + new Vector3(0, Y_offset, 0);
 
             }
             else {      // npc talk
