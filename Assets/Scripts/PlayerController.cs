@@ -56,9 +56,10 @@ public class PlayerController : MonoBehaviour {
 
 	void FixedUpdate () 
 	{
+		
 		float horizontal = Input.GetAxis("Horizontal");
 		HandleMovement(horizontal);
-		OnGround = IsGrounded();
+		//OnGround = IsGrounded();
 		Flip(horizontal);
 		HandleLayer();
 		resetParameter();
@@ -118,13 +119,13 @@ public class PlayerController : MonoBehaviour {
 
 	private bool IsGrounded()
 	{
-		if(myRigibody.velocity.y <= 0){
-			foreach(Transform point in groundPoints){
-				if(Physics.Raycast(point.position, -Vector3.up, 0.1f))
-				return true;
-			}
-		}
-		return false;
+		// if(myRigibody.velocity.y <= 0){
+		// 	foreach(Transform point in groundPoints){
+		// 		if(Physics.Raycast(point.position, -Vector3.up, 0.9f))
+		// 		return true;
+		// 	}
+		// }
+		 return false;
 	}
 
 	private void setGravity(){
@@ -135,4 +136,10 @@ public class PlayerController : MonoBehaviour {
 	private void resetParameter(){
 		Jump = false;
 	}
+
+	// private void OnCollisionEnter(Collision other){
+	// 	if(other.gameObject.tag == "Ground"){
+	// 		OnGround = true;
+	// 	}
+	// }
 }
