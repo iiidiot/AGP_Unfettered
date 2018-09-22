@@ -12,7 +12,6 @@ public class CheckGround : MonoBehaviour {
 		{
 			PlayerController.Instance.OnGround = true;
 		}
-		Debug.Log("point:"+PlayerController.Instance.OnGround);
 	}
 	void OnTriggerExit(Collider collider)
 	{

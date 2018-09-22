@@ -34,6 +34,9 @@ public class PlayerController : MonoBehaviour {
 	private Rigidbody myRigibody;
 
 	private Animator myAnimator;
+
+	[SerializeField]
+	private float maxDownVelocity = 1f; 
 	public bool Jump{get; set;}
 
 	public bool OnGround{get; set;}
@@ -52,9 +55,18 @@ public class PlayerController : MonoBehaviour {
 		HanldeInput();
 		// delete it when finalized the jump parameter
 		setGravity();
+		checkVelocity();
 	}
 
-	void FixedUpdate () 
+    private void checkVelocity()
+    {
+		Debug.Log(myRigibody.velocity.y);
+        if(myRigibody.velocity.y < maxDownVelocity){
+			myRigibody.velocity = new Vector2(myRigibody.velocity.x, maxDownVelocity);
+		}
+    }
+
+    void FixedUpdate () 
 	{
 		
 		float horizontal = Input.GetAxis("Horizontal");
