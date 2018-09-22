@@ -28,6 +28,7 @@ public class PlayerController : MonoBehaviour {
 	[SerializeField]
 	private float movementSpeed = 15f;
 
+	private float offsetValue = 0.01f;
 	private bool facingRight = true;
 
 	[SerializeField]
@@ -36,10 +37,12 @@ public class PlayerController : MonoBehaviour {
 	private Animator myAnimator;
 
 	[SerializeField]
-	private float maxDownVelocity = 1f; 
+	private float maxVerticalVelocity = 100f; 
 	public bool Jump{get; set;}
 
 	public bool OnGround{get; set;}
+
+	public bool CanGoDownstair{get; set;} 
 
 	[SerializeField]
 	private Transform[] groundPoints;
@@ -47,34 +50,34 @@ public class PlayerController : MonoBehaviour {
 	void Start () {
 		myRigibody = GetComponent<Rigidbody>();
 		myAnimator = GetComponent<Animator>();
-		setGravity();
+		SetGravity();
 	}
 	
 	// Update is called once per frame
 	void Update () {
+		
 		HanldeInput();
-		// delete it when finalized the jump parameter
-		setGravity();
-		checkVelocity();
+		// TODO delete it when finalized the jump parameter
+		SetGravity();
+		CheckVelocity();
+		HandleLayer();
+		OnGround = IsGrounded();
 	}
 
-    private void checkVelocity()
+    private void CheckVelocity()
     {
-		Debug.Log(myRigibody.velocity.y);
-        if(myRigibody.velocity.y < maxDownVelocity){
-			myRigibody.velocity = new Vector2(myRigibody.velocity.x, maxDownVelocity);
+        if( Mathf.Abs(myRigibody.velocity.y) > maxVerticalVelocity){
+			myRigibody.velocity = new Vector2(myRigibody.velocity.x, myRigibody.velocity.y > 0 ? maxVerticalVelocity : -1 * maxVerticalVelocity );
 		}
     }
 
     void FixedUpdate () 
 	{
-		
 		float horizontal = Input.GetAxis("Horizontal");
-		HandleMovement(horizontal);
-		//OnGround = IsGrounded();
+		float vertical = Input.GetAxis("Vertical");
+		
+		HandleMovement(horizontal, vertical);
 		Flip(horizontal);
-		HandleLayer();
-		resetParameter();
 	}
 
 
@@ -89,7 +92,10 @@ public class PlayerController : MonoBehaviour {
 		}
     }
 
-    private void HandleMovement(float horizontal)
+	/*
+	parameter: horizontal and vertical input 
+	 */
+    private void HandleMovement(float horizontal, float vertical)
     {
 		if(myRigibody.velocity.y < 0){
 			myAnimator.SetBool("land", true);
@@ -99,7 +105,7 @@ public class PlayerController : MonoBehaviour {
 		myRigibody.velocity = new Vector2(horizontal * movementSpeed, myRigibody.velocity.y);
 
 		myAnimator.SetFloat("speed", Mathf.Abs(horizontal));
-
+		Debug.Log("OnGround:"+OnGround);
 		if(Jump && OnGround){
 
 			// physic simulation is not deterministic, so add 1 to the maxheight to offset the error， maybe it's not so precision.
@@ -110,14 +116,24 @@ public class PlayerController : MonoBehaviour {
 			Jump = false;
 			OnGround = false;
 		}
+
+		if(vertical < 0){
+			CanGoDownstair = true;
+		}
     }
     private void HanldeInput()
     {
-		if(Input.GetKeyDown(KeyCode.Space)){
+		//TODO figure out a better to solve the jump problem
+		if(Input.GetKey(KeyCode.Space)){
 			Jump = true;
+		}
+	
+		if(Input.GetKeyUp(KeyCode.Space)){
+			Jump = false;
 		}
     }
 
+	// change to air layer when player jump
 	private void HandleLayer()
 	{
 		if(!OnGround)
@@ -131,27 +147,17 @@ public class PlayerController : MonoBehaviour {
 
 	private bool IsGrounded()
 	{
-		// if(myRigibody.velocity.y <= 0){
-		// 	foreach(Transform point in groundPoints){
-		// 		if(Physics.Raycast(point.position, -Vector3.up, 0.9f))
-		// 		return true;
-		// 	}
-		// }
+		foreach(Transform point in groundPoints)
+		{
+			if(Physics.Raycast(point.position, Vector3.down, 0.5f))
+			return true;
+		}
 		 return false;
 	}
 
-	private void setGravity(){
+	private void SetGravity(){
+
 		float gravity = (-2 * jumpHeight) / (Mathf.Pow((jumpDuration)/2, 2));
 		Physics.gravity = new Vector3(0, gravity, 0);
 	}
-
-	private void resetParameter(){
-		Jump = false;
-	}
-
-	// private void OnCollisionEnter(Collision other){
-	// 	if(other.gameObject.tag == "Ground"){
-	// 		OnGround = true;
-	// 	}
-	// }
 }
