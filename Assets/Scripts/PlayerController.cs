@@ -27,7 +27,6 @@ public class PlayerController : MonoBehaviour {
 
 	[SerializeField]
 	private float movementSpeed = 15f;
-
 	private float offsetValue = 0.01f;
 	private bool facingRight = true;
 
@@ -39,6 +38,8 @@ public class PlayerController : MonoBehaviour {
 	[SerializeField]
 	private float maxVerticalVelocity = 100f; 
 	public bool Jump{get; set;}
+
+	public bool CanMoveStone{get; set;}
 
 	public bool OnGround{get; set;}
 
@@ -78,6 +79,7 @@ public class PlayerController : MonoBehaviour {
 		
 		HandleMovement(horizontal, vertical);
 		Flip(horizontal);
+		resetParameter();
 	}
 
 
@@ -105,7 +107,7 @@ public class PlayerController : MonoBehaviour {
 		myRigibody.velocity = new Vector2(horizontal * movementSpeed, myRigibody.velocity.y);
 
 		myAnimator.SetFloat("speed", Mathf.Abs(horizontal));
-		Debug.Log("OnGround:"+OnGround);
+		
 		if(Jump && OnGround){
 
 			// physic simulation is not deterministic, so add 1 to the maxheight to offset the error， maybe it's not so precision.
@@ -127,9 +129,9 @@ public class PlayerController : MonoBehaviour {
 		if(Input.GetKey(KeyCode.Space)){
 			Jump = true;
 		}
-	
-		if(Input.GetKeyUp(KeyCode.Space)){
-			Jump = false;
+
+		if(Input.GetKey(KeyCode.F)){
+			CanMoveStone = true;
 		}
     }
 
@@ -159,5 +161,11 @@ public class PlayerController : MonoBehaviour {
 
 		float gravity = (-2 * jumpHeight) / (Mathf.Pow((jumpDuration)/2, 2));
 		Physics.gravity = new Vector3(0, gravity, 0);
+	}
+
+	private void resetParameter()
+	{
+		CanMoveStone = false;
+		Jump = false;
 	}
 }
