@@ -26,6 +26,9 @@ public class PlayerController : MonoBehaviour {
 	private float jumpDuration = 0.5f;
 
 	[SerializeField]
+	private float maxClimbSpeed = 2f;
+
+	[SerializeField]
 	private float movementSpeed = 15f;
 	private float offsetValue = 0.01f;
 	private bool facingRight = true;
@@ -40,6 +43,8 @@ public class PlayerController : MonoBehaviour {
 	public bool Jump{get; set;}
 
 	public bool CanMoveStone{get; set;}
+
+	public bool OnLadder{get; set;}
 
 	public bool OnGround{get; set;}
 
@@ -121,6 +126,10 @@ public class PlayerController : MonoBehaviour {
 
 		if(vertical < 0){
 			CanGoDownstair = true;
+		}
+
+		if(OnLadder){
+			myRigibody.velocity = new Vector2(horizontal * maxClimbSpeed, vertical * maxClimbSpeed);
 		}
     }
     private void HanldeInput()
