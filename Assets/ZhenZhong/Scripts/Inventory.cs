@@ -55,6 +55,9 @@ public class Inventory : MonoBehaviour
 
     public float slotSize;
 
+    public int totalMoney;
+    public Text MoneyText;
+
     public GameObject slotPrefab;
 
     public GameObject iconPrefab;
@@ -76,29 +79,74 @@ public class Inventory : MonoBehaviour
         
 	}
 	
-	// Update is called once per frame
-	void Update ()
+    // Helper function to reset all the slot data for dragging and dropping.
+    private void ResetSlotData()
     {
-        if(Input.GetMouseButtonUp(0))
+        // Reset everything
+        m_fromSlot.GetComponent<Image>().color = Color.white;
+        m_fromSlot.ClearSlot();
+        Destroy(GameObject.Find("Hover Object"));
+        m_toSlot = null;
+        m_fromSlot = null;
+        m_hoverObject = null;
+    }
+
+    private void IsInShopRange()
+    {
+        PointerEventData pointer = new PointerEventData(EventSystem.current);
+        pointer.position = Input.mousePosition;
+
+        List<RaycastResult> raycastResults = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(pointer, raycastResults);
+
+        if (raycastResults.Count > 0)
         {
-            // Check if the mouse is not over a game object
-            if(!eventSystem.IsPointerOverGameObject(-1) && m_fromSlot)
+            foreach (var go in raycastResults)
             {
-                m_fromSlot.GetComponent<Image>().color = Color.white;
-                m_fromSlot.ClearSlot();
-                Destroy(GameObject.Find("Hover Object"));
-                m_toSlot = null;
-                m_fromSlot = null;
-                m_hoverObject = null;
+                // It's within the shop, sell the item, and receive my money.
+                if (go.gameObject.name == "Shop" && m_fromSlot)
+                {
+                    int price = m_fromSlot.GetItem().price;
+                    int size = m_fromSlot.Items.Count;
+
+                    totalMoney += (price * size);
+
+                    MoneyText.text = totalMoney.ToString();
+
+                    // Reset everything
+                    ResetSlotData();
+
+                    break;
+                }
+            }
+        }
+    }
+
+    // Update is called once per frame
+    void Update ()
+    {
+        // Check if the left mouse button was clicked
+        if (Input.GetMouseButtonUp(0))
+        {
+            // Check if the mouse was clicked over a shop UI element
+            IsInShopRange();
+
+            // Check if the mouse is not over a game object. If not, drop it.
+            if (!eventSystem.IsPointerOverGameObject(-1) && m_fromSlot)
+            {
+                ResetSlotData();
             }
         }
 
+        // Make sure the hovering object is following the mouse position.
 		if(m_hoverObject)
         {
             Vector2 position;
             RectTransformUtility.ScreenPointToLocalPointInRectangle(canvas.transform as RectTransform, 
                                                                     Input.mousePosition, canvas.worldCamera, out position);
 
+            // The Y offset is to move the icon a little bit out of the mouse,
+            // so that it's easier to drop to the new location.
             position.Set(position.x, position.y - m_hoverYOffset);
 
             m_hoverObject.transform.position = canvas.transform.TransformPoint(position);
@@ -263,6 +311,7 @@ public class Inventory : MonoBehaviour
                 m_hoverObject.transform.localScale = m_fromSlot.gameObject.transform.localScale;
             }
         }
+
         else if(!m_toSlot)
         {
             m_toSlot = clicked.GetComponent<Slot>();

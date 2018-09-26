@@ -28,7 +28,9 @@ public class Item : MonoBehaviour
     // If maxSize = 0, then even the same items will be placed to different slots.
     public int maxSize;
 
-	public void Use()
+    public int price;
+
+    public void Use()
     {
         switch(itemType)
         {
