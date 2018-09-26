@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 /*
     This is the Inventory class for Player to manage his Items.
@@ -11,6 +13,13 @@ using UnityEngine;
 */
 public class Inventory : MonoBehaviour
 {
+    private static GameObject m_hoverObject;
+
+    private static Slot m_fromSlot;
+    private static Slot m_toSlot;
+
+    private float m_hoverYOffset;
+
     private RectTransform m_inventoryRect;
 
     private float m_inventoryWidth;
@@ -20,7 +29,21 @@ public class Inventory : MonoBehaviour
     // This is the container to store all the slots in the inventory.
     protected List<GameObject> m_slots;
 
-    private int m_emptySlots;
+    private static int m_emptySlots;
+
+    // Getter and setter
+    public static int EmptySlots
+    {
+        get
+        {
+            return m_emptySlots;
+        }
+
+        set
+        {
+            m_emptySlots = value;
+        }
+    }
 
     // Set them at the Inspector
     public int totalSlots;
@@ -34,10 +57,17 @@ public class Inventory : MonoBehaviour
 
     public GameObject slotPrefab;
 
+    public GameObject iconPrefab;
+
+    public Canvas canvas;
+
+    public EventSystem eventSystem;
+
     void Awake()
     {
         // Initialize the inventory
         CreateLayOut();
+        HandleInput();
     }
 
     // Use this for initialization
@@ -49,12 +79,37 @@ public class Inventory : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
     {
-		
+        if(Input.GetMouseButtonUp(0))
+        {
+            // Check if the mouse is not over a game object
+            if(!eventSystem.IsPointerOverGameObject(-1) && m_fromSlot)
+            {
+                m_fromSlot.GetComponent<Image>().color = Color.white;
+                m_fromSlot.ClearSlot();
+                Destroy(GameObject.Find("Hover Object"));
+                m_toSlot = null;
+                m_fromSlot = null;
+                m_hoverObject = null;
+            }
+        }
+
+		if(m_hoverObject)
+        {
+            Vector2 position;
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(canvas.transform as RectTransform, 
+                                                                    Input.mousePosition, canvas.worldCamera, out position);
+
+            position.Set(position.x, position.y - m_hoverYOffset);
+
+            m_hoverObject.transform.position = canvas.transform.TransformPoint(position);
+        }
 	}
 
     protected void CreateLayOut()
     {
         m_slots = new List<GameObject>();
+
+        m_hoverYOffset = slotSize * 0.01f;
 
         m_emptySlots = totalSlots;
 
@@ -99,14 +154,58 @@ public class Inventory : MonoBehaviour
         }
     }
 
+    private void HandleInput()
+    {
+        foreach (GameObject slot in m_slots)
+        {
+            Slot currentSlot = slot.GetComponent<Slot>();
+            Button currentButton = currentSlot.GetComponent<Button>();
+            Item currentItem = currentSlot.GetItem();
+
+            // Listen to the request and do the callback
+            currentButton.onClick.AddListener(delegate { Drag(slot); });        
+        }
+    }
+
+    private void Drag(GameObject item)
+    {
+        if (item)
+        {
+            MoveItem(item);
+        }
+    }
+
     // This is to check if an item can be stacked at the same slot.
-    // Currently, all items will not be stacked.
     public bool AddItem(Item item)
     {
         if(item.maxSize == 1)
         {
             PlaceEmpty(item);
             return true;
+        }
+
+        // Stack the same items together at the same slot
+        else
+        {
+            foreach(GameObject slot in m_slots)
+            {
+                Slot currentSlot = slot.GetComponent<Slot>();
+
+                if(!currentSlot.IsEmpty)
+                {
+                    if(currentSlot.GetItem().itemType == item.itemType &&
+                       currentSlot.IsAvailable)
+                    {
+                        currentSlot.AddItem(item);
+                        return true;
+                    }
+                }
+            }
+
+            if(m_emptySlots > 0)
+            {
+                PlaceEmpty(item);
+            }
         }
 
         return false;
@@ -121,7 +220,7 @@ public class Inventory : MonoBehaviour
             {
                 Slot currentSlot = slot.GetComponent<Slot>();
 
-                if(currentSlot.IsEmpty())
+                if(currentSlot.IsEmpty)
                 {
                     currentSlot.AddItem(item);
                     m_emptySlots--;
@@ -131,5 +230,76 @@ public class Inventory : MonoBehaviour
         }
 
         return false;
+    }
+
+    private void MoveItem(GameObject clicked)
+    {
+        if(!m_fromSlot)
+        {
+            // Make sure the item we are clicking on is valid.
+            if(!clicked.GetComponent<Slot>().IsEmpty)
+            {
+                // Set this slot as the "From" slot.
+                m_fromSlot = clicked.GetComponent<Slot>();
+
+                // Highlight the current clicked slot
+                m_fromSlot.GetComponent<Image>().color = Color.gray;
+
+                // Create the hovering object, and set it as a child of the Canvas.
+                // It's used for hovering the current item and moving it around.
+                m_hoverObject = (GameObject)Instantiate(iconPrefab);
+                m_hoverObject.GetComponent<Image>().sprite = clicked.GetComponent<Image>().sprite;
+                m_hoverObject.name = "Hover Object";
+
+                RectTransform hoverTransform = m_hoverObject.GetComponent<RectTransform>();
+                RectTransform clickedTransform = clicked.GetComponent<RectTransform>();
+
+                // Set the size of the rectTransform
+                hoverTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, clickedTransform.sizeDelta.x);
+                hoverTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, clickedTransform.sizeDelta.y);
+
+                m_hoverObject.transform.SetParent(GameObject.Find("Canvas").transform, true);
+
+                m_hoverObject.transform.localScale = m_fromSlot.gameObject.transform.localScale;
+            }
+        }
+        else if(!m_toSlot)
+        {
+            m_toSlot = clicked.GetComponent<Slot>();
+
+            // Remove the hovering icon after placing the items to the target slot.
+            Destroy(GameObject.Find("Hover Object"));
+        }
+
+        // if Both slot are valid, cancel the action.
+        if (m_toSlot && m_fromSlot)
+        {
+            //Stack<Item> tempTo = new Stack<Item>(m_toSlot.Items);
+
+            //// move the items to the target slot.
+            //m_toSlot.AddItems(m_fromSlot.Items);
+
+            //// If the target slot is empty, that means
+            //// we successfully move all the items.
+            //// So we need to clear the source slot.
+            //if (tempTo.Count == 0)
+            //{
+            //    m_fromSlot.ClearSlot();
+            //}
+
+            //// Otherwise, we just swap items between the source
+            //// and the target slots.
+            //else
+            //{
+            //    m_fromSlot.AddItems(tempTo);
+            //}
+
+            m_fromSlot.GetComponent<Image>().color = Color.white;
+
+            // reset them for the next moving process.
+            m_toSlot = null;
+            m_fromSlot = null;
+            m_hoverObject = null;
+        }
     }
 }
