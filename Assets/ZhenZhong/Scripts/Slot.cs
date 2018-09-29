@@ -10,14 +10,13 @@ using UnityEngine.UI;
 */
 public class Slot : MonoBehaviour, IPointerClickHandler
 {
-    private Stack<Item> m_items;
-
     public Text stackText;
 
     public Sprite slotEmpty;
     public Sprite slotHighLight;
 
-    private Vector3 m_localPosition;
+    //private Vector3 m_localPosition;
+    private Stack<Item> m_items;
 
     public bool IsEmpty
     {
@@ -120,7 +119,7 @@ public class Slot : MonoBehaviour, IPointerClickHandler
         // whenever a new item has been added to this ItemSlot.
         GetComponent<Button>().spriteState = spriteState;
 
-        m_localPosition = GetComponent<Button>().transform.localPosition;
+       // m_localPosition = GetComponent<Button>().transform.localPosition;
     }
 
     // Take the current item inside the slot and use it.

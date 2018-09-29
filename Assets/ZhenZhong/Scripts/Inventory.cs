@@ -208,7 +208,7 @@ public class Inventory : MonoBehaviour
         {
             Slot currentSlot = slot.GetComponent<Slot>();
             Button currentButton = currentSlot.GetComponent<Button>();
-            Item currentItem = currentSlot.GetItem();
+           // Item currentItem = currentSlot.GetItem();
 
             // Listen to the request and do the callback
             currentButton.onClick.AddListener(delegate { Drag(slot); });        

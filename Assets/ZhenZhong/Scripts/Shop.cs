@@ -15,19 +15,7 @@ public class Shop : MonoBehaviour
     public Transform health;
     public Transform energy;
 
-    private List<Item> m_items;
-
-    private RectTransform m_shopRect;
-    private float m_shopWidth;
-    private float m_shopHeight;
-
     public GameObject slotPrefab;
-
-    // This is the container to store all the slots in the inventory.
-    private List<GameObject> m_slots;
-
-    private static int m_emptySlots;
-
 
     // Set them at the Inspector
     public int totalSlots;
@@ -39,11 +27,22 @@ public class Shop : MonoBehaviour
 
     public float slotSize;
 
+    //private List<Item> m_items;
+
+    private RectTransform m_shopRect;
+    private float m_shopWidth;
+    private float m_shopHeight;
+
+    // This is the container to store all the slots in the inventory.
+    private List<GameObject> m_slots;
+
+    private static int m_emptySlots;
+
     void Awake()
     {
         CreateLayOut();
 
-        m_items = new List<Item>();
+        //m_items = new List<Item>();
 
         // TODO: need to make it more dynamic, right now it's hard coded.
         Item healthItem = health.GetComponent<Item>();
