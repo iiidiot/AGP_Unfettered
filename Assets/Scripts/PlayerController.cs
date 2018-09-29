@@ -112,7 +112,6 @@ public class PlayerController : MonoBehaviour {
 		myRigibody.velocity = new Vector2(horizontal * movementSpeed, myRigibody.velocity.y);
 
 		myAnimator.SetFloat("speed", Mathf.Abs(horizontal));
-		
 		if(Jump && OnGround){
 
 			// physic simulation is not deterministic, so add 1 to the maxheight to offset the error， maybe it's not so precision.
