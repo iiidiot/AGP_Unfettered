@@ -11,8 +11,13 @@ public class StoneController : MonoBehaviour {
 
 	private float unmovableStoneMass = 100000f;
 	// Use this for initialization
+
+	private Rigidbody myRigidbody;
+	[SerializeField]
+	private float decelerationRate = 0.99f;
 	void Start () {
-		GetComponent<Rigidbody>().mass = unmovableStoneMass;
+		myRigidbody = GetComponent<Rigidbody>();
+		myRigidbody.mass = unmovableStoneMass;
 	}
 	
 	// Update is called once per frame
@@ -20,6 +25,10 @@ public class StoneController : MonoBehaviour {
 		if(canBeMoved)
 		{
 			StoneMassChange();
+		}
+		else
+		{
+			StopStone();
 		}
 	}
 
@@ -44,12 +53,22 @@ public class StoneController : MonoBehaviour {
 	private void StoneMassChange(){
 
 		if(PlayerController.Instance.CanMoveStone == true){
-			GetComponent<Rigidbody>().mass = movableStoneMass;
+			myRigidbody.mass = movableStoneMass;
 		}
 		else
 		{
-			GetComponent<Rigidbody>().mass = unmovableStoneMass;
+			myRigidbody.mass = unmovableStoneMass;
 		}
 		 
+	}
+
+	private void StopStone()
+	{
+		Debug.Log(myRigidbody.velocity.x);
+		if( Mathf.Abs(myRigidbody.velocity.x) >= 0.01)
+		{
+			
+			myRigidbody.velocity = new Vector2(myRigidbody.velocity.x * decelerationRate, myRigidbody.velocity.y);
+		}
 	}
 }
