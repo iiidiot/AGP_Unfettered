@@ -6,12 +6,9 @@ public class ResetPosition : MonoBehaviour {
 
 	[SerializeField]
 	private GameObject resetPosition;
-<<<<<<< HEAD
 	[SerializeField]
 	private Vector3 resetPositionp;
 	[SerializeField]
-=======
->>>>>>> 59fa10d7d1a3b089e4d2f6e1de2b6d6b9ebcdb3d
 	private float moveDuration;
 	void OnCollisionEnter(Collision other)
 	{
