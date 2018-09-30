@@ -12,7 +12,7 @@ public class EnemyMovementController : MonoBehaviour
 
     // What time it will start the charging
     private float m_startChargeTime;
-    private bool m_isCharging;
+    private bool m_isRunning;
 
     private Rigidbody m_rigidBody;
 
@@ -29,14 +29,13 @@ public class EnemyMovementController : MonoBehaviour
     // prevent using magic number
     private float m_maxChanceToFlipEnemy = 5.0f;
 
-
     // Use this for initialization
     void Start ()
     {
         m_animator = GetComponentInChildren<Animator>();
         m_rigidBody = GetComponent<Rigidbody>();
 
-        m_isCharging = false;
+        m_isRunning = false;
 	}
 	
 	// Update is called once per frame
@@ -55,73 +54,57 @@ public class EnemyMovementController : MonoBehaviour
         }
 	}
 
-    private void OnTriggerEnter(Collider other)
+    public void ActivateTriggerEnterEvent(Collider other)
     {
-        if(other.tag == "Player")
+        // Since it's 2D, if player position of x coordinate is less than the enemy's x coordinates when 
+        // the enemy is facing right, or vice versa, then he is behind the enemy.
+        if ((m_facingRight && other.transform.position.x < transform.position.x) ||
+           (!m_facingRight && other.transform.position.x > transform.position.x))
         {
-            // Since it's 2D, if player position of x coordinate is less than the enemy's x coordinates when 
-            // the enemy is facing right, or vice versa, then he is behind the enemy.
-            if((m_facingRight && other.transform.position.x < transform.position.x) ||
-               (!m_facingRight && other.transform.position.x > transform.position.x))
+            FlipFacing();
+        }
+
+        // once the enemy is flipped to a right direction, we stop flipping the enemy.
+        m_canFlip = false;
+        m_isRunning = true;
+        m_startChargeTime = Time.time + chargeTime;
+    }
+
+    public void ActivateTriggerStayEvent()
+    {
+        if (m_startChargeTime >= Time.time)
+        {
+            if (!m_facingRight)
             {
-                FlipFacing();
+                m_rigidBody.AddForce(new Vector3(-1, 0, 0) * speed);
+            }
+            else
+            {
+                m_rigidBody.AddForce(new Vector3(1, 0, 0) * speed);
             }
 
-            // once the enemy is flipped to a right direction, we stop flipping the enemy.
-            m_canFlip = false;
-            m_isCharging = true;
-            m_startChargeTime = Time.time + chargeTime;
+            m_animator.SetBool("isRunning", m_isRunning);
         }
     }
 
-    private void OnTriggerStay(Collider other)
+    public void ActivateTriggerExitEvent()
     {
-        if(other.tag == "Player")
-        {
-            if(m_startChargeTime >= Time.time)
-            {
-                if(!m_facingRight)
-                {
-                    m_rigidBody.AddForce(new Vector3(-1, 0, 0) * speed);
-                }
-                else
-                {
-                    m_rigidBody.AddForce(new Vector3(1, 0, 0) * speed);
-                }
-
-                m_animator.SetBool("isCharging", m_isCharging);
-            }
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if(other.tag == "Player")
-        {
-            m_canFlip = true;
-            m_isCharging = false;
-            m_rigidBody.velocity = new Vector3(0.0f, 0.0f, 0.0f);
-            m_animator.SetBool("isCharging", m_isCharging);
-        }
+        m_canFlip = true;
+        m_isRunning = false;
+        m_rigidBody.velocity = new Vector3(0.0f, 0.0f, 0.0f);
+        m_animator.SetBool("isRunning", m_isRunning);
     }
 
     private void FlipFacing()
     {
-        if(!m_canFlip)
+        if (!m_canFlip)
         {
             return;
         }
 
-        // We are not actually flipping the enemy. We are rotating the enemy.
-        float facingX = transform.localScale.x;
+        transform.Rotate(new Vector3(0.0f, 1.0f, 0.0f), 180);
 
-        facingX *= -1.0f;
-
-        transform.localScale = new Vector3(facingX, 
-                                           transform.localScale.y, 
-                                           transform.localScale.z);
         m_facingRight = !m_facingRight;
     }
-
-
 }
+

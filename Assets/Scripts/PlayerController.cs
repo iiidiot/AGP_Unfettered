@@ -93,10 +93,14 @@ public class PlayerController : MonoBehaviour {
         if(horizontal > 0 && !facingRight || horizontal <0 && facingRight)
 		{
 			facingRight = !facingRight;
-			Vector3 theScale = transform.localScale;
-			theScale.x *= -1;
-			transform.localScale = theScale;
-		}
+
+            // This way will cause a warning that could affects collision detection. Use Rotate() instead.
+            //Vector3 theScale = transform.localScale;
+            //theScale.x *= -1;
+            //transform.localScale = theScale;
+
+            transform.Rotate(new Vector3(0.0f, 1.0f, 0.0f), 180);
+        }
     }
 
 	/*
