@@ -64,7 +64,6 @@ public class StoneController : MonoBehaviour {
 
 	private void StopStone()
 	{
-		Debug.Log(myRigidbody.velocity.x);
 		if( Mathf.Abs(myRigidbody.velocity.x) >= 0.01)
 		{
 			
