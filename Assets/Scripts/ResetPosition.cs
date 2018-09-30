@@ -6,10 +6,6 @@ public class ResetPosition : MonoBehaviour {
 
 	[SerializeField]
 	private GameObject resetPosition;
-	[SerializeField]
-	private Vector3 resetPositionp;
-	[SerializeField]
-	private float moveDuration;
 	void OnCollisionEnter(Collision other)
 	{
 		if(other.gameObject.tag == "Player")
