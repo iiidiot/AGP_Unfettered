@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class EnemyMovementController : MonoBehaviour
 {
+    public Transform groundDetection;
+
     public float speed;
 
     // Attacking
@@ -29,33 +31,62 @@ public class EnemyMovementController : MonoBehaviour
     // prevent using magic number
     private float m_maxChanceToFlipEnemy = 5.0f;
 
+    private float m_rayLength = 2.0f;
+
+    private GameObject m_player;
+
     // Use this for initialization
-    void Start ()
+    void Start()
     {
         m_animator = GetComponentInChildren<Animator>();
         m_rigidBody = GetComponent<Rigidbody>();
 
         m_isRunning = false;
-	}
-	
-	// Update is called once per frame
-	void Update ()
+    }
+
+    // Update is called once per frame
+    void Update()
     {
         // This example is: for every 5 seconds, there is a possibility for the enemy to flip.
-		if(Time.time > m_nextFlipChance)
-        {
-            // Making a random chance for the enemy to flip
-            if(UnityEngine.Random.Range(0,10) >= m_maxChanceToFlipEnemy)
+        //if(Time.time > m_nextFlipChance)
+        //      {
+        //          // Making a random chance for the enemy to flip
+        //          if(UnityEngine.Random.Range(0,10) >= m_maxChanceToFlipEnemy)
+        //          {
+        //              FlipFacing();    
+        //          }
+
+        //          m_nextFlipChance = Time.time + m_flipTime;
+        //      }
+
+        // if the player is not found yet, just fooling around
+        //if (!m_player)
+        //{
+            RaycastHit hit;
+            Ray landingRay = new Ray(groundDetection.transform.position, Vector3.down);
+
+            Debug.DrawRay(groundDetection.transform.position, Vector3.down * m_rayLength);
+
+            // If we cannot detect ground, change direction.
+            if (!Physics.Raycast(landingRay, out hit, m_rayLength))
             {
-                FlipFacing();    
+                FlipFacing();
+
+                // reset force
+                m_rigidBody.velocity = Vector3.zero;
             }
 
-            m_nextFlipChance = Time.time + m_flipTime;
-        }
-	}
+            float walkSpeed = speed / 2.0f;
+
+            Move(walkSpeed);
+        //}
+
+    }
 
     public void ActivateTriggerEnterEvent(Collider other)
     {
+        m_player = other.transform.gameObject;
+
         // Since it's 2D, if player position of x coordinate is less than the enemy's x coordinates when 
         // the enemy is facing right, or vice versa, then he is behind the enemy.
         if ((m_facingRight && other.transform.position.x < transform.position.x) ||
@@ -70,19 +101,12 @@ public class EnemyMovementController : MonoBehaviour
         m_startChargeTime = Time.time + chargeTime;
     }
 
+
     public void ActivateTriggerStayEvent()
     {
         if (m_startChargeTime >= Time.time)
         {
-            if (!m_facingRight)
-            {
-                m_rigidBody.AddForce(new Vector3(-1, 0, 0) * speed);
-            }
-            else
-            {
-                m_rigidBody.AddForce(new Vector3(1, 0, 0) * speed);
-            }
-
+            Move(speed);
             m_animator.SetBool("isRunning", m_isRunning);
         }
     }
@@ -93,6 +117,9 @@ public class EnemyMovementController : MonoBehaviour
         m_isRunning = false;
         m_rigidBody.velocity = new Vector3(0.0f, 0.0f, 0.0f);
         m_animator.SetBool("isRunning", m_isRunning);
+
+        m_player = null;
+
     }
 
     private void FlipFacing()
@@ -106,5 +133,19 @@ public class EnemyMovementController : MonoBehaviour
 
         m_facingRight = !m_facingRight;
     }
+
+    // Helper function just for walking/running
+    private void Move(float currentSpeed)
+    {
+        if (!m_facingRight)
+        {
+            m_rigidBody.AddForce(new Vector3(-1, 0, 0) * currentSpeed);
+        }
+        else
+        {
+            m_rigidBody.AddForce(new Vector3(1, 0, 0) * currentSpeed);
+        }
+    }
+
 }
 
