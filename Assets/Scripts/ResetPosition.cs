@@ -5,19 +5,17 @@ using UnityEngine;
 public class ResetPosition : MonoBehaviour {
 
 	[SerializeField]
-	private Vector3 resetPosition;
-
-	[SerializeField]
+	private GameObject resetPosition;
 	private float moveDuration;
 	void OnCollisionEnter(Collision other)
 	{
 		if(other.gameObject.tag == "Player")
 		{
-			other.transform.localPosition = Vector3.Lerp(other.transform.position, resetPosition, moveDuration);
+			other.transform.position = new Vector3(resetPosition.transform.position.x, resetPosition.transform.position.y+2f, 0);
+			//other.transform.localPosition = Vector3.Lerp(other.transform.position, resetPosition.transform.localPosition, moveDuration);
+			//other.gameObject.transform.position = Vector3.MoveTowards(other.transform.position, resetPositionp, moveDuration);
 		}
-		Vector3 vec= transform.InverseTransformPoint(transform.position);
-		Debug.Log("relative:"+transform.position);
-		Debug.Log("absolute:"+vec);
+
 	}
 
 
