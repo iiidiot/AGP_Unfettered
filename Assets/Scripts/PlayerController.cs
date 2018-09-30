@@ -52,7 +52,19 @@ public class PlayerController : MonoBehaviour {
 
 	[SerializeField]
 	private Transform[] groundPoints;
+
+	[SerializeField]
+	private Transform[] startPlace;
+
+	[SerializeField]
+	private int startPlaceNumber = 0;
 	// Use this for initialization
+
+	void Awake () {
+		// set the start place.
+			Vector3 startVector = startPlaceNumber < startPlace.Length ? startPlace[startPlaceNumber].transform.position : startPlace[0].transform.position;
+			transform.position = new Vector3(startVector.x, startVector.y, startVector.z) ;
+	}
 	void Start () {
 		myRigibody = GetComponent<Rigidbody>();
 		myAnimator = GetComponent<Animator>();
