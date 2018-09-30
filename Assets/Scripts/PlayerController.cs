@@ -62,8 +62,7 @@ public class PlayerController : MonoBehaviour {
 
 	void Awake () {
 		// set the start place.
-			Vector3 startVector = startPlaceNumber < startPlace.Length ? startPlace[startPlaceNumber].transform.position : startPlace[0].transform.position;
-			transform.position = new Vector3(startVector.x, startVector.y, startVector.z) ;
+		transform.parent.position = startPlaceNumber < startPlace.Length ? startPlace[startPlaceNumber].transform.position : startPlace[0].transform.position;
 	}
 	void Start () {
 		myRigibody = GetComponent<Rigidbody>();
