@@ -29,19 +29,6 @@ public class EnemyMovementController : MonoBehaviour
     // prevent using magic number
     private float m_maxChanceToFlipEnemy = 5.0f;
 
-    public bool FacingRight
-    {
-        get
-        {
-            return m_facingRight;
-        }
-
-        set
-        {
-            m_facingRight = value;
-        }
-    }
-
     // Use this for initialization
     void Start ()
     {
@@ -71,8 +58,8 @@ public class EnemyMovementController : MonoBehaviour
     {
         // Since it's 2D, if player position of x coordinate is less than the enemy's x coordinates when 
         // the enemy is facing right, or vice versa, then he is behind the enemy.
-        if ((FacingRight && other.transform.position.x < transform.position.x) ||
-           (!FacingRight && other.transform.position.x > transform.position.x))
+        if ((m_facingRight && other.transform.position.x < transform.position.x) ||
+           (!m_facingRight && other.transform.position.x > transform.position.x))
         {
             FlipFacing();
         }
