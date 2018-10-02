@@ -37,8 +37,8 @@ public class CameraFollowSmooth : MonoBehaviour {
 
 
         //y 平滑跟上
-        float newCamY = (followTarget.position + offset).y;
-        float deltaY = (newCamY - transform.position.y) / co;
+        //float newCamY = (followTarget.position + offset).y;
+        //float deltaY = (newCamY - transform.position.y) / co;
         //transform.Translate(0, deltaY, 0);
         if (isMove)
         {

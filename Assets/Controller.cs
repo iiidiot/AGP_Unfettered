@@ -7,7 +7,7 @@ public class Controller : MonoBehaviour {
 [SerializeField]
 	private float movementSpeed = 15f;
 
-	private bool facingRight = true;
+	//private bool facingRight = true;
 
 	[SerializeField]
 	private float groundRadius;
@@ -17,14 +17,14 @@ public class Controller : MonoBehaviour {
 	
 	private Rigidbody myRigibody;
 
-	private Animator myAnimator;
+	//private Animator myAnimator;
 	public bool Jump{get; set;}
 
 	public bool OnGround{get; set;}
 	// Use this for initialization
 	void Start () {
 		myRigibody = GetComponent<Rigidbody>();
-		myAnimator = GetComponent<Animator>();
+		//myAnimator = GetComponent<Animator>();
 	}
 	
 	// Update is called once per frame

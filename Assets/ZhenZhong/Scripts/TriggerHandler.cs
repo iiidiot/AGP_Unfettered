@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class TriggerHandler : MonoBehaviour
 {
-    GameObject m_parent;
+    private GameObject m_parent;
 
-	// Use this for initialization
-	void Start ()
+    // Use this for initialization
+    void Start ()
     {
         m_parent = transform.parent.gameObject;	
 	}
@@ -22,8 +22,13 @@ public class TriggerHandler : MonoBehaviour
     {
         if(other.tag == "Player")
         {
-            EnemyMovementController controller = m_parent.GetComponent<EnemyMovementController>();
-            controller.ActivateTriggerEnterEvent(other);
+            EnemyMovementController movementController = m_parent.GetComponent<EnemyMovementController>();
+            movementController.ActivateTriggerEnterEvent(other);
+
+            EnemyAttackController attackController = m_parent.GetComponent<EnemyAttackController>();
+            
+            // attackController.Attack(other);
+            attackController.Target = other.gameObject;
         }
     }
 
@@ -31,8 +36,13 @@ public class TriggerHandler : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-            EnemyMovementController controller = m_parent.GetComponent<EnemyMovementController>();
-            controller.ActivateTriggerStayEvent();
+            EnemyMovementController movementController = m_parent.GetComponent<EnemyMovementController>();
+            movementController.ActivateTriggerStayEvent(other);
+
+            EnemyAttackController attackController = m_parent.GetComponent<EnemyAttackController>();
+           
+            //attackController.Attack(other);
+            attackController.Target = other.gameObject;
         }
     }
 
@@ -40,8 +50,11 @@ public class TriggerHandler : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-            EnemyMovementController controller = m_parent.GetComponent<EnemyMovementController>();
-            controller.ActivateTriggerExitEvent();
+            EnemyMovementController movementController = m_parent.GetComponent<EnemyMovementController>();
+            movementController.ActivateTriggerExitEvent();
+
+            //EnemyAttackController attackController = m_parent.GetComponent<EnemyAttackController>();
+            //attackController.StopAttack();
         }
     }
 }
