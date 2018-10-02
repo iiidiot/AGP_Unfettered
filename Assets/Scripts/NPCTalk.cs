@@ -4,13 +4,15 @@ using System.Collections;
 
 public class NPCTalk : MonoBehaviour
 {
-    public float Y_offset = 80;
+    public float Y_offset = 200;
+    public float timer = 2.0f;
 
     private GameObject dialog;
     private string[] allLines;
     private int count = 0;
-    private int timeDelay = 0;
-    private const int gap = 300;
+    private float tempTimer;
+    //private int timeDelay = 0;
+    //private const int gap = 300;
 
     // Use this for initialization
     void Start()
@@ -19,6 +21,7 @@ public class NPCTalk : MonoBehaviour
         string path = "Text/Talk/" + gameObject.name;
         string myTxt = ((TextAsset)Resources.Load(path)).text;
         allLines = myTxt.Split('\n');
+        tempTimer = timer;
         //dialog.SetActive(false);
     }
 
@@ -29,7 +32,8 @@ public class NPCTalk : MonoBehaviour
         //{
         //    dialog.SetActive(true);
         //}
-        if (timeDelay++ % gap == 0 && count < allLines.Length)
+        tempTimer -= Time.deltaTime;
+        if (tempTimer <= 0 && count < allLines.Length)
         {
             string content = allLines[count++];
             if (content[0] == 'p') {        // player talk
@@ -44,6 +48,7 @@ public class NPCTalk : MonoBehaviour
             }
             content = content.Substring(2);
             dialog.GetComponent<Text>().text = content;
+            tempTimer = timer;
         }
 
     }
