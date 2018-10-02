@@ -26,8 +26,7 @@ public class TriggerHandler : MonoBehaviour
             movementController.ActivateTriggerEnterEvent(other);
 
             EnemyAttackController attackController = m_parent.GetComponent<EnemyAttackController>();
-            
-            // attackController.Attack(other);
+
             attackController.Target = other.gameObject;
         }
     }
@@ -40,8 +39,7 @@ public class TriggerHandler : MonoBehaviour
             movementController.ActivateTriggerStayEvent(other);
 
             EnemyAttackController attackController = m_parent.GetComponent<EnemyAttackController>();
-           
-            //attackController.Attack(other);
+
             attackController.Target = other.gameObject;
         }
     }
@@ -52,9 +50,6 @@ public class TriggerHandler : MonoBehaviour
         {
             EnemyMovementController movementController = m_parent.GetComponent<EnemyMovementController>();
             movementController.ActivateTriggerExitEvent();
-
-            //EnemyAttackController attackController = m_parent.GetComponent<EnemyAttackController>();
-            //attackController.StopAttack();
         }
     }
 }
