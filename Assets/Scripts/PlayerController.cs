@@ -30,8 +30,9 @@ public class PlayerController : MonoBehaviour {
 
 	[SerializeField]
 	private float movementSpeed = 15f;
-	//private float offsetValue = 0.01f;
-	private bool facingRight = true;
+
+	private float offsetValue = 0.01f;
+	private bool facingRight = false;
 
 	[SerializeField]
 	private Rigidbody myRigibody;
@@ -61,8 +62,11 @@ public class PlayerController : MonoBehaviour {
 	// Use this for initialization
 
 	void Awake () {
-		// set the start place.
-		transform.parent.position = startPlaceNumber < startPlace.Length ? startPlace[startPlaceNumber].transform.position : startPlace[0].transform.position;
+		// set the start place
+		if(startPlace.Length != 0)
+		{
+			transform.parent.position = startPlaceNumber < startPlace.Length ? startPlace[startPlaceNumber].transform.position : startPlace[0].transform.position;
+		}
 	}
 	void Start () {
 		myRigibody = GetComponent<Rigidbody>();
@@ -104,12 +108,6 @@ public class PlayerController : MonoBehaviour {
         if(horizontal > 0 && !facingRight || horizontal <0 && facingRight)
 		{
 			facingRight = !facingRight;
-
-            // This way will cause a warning that could affects collision detection. Use Rotate() instead.
-            //Vector3 theScale = transform.localScale;
-            //theScale.x *= -1;
-            //transform.localScale = theScale;
-
             transform.Rotate(new Vector3(0.0f, 1.0f, 0.0f), 180);
         }
     }
