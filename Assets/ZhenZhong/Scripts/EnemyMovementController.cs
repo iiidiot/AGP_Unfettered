@@ -75,7 +75,7 @@ public class EnemyMovementController : MonoBehaviour
             FlipFacing();
         }
 
-        if (m_animator.GetBool("isAttacking"))
+        if (m_animator.GetBool("isAttacking") || m_animator.GetBool("isIdling"))
         {
             Move(0.0f);
         }
