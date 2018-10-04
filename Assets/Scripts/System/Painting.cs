@@ -34,6 +34,14 @@ public class Painting : MonoBehaviour
 
     private int[][] points_path;
 
+    public void Clear()
+    {
+        Graphics.SetRenderTarget(texRender);
+        GL.PushMatrix();
+        GL.Clear(true, true, new Color(1, 1, 1, 0));
+        GL.PopMatrix();
+    }
+
     void Start()
     {
         raw.enabled = true;
