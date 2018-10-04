@@ -133,6 +133,7 @@ public class EnemyAttackController : MonoBehaviour
         }
 
         m_animator.SetBool("isFiring", m_isFiring);
+        m_animator.SetBool("isIdling", m_isIdling);
         m_animator.SetBool("isRunning", m_isRunning);
     }
 

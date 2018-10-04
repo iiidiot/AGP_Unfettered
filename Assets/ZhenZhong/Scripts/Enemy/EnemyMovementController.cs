@@ -89,6 +89,7 @@ public class EnemyMovementController : MonoBehaviour
         {
             m_targetBehindMe = true;
             m_canFlip = true;
+
             FlipFacing();
         }
 
@@ -124,8 +125,7 @@ public class EnemyMovementController : MonoBehaviour
 
     // Main function for walking behavior.
     private void OnWalk()
-    {
-       
+    {  
         RaycastHit hit;
         Ray landingRay = new Ray(groundDetection.transform.position, Vector3.down);
 
@@ -162,7 +162,7 @@ public class EnemyMovementController : MonoBehaviour
     // Helper function to detect if the target is behind me.
     private bool TargetBehindMe(GameObject obj)
     {
-        return (m_facingRight && obj.transform.position.x < transform.position.x) ||
+        return (m_facingRight && obj.transform.position.x <= transform.position.x) ||
                (!m_facingRight && obj.transform.position.x > transform.position.x);
     }
 
@@ -196,7 +196,7 @@ public class EnemyMovementController : MonoBehaviour
     // If it's attacking, I should stop running.
     private void UpdateRunningStatus()
     {
-        if (!m_animator.GetBool("isAttacking"))
+        if (!m_animator.GetBool("isAttacking") || !m_animator.GetBool("isFiring"))
         {
             m_isRunning = true;
             m_isWalking = false;
