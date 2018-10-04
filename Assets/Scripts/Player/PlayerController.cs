@@ -161,7 +161,7 @@ public class PlayerController : MonoBehaviour {
             // camera shake
             Debug.Log("shake");
             Camera mainCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
-            mainCamera.GetComponent<CameraFollowSmooth>().CameraShake(1f);
+            mainCamera.GetComponent<CameraFollowSmooth>().CameraShake(0.1f);
         }
     }
 
