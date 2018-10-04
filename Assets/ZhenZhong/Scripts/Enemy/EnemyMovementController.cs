@@ -23,6 +23,20 @@ public class EnemyMovementController : MonoBehaviour
     private float m_rayLength = 2.0f;
 
     private bool m_onGround = false;
+    private bool m_targetBehindMe = false;
+
+    public bool FacingRight
+    {
+        get
+        {
+            return m_facingRight;
+        }
+
+        set
+        {
+            m_facingRight = value;
+        }
+    }
 
     // Use this for initialization
     void Start()
@@ -30,9 +44,9 @@ public class EnemyMovementController : MonoBehaviour
         m_animator = GetComponent<Animator>();
         m_rigidBody = GetComponent<Rigidbody>();
 
-         m_isRunning = false;
-         m_isWalking = true;
-         m_isIdling = false;
+        m_isRunning = false;
+        m_isWalking = true;
+        m_isIdling = false;
 
         m_animator.SetBool("isRunning", m_isRunning);
         m_animator.SetBool("isWalking", m_isWalking);
@@ -51,6 +65,8 @@ public class EnemyMovementController : MonoBehaviour
         // the enemy is facing right, or vice versa, then he is behind the enemy.
         if (TargetBehindMe(other.gameObject))
         {
+            m_targetBehindMe = true;
+
             FlipFacing();
         }
 
@@ -71,6 +87,7 @@ public class EnemyMovementController : MonoBehaviour
         // it should turn to the player.
         if (TargetBehindMe(other.gameObject))
         {
+            m_targetBehindMe = true;
             m_canFlip = true;
             FlipFacing();
         }
@@ -90,6 +107,8 @@ public class EnemyMovementController : MonoBehaviour
 
     public void ActivateTriggerExitEvent()
     {
+        m_targetBehindMe = false;
+
         m_isTriggered = false;
 
         m_canFlip = true;
@@ -114,11 +133,19 @@ public class EnemyMovementController : MonoBehaviour
 
         m_onGround = Physics.Raycast(landingRay, out hit, m_rayLength);
 
-        // If we cannot detect ground, change direction.
-        if (!m_onGround)
+        // If I cannot detect ground, and no target behind me, change direction.
+        if (!m_onGround && !m_targetBehindMe)
         {
             FlipFacing();
 
+            // reset force
+            m_rigidBody.velocity = Vector3.zero;
+        }
+
+        // If I cannot detect ground, but the target is behind me 
+        // (After flipping, processed on TriggerEnter() or TriggerStay())
+        else if (!m_onGround && m_targetBehindMe)
+        {
             // reset force
             m_rigidBody.velocity = Vector3.zero;
         }

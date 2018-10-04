@@ -31,7 +31,7 @@ public class PlayerController : MonoBehaviour {
 	[SerializeField]
 	private float movementSpeed = 15f;
 
-	private float offsetValue = 0.01f;
+	//private float offsetValue = 0.01f;
 	private bool facingRight = false;
 
 	[SerializeField]

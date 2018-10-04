@@ -28,6 +28,7 @@ public class TriggerHandler : MonoBehaviour
             EnemyAttackController attackController = m_parent.GetComponent<EnemyAttackController>();
 
             attackController.Target = other.gameObject;
+            attackController.FacingRight = movementController.FacingRight;
         }
     }
 
@@ -41,6 +42,7 @@ public class TriggerHandler : MonoBehaviour
             EnemyAttackController attackController = m_parent.GetComponent<EnemyAttackController>();
 
             attackController.Target = other.gameObject;
+            attackController.FacingRight = movementController.FacingRight;
         }
     }
 
@@ -50,6 +52,9 @@ public class TriggerHandler : MonoBehaviour
         {
             EnemyMovementController movementController = m_parent.GetComponent<EnemyMovementController>();
             movementController.ActivateTriggerExitEvent();
+
+            EnemyAttackController attackController = m_parent.GetComponent<EnemyAttackController>();
+            attackController.Target = null;
         }
     }
 }
