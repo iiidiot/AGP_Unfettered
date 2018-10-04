@@ -154,6 +154,15 @@ public class PlayerController : MonoBehaviour {
 		if(Input.GetKey(KeyCode.F)){
 			CanMoveStone = true;
 		}
+
+
+        if (Input.GetKey(KeyCode.S)) // camera shake
+        {
+            // camera shake
+            Debug.Log("shake");
+            Camera mainCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
+            mainCamera.GetComponent<CameraFollowSmooth>().CameraShake(1f);
+        }
     }
 
 	// change to air layer when player jump
