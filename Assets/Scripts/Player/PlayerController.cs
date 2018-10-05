@@ -32,7 +32,7 @@ public class PlayerController : MonoBehaviour {
 	private float movementSpeed = 15f;
 
 	//private float offsetValue = 0.01f;
-	private bool facingRight = false;
+	public bool facingRight{get; set;}
 
 	[SerializeField]
 	private Rigidbody myRigibody;
@@ -105,7 +105,7 @@ public class PlayerController : MonoBehaviour {
 	}
 
 
-    private void Flip(float horizontal)
+    public void Flip(float horizontal)
     {
         if(horizontal > 0 && !facingRight || horizontal <0 && facingRight)
 		{
@@ -127,6 +127,7 @@ public class PlayerController : MonoBehaviour {
 		myRigibody.velocity = new Vector2(horizontal * movementSpeed, myRigibody.velocity.y);
 
 		myAnimator.SetFloat("speed", Mathf.Abs(horizontal));
+		// check velocity.y to avoid double jump at the edge
 		if(Jump && OnGround && myRigibody.velocity.y < 0.1f){
 			// physic simulation is not deterministic, so add 1 to the maxheight to offset the error， maybe it's not so precision.
 			myRigibody.velocity = new Vector2(horizontal * movementSpeed, Mathf.Sqrt(-2.0f * Physics.gravity.y * (jumpHeight+1)));
