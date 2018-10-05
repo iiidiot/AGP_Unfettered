@@ -61,6 +61,8 @@ public class PlayerController : MonoBehaviour {
 	private int startPlaceNumber = 0;
 	// Use this for initialization
 
+	private LayerMask enemyLayerMask = (1 << 9);
+
 	void Awake () {
 		// set the start place
 		if(startPlace.Length != 0)
@@ -125,8 +127,7 @@ public class PlayerController : MonoBehaviour {
 		myRigibody.velocity = new Vector2(horizontal * movementSpeed, myRigibody.velocity.y);
 
 		myAnimator.SetFloat("speed", Mathf.Abs(horizontal));
-		if(Jump && OnGround){
-
+		if(Jump && OnGround && myRigibody.velocity.y < 0.1f){
 			// physic simulation is not deterministic, so add 1 to the maxheight to offset the error， maybe it's not so precision.
 			myRigibody.velocity = new Vector2(horizontal * movementSpeed, Mathf.Sqrt(-2.0f * Physics.gravity.y * (jumpHeight+1)));
 			
@@ -181,8 +182,11 @@ public class PlayerController : MonoBehaviour {
 	{
 		foreach(Transform point in groundPoints)
 		{
-			if(Physics.Raycast(point.position, Vector3.down, 0.5f))
-			return true;
+			//enemyLayerMask = ~enemyLayerMask;
+			if(Physics.Raycast(point.position, Vector3.down, 0.5f, enemyLayerMask.value)){
+				return true;
+			}
+				
 		}
 		 return false;
 	}
