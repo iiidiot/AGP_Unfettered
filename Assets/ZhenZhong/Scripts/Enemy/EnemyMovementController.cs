@@ -24,6 +24,8 @@ public class EnemyMovementController : MonoBehaviour
 
     private bool m_onGround = false;
     private bool m_targetBehindMe = false;
+    
+    private float m_radius = 2.0f;
 
     public bool FacingRight
     {
@@ -73,15 +75,19 @@ public class EnemyMovementController : MonoBehaviour
         // once the enemy is flipped to a right direction, we stop flipping the enemy.
         m_canFlip = false;
 
-        UpdateRunningStatus();
-
         m_isTriggered = true;
+
+        UpdateRunningStatus();
+        
+        ToggleKinematic(other.gameObject);
     }
 
 
     public void ActivateTriggerStayEvent(Collider other)
     {
         UpdateRunningStatus();
+
+        ToggleKinematic(other.gameObject);
 
         // During the running, if the player is behind the monster,
         // it should turn to the player.
@@ -205,6 +211,22 @@ public class EnemyMovementController : MonoBehaviour
         {
             m_isRunning = false;
             m_isWalking = false;
+        }
+    }
+
+    // Prevent enemy being pushed by the player, in the physics engine layer.
+    private void ToggleKinematic(GameObject target)
+    {
+        Vector3 direction = target.transform.position - transform.position;
+        float distance = direction.magnitude;
+
+        if(distance < m_radius)
+        {
+            m_rigidBody.isKinematic = true;
+        }
+        else
+        {
+            m_rigidBody.isKinematic = false;
         }
     }
 }
