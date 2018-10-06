@@ -19,7 +19,7 @@ public class CameraFollowSmooth : MonoBehaviour {
     // shaking factors
     private bool isShaking = false;
     public float shake = 0f; //shake time
-    // 抖动幅度（振幅）
+    //抖动幅度（振幅）
     //振幅越大抖动越厉害
     public float shakeAmount = 0.7f;
     public float decreaseFactor = 1.0f;
