@@ -28,7 +28,17 @@ public class DialogTrigger : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		checkExistence();
+		HanldeInput();
 	}
+
+    private void HanldeInput()
+    {
+        //TODO figure out a better to solve the jump problem
+		if(Input.GetKey(KeyCode.F)){
+			existenceStatus = false;
+		}
+
+    }
 
     private void checkExistence()
     {
