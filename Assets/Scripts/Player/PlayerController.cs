@@ -61,7 +61,7 @@ public class PlayerController : MonoBehaviour {
 	private int startPlaceNumber = 0;
 	// Use this for initialization
 
-	private LayerMask enemyLayerMask = (1 << 9);
+	private LayerMask enemyLayerMask = (1 << 9) | (1 << 10);
 
 	void Awake () {
 		// set the start place
