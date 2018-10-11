@@ -7,6 +7,8 @@ public class DialogTrigger : MonoBehaviour {
 
 	private string playerTag = "Player";
 
+    public GameObject bubble;
+
 	[SerializeField]
 	private GameObject dialogBox;
 
@@ -52,7 +54,10 @@ public class DialogTrigger : MonoBehaviour {
 		if(collider.tag == playerTag){
 			dialogBox.transform.position = offsetPosition + new Vector3(transform.position.x, transform.position.y, transform.position.z);
 			dialogBox.SetActive(true);
-		}
+            bubble.SetActive(true);
+            bubble.GetComponent<DialogController>().nextDialog = true;
+
+        }
 	}
 
 	void OnTriggerExit( Collider collider) {
