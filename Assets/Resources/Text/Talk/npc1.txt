@@ -1,4 +1,0 @@
-p:ppp1111111
-n:nnnnn22222
-n:nnnnn33333
-p:ppppp44444
