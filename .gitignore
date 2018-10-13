@@ -98,3 +98,195 @@ Assets/TextMesh Pro/Documentation/TextMesh Pro User Guide 2016.pdf.meta
 Assets/TextMesh Pro/Documentation/TextMesh Pro User Guide 2016.pdf
 Assets/TextMesh Pro/Documentation.meta
 Assets/TextMesh Pro.meta
+Assets/ZhenZhong/Character Stats/CharacterStat.cs
+Assets/ZhenZhong/Character Stats/CharacterStat.cs.meta
+Assets/ZhenZhong/Character Stats/Examples.meta
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory.meta
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Fonts.meta
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Fonts/OLDTYPE PERSONAL USE___.otf
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Fonts/OLDTYPE PERSONAL USE___.otf.meta
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Images.meta
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Images/Item Icons.meta
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Images/Item Icons/armor.png
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Images/Item Icons/armor.png.meta
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Images/Item Icons/axe.png
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Images/Item Icons/axe.png.meta
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Images/Item Icons/axe2.png
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Images/Item Icons/axe2.png.meta
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Images/Item Icons/axeDouble.png
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Images/Item Icons/axeDouble.png.meta
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Images/Item Icons/axeDouble2.png
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Images/Item Icons/axeDouble2.png.meta
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Images/Item Icons/backpack.png
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Images/Item Icons/backpack.png.meta
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Images/Item Icons/bow.png
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Images/Item Icons/bow.png.meta
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Images/Item Icons/coin.png
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Images/Item Icons/coin.png.meta
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Images/Item Icons/dagger.png
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Images/Item Icons/dagger.png.meta
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Images/Item Icons/envelope.png
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Images/Item Icons/envelope.png.meta
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Images/Item Icons/gemBlue.png
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Images/Item Icons/gemBlue.png.meta
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Images/Item Icons/gemGreen.png
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Images/Item Icons/gemGreen.png.meta
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Images/Item Icons/gemRed.png
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Images/Item Icons/gemRed.png.meta
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Images/Item Icons/hammer.png
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Images/Item Icons/hammer.png.meta
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Images/Item Icons/heart.png
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Images/Item Icons/heart.png.meta
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Images/Item Icons/helmet.png
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Images/Item Icons/helmet.png.meta
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Images/Item Icons/map.png
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Images/Item Icons/map.png.meta
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Images/Item Icons/potionBlue.png
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Images/Item Icons/potionBlue.png.meta
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Images/Item Icons/potionGreen.png
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Images/Item Icons/potionGreen.png.meta
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Images/Item Icons/potionRed.png
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Images/Item Icons/potionRed.png.meta
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Images/Item Icons/scroll.png
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Images/Item Icons/scroll.png.meta
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Images/Item Icons/shield.png
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Images/Item Icons/shield.png.meta
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Images/Item Icons/shieldSmall.png
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Images/Item Icons/shieldSmall.png.meta
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Images/Item Icons/tome.png
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Images/Item Icons/tome.png.meta
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Images/Item Icons/tools.png
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Images/Item Icons/tools.png.meta
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Images/Item Icons/upg_armor.png
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Images/Item Icons/upg_armor.png.meta
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Images/Item Icons/upg_axe.png
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Images/Item Icons/upg_axe.png.meta
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Images/Item Icons/upg_axeDouble.png
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Images/Item Icons/upg_axeDouble.png.meta
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Images/Item Icons/upg_bow.png
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Images/Item Icons/upg_bow.png.meta
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Images/Item Icons/upg_dagger.png
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Images/Item Icons/upg_dagger.png.meta
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Images/Item Icons/upg_hammer.png
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Images/Item Icons/upg_hammer.png.meta
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Images/Item Icons/upg_helmet.png
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Images/Item Icons/upg_helmet.png.meta
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Images/Item Icons/upg_shield.png
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Images/Item Icons/upg_shield.png.meta
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Images/Item Icons/upg_shieldSmall.png
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Images/Item Icons/upg_shieldSmall.png.meta
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Images/Item Icons/upg_spear.png
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Images/Item Icons/upg_spear.png.meta
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Images/Item Icons/upg_sword.png
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Images/Item Icons/upg_sword.png.meta
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Images/Item Icons/upg_wand.png
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Images/Item Icons/upg_wand.png.meta
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Images/Item Icons/wand.png
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Images/Item Icons/wand.png.meta
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Images/Item Icons/woodSword.png
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Images/Item Icons/woodSword.png.meta
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Images/Item Icons/x.png
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Images/Item Icons/x.png.meta
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Images/UI.meta
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Images/UI/Button.png
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Images/UI/Button.png.meta
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Images/UI/Details.png
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Images/UI/Details.png.meta
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Images/UI/InventoryNoText.png
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Images/UI/InventoryNoText.png.meta
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Images/UI/Section Divider.png
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Images/UI/Section Divider.png.meta
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Images/UI/Stats with Text.png
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Images/UI/Stats with Text.png.meta
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Images/UI/Stats with TextII.png
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Images/UI/Stats with TextII.png.meta
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Images/UI/Stats.png
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Images/UI/Stats.png.meta
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Images/UI/Text Line.png
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Images/UI/Text Line.png.meta
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Items & Inventory.unity
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Items & Inventory.unity.meta
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Items.meta
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Items/Axe.asset
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Items/Axe.asset.meta
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Items/Bow.asset
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Items/Bow.asset.meta
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Items/Chest Amor.asset
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Items/Chest Amor.asset.meta
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Items/Gem.asset
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Items/Gem.asset.meta
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Items/Helmet.asset
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Items/Helmet.asset.meta
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Items/Potion.asset
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Items/Potion.asset.meta
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Items/Shield.asset
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Items/Shield.asset.meta
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Items/Sword.asset
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Items/Sword.asset.meta
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Prefabs.meta
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Prefabs/Character Panel.prefab
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Prefabs/Character Panel.prefab.meta
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Prefabs/Character.prefab
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Prefabs/Character.prefab.meta
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Prefabs/Item Tooltip.prefab
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Prefabs/Item Tooltip.prefab.meta
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Prefabs/Item.prefab
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Prefabs/Item.prefab.meta
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Prefabs/Stat Tooltip.prefab
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Prefabs/Stat Tooltip.prefab.meta
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Scripts.meta
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Scripts/Character.cs
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Scripts/Character.cs.meta
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Scripts/EquipmentPanel.cs
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Scripts/EquipmentPanel.cs.meta
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Scripts/EquipmentSlot.cs
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Scripts/EquipmentSlot.cs.meta
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Scripts/EquippableItem.cs
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Scripts/EquippableItem.cs.meta
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Scripts/Inventory.cs
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Scripts/Inventory.cs.meta
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Scripts/Item.cs
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Scripts/Item.cs.meta
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Scripts/ItemSlot.cs
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Scripts/ItemSlot.cs.meta
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Scripts/ItemTooltip.cs
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Scripts/ItemTooltip.cs.meta
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Scripts/StatDisplay.cs
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Scripts/StatDisplay.cs.meta
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Scripts/StatPanel.cs
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Scripts/StatPanel.cs.meta
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Scripts/StatTooltip.cs
+Assets/ZhenZhong/Character Stats/Examples/Items & Inventory/Scripts/StatTooltip.cs.meta
+Assets/ZhenZhong/Character Stats/Examples/Power Ups.meta
+Assets/ZhenZhong/Character Stats/Examples/Power Ups/Materials.meta
+Assets/ZhenZhong/Character Stats/Examples/Power Ups/Materials/Purple.mat
+Assets/ZhenZhong/Character Stats/Examples/Power Ups/Materials/Purple.mat.meta
+Assets/ZhenZhong/Character Stats/Examples/Power Ups/Materials/Yellow.mat
+Assets/ZhenZhong/Character Stats/Examples/Power Ups/Materials/Yellow.mat.meta
+Assets/ZhenZhong/Character Stats/Examples/Power Ups/Power Ups.unity
+Assets/ZhenZhong/Character Stats/Examples/Power Ups/Power Ups.unity.meta
+Assets/ZhenZhong/Character Stats/Examples/Power Ups/Prefabs.meta
+Assets/ZhenZhong/Character Stats/Examples/Power Ups/Prefabs/Platform.prefab
+Assets/ZhenZhong/Character Stats/Examples/Power Ups/Prefabs/Platform.prefab.meta
+Assets/ZhenZhong/Character Stats/Examples/Power Ups/Scripts.meta
+Assets/ZhenZhong/Character Stats/Examples/Power Ups/Scripts/DeathZone.cs
+Assets/ZhenZhong/Character Stats/Examples/Power Ups/Scripts/DeathZone.cs.meta
+Assets/ZhenZhong/Character Stats/Examples/Power Ups/Scripts/MouseLook.cs
+Assets/ZhenZhong/Character Stats/Examples/Power Ups/Scripts/MouseLook.cs.meta
+Assets/ZhenZhong/Character Stats/Examples/Power Ups/Scripts/Movement.cs
+Assets/ZhenZhong/Character Stats/Examples/Power Ups/Scripts/Movement.cs.meta
+Assets/ZhenZhong/Character Stats/Examples/Power Ups/Scripts/Platform.cs
+Assets/ZhenZhong/Character Stats/Examples/Power Ups/Scripts/Platform.cs.meta
+Assets/ZhenZhong/Character Stats/Examples/Power Ups/Scripts/PlatformGenerator.cs
+Assets/ZhenZhong/Character Stats/Examples/Power Ups/Scripts/PlatformGenerator.cs.meta
+Assets/ZhenZhong/Character Stats/Examples/Power Ups/Scripts/Player.cs
+Assets/ZhenZhong/Character Stats/Examples/Power Ups/Scripts/Player.cs.meta
+Assets/ZhenZhong/Character Stats/Examples/Power Ups/Scripts/PlayerBarUI.cs
+Assets/ZhenZhong/Character Stats/Examples/Power Ups/Scripts/PlayerBarUI.cs.meta
+Assets/ZhenZhong/Character Stats/Examples/Power Ups/Scripts/PlayerTextUI.cs
+Assets/ZhenZhong/Character Stats/Examples/Power Ups/Scripts/PlayerTextUI.cs.meta
+Assets/ZhenZhong/Character Stats/Examples/Power Ups/Scripts/Powerup.cs
+Assets/ZhenZhong/Character Stats/Examples/Power Ups/Scripts/Powerup.cs.meta
+Assets/ZhenZhong/Character Stats/StatModifier.cs
+Assets/ZhenZhong/Character Stats/StatModifier.cs.meta
+Assets/ZhenZhong/Character Stats.meta

@@ -63,23 +63,26 @@ public class PlayerController : MonoBehaviour {
 
 	private LayerMask enemyLayerMask = (1 << 9) | (1 << 10);
 
-	void Awake () {
+	void Awake ()
+    {
 		// set the start place
 		if(startPlace.Length != 0)
 		{
 			transform.parent.position = startPlaceNumber < startPlace.Length ? startPlace[startPlaceNumber].transform.position : startPlace[0].transform.position;
 		}
 	}
-	void Start () {
+	void Start ()
+    {
 		myRigibody = GetComponent<Rigidbody>();
 		myAnimator = GetComponent<Animator>();
 		SetGravity();
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void Update ()
+    {
 		
-		HanldeInput();
+		HandleInput();
 		// TODO delete it when finalized the jump parameter
 		SetGravity();
 		CheckVelocity();
@@ -89,7 +92,8 @@ public class PlayerController : MonoBehaviour {
 
     private void CheckVelocity()
     {
-        if( Mathf.Abs(myRigibody.velocity.y) > maxVerticalVelocity){
+        if( Mathf.Abs(myRigibody.velocity.y) > maxVerticalVelocity)
+        {
 			myRigibody.velocity = new Vector2(myRigibody.velocity.x, myRigibody.velocity.y > 0 ? maxVerticalVelocity : -1 * maxVerticalVelocity );
 		}
     }
@@ -119,7 +123,8 @@ public class PlayerController : MonoBehaviour {
 	 */
     private void HandleMovement(float horizontal, float vertical)
     {
-		if(myRigibody.velocity.y < 0){
+		if(myRigibody.velocity.y < 0)
+        {
 			myAnimator.SetBool("land", true);
 			//myAnimator.SetTrigger("jump");
 		}
@@ -128,7 +133,8 @@ public class PlayerController : MonoBehaviour {
 
 		myAnimator.SetFloat("speed", Mathf.Abs(horizontal));
 		// check velocity.y to avoid double jump at the edge
-		if(Jump && OnGround && myRigibody.velocity.y < 0.1f){
+		if(Jump && OnGround && myRigibody.velocity.y < 0.1f)
+        {
 			// physic simulation is not deterministic, so add 1 to the maxheight to offset the error， maybe it's not so precision.
 			myRigibody.velocity = new Vector2(horizontal * movementSpeed, Mathf.Sqrt(-2.0f * Physics.gravity.y * (jumpHeight+1)));
 			
@@ -138,22 +144,26 @@ public class PlayerController : MonoBehaviour {
 			OnGround = false;
 		}
 
-		if(vertical < 0){
+		if(vertical < 0)
+        {
 			CanGoDownstair = true;
 		}
 
-		if(OnLadder){
+		if(OnLadder)
+        {
 			myRigibody.velocity = new Vector2(horizontal * maxClimbSpeed, vertical * maxClimbSpeed);
 		}
     }
-    private void HanldeInput()
+    private void HandleInput()
     {
 		//TODO figure out a better to solve the jump problem
-		if(Input.GetKey(KeyCode.Space)){
+		if(Input.GetKey(KeyCode.Space))
+        {
 			Jump = true;
 		}
 
-		if(Input.GetKey(KeyCode.F)){
+		if(Input.GetKey(KeyCode.F))
+        {
 			CanMoveStone = true;
 		}
 
@@ -184,7 +194,8 @@ public class PlayerController : MonoBehaviour {
 		foreach(Transform point in groundPoints)
 		{
 			//enemyLayerMask = ~enemyLayerMask;
-			if(Physics.Raycast(point.position, Vector3.down, 0.5f, enemyLayerMask.value)){
+			if(point && Physics.Raycast(point.position, Vector3.down, 0.5f, enemyLayerMask.value))
+            {
 				return true;
 			}
 				
@@ -192,7 +203,8 @@ public class PlayerController : MonoBehaviour {
 		 return false;
 	}
 
-	private void SetGravity(){
+	private void SetGravity()
+    {
 
 		float gravity = (-2 * jumpHeight) / (Mathf.Pow((jumpDuration)/2, 2));
 		Physics.gravity = new Vector3(0, gravity, 0);

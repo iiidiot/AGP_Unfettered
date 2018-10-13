@@ -29,7 +29,7 @@ public class Controller : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		HanldeInput();
+		HandleInput();
 	}
 
 	void FixedUpdate () 
@@ -51,7 +51,7 @@ public class Controller : MonoBehaviour {
 			myRigibody.AddForce(new Vector2(0, jumpFrouce));
 		}
     }
-    private void HanldeInput()
+    private void HandleInput()
     {
 		if(Input.GetKeyDown(KeyCode.Space)){
 			Jump = true;
