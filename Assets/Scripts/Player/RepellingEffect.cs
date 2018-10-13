@@ -30,8 +30,8 @@ public class RepellingEffect : MonoBehaviour {
 	// 	}
 	// }
 
-	void OnTriggerEnter (Collider other){
-		Debug.Log(other.gameObject.tag);
+	void OnTriggerEnter (Collider other) {
+
 		foreach( string damageObjectTag in damageObjectArray){
 			if(other.gameObject.tag == damageObjectTag){
 				GetDamage(other);

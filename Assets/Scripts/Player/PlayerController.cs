@@ -135,6 +135,7 @@ public class PlayerController : MonoBehaviour {
 		// check velocity.y to avoid double jump at the edge
 		if(Jump && OnGround && myRigibody.velocity.y < 0.1f)
         {
+			SoundController.PlaySound(2);
 			// physic simulation is not deterministic, so add 1 to the maxheight to offset the error， maybe it's not so precision.
 			myRigibody.velocity = new Vector2(horizontal * movementSpeed, Mathf.Sqrt(-2.0f * Physics.gravity.y * (jumpHeight+1)));
 			
@@ -171,7 +172,6 @@ public class PlayerController : MonoBehaviour {
         if (Input.GetKey(KeyCode.S)) // camera shake
         {
             // camera shake
-            Debug.Log("shake");
             Camera mainCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
             mainCamera.GetComponent<CameraFollowSmooth>().CameraShake(0.1f);
         }
