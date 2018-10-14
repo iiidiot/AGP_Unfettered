@@ -31,7 +31,7 @@ public class PlayerController : MonoBehaviour {
 	[SerializeField]
 	private float movementSpeed = 15f;
 
-	//private float offsetValue = 0.01f;
+	private float offsetValue = 0.02f;
 	public bool facingRight{get; set;}
 
 	[SerializeField]
@@ -123,6 +123,13 @@ public class PlayerController : MonoBehaviour {
 	 */
     private void HandleMovement(float horizontal, float vertical)
     {
+		if( Mathf.Abs(horizontal) > 2 * offsetValue && OnGround){
+			SoundController.PlaySound(0);
+		}else{
+			SoundController.StopPlayingSound();
+		}
+
+
 		if(myRigibody.velocity.y < 0)
         {
 			myAnimator.SetBool("land", true);
@@ -154,6 +161,7 @@ public class PlayerController : MonoBehaviour {
         {
 			myRigibody.velocity = new Vector2(horizontal * maxClimbSpeed, vertical * maxClimbSpeed);
 		}
+
     }
     private void HandleInput()
     {

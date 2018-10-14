@@ -12,8 +12,6 @@ public class SoundController : MonoBehaviour {
 
 	[SerializeField]
 	private  AudioClip[] audioClipsInput; 
-	
-
 
 	// Use this for initialization
 	void Start () {
@@ -31,7 +29,26 @@ public class SoundController : MonoBehaviour {
 	}
 
 	public static void PlaySound (int index) {
-		audioSource.PlayOneShot(audioClipsOutput[index]);
+		if(index == 0 && audioSource.isPlaying == false ){
+			Debug.Log("is walking");
+			audioSource.volume = Random.Range(0.8f, 1);
+			audioSource.pitch = Random.Range(0.8f, 1);
+			audioSource.PlayOneShot(audioClipsOutput[index]);
+			audioSource.clip = audioClipsOutput[index];
+		}else if(index != 0){
+			audioSource.Stop();
+			audioSource.PlayOneShot(audioClipsOutput[index]);
+			audioSource.clip = audioClipsOutput[index];
+		}
+	}
+
+	public static void StopPlayingSound () {
+		
+	
+		if(audioSource.clip == audioClipsOutput[0]){
+			Debug.Log("stop");
+			audioSource.Stop();
+		}
 	}
 
 
