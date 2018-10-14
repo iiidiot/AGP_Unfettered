@@ -183,6 +183,11 @@ public class PlayerController : MonoBehaviour {
             Camera mainCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
             mainCamera.GetComponent<CameraFollowSmooth>().CameraShake(0.1f);
         }
+		//place hoder for attack
+		if (Input.GetKey(KeyCode.Q)) 
+        {
+			SoundController.PlaySound(1);
+        }
     }
 
 	// change to air layer when player jump
