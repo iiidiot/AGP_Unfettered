@@ -95,6 +95,8 @@ public class ItemDragHandler : MonoBehaviour, IDragHandler, IEndDragHandler
         foreach (var go in raycastResults)
         {
             // Tag = item tag, Target tag = slot tag
+
+            // Sword
             // weapon slot -> sword slot
             if (m_slot.tag == "WeaponSlot" && tag == "Sword" && go.gameObject.tag == "SwordSlot")
             {
@@ -109,6 +111,7 @@ public class ItemDragHandler : MonoBehaviour, IDragHandler, IEndDragHandler
                 return true;
             }
 
+            // Fu
             else if (m_slot.tag == "WeaponSlot" && tag == "Fu" && go.gameObject.tag == "FuSlot")
             {
                 m_targetSlot = go.gameObject.GetComponent<Slot>();
@@ -116,6 +119,58 @@ public class ItemDragHandler : MonoBehaviour, IDragHandler, IEndDragHandler
             }
 
             else if (m_slot.tag == "FuSlot" && tag == "Fu" && go.gameObject.tag == "WeaponSlot")
+            {
+                m_targetSlot = go.gameObject.GetComponent<Slot>();
+                return true;
+            }
+
+            // Shoes
+            else if (m_slot.tag == "ArmorSlot" && tag == "Shoes" && go.gameObject.tag == "FootArmorSlot")
+            {
+                m_targetSlot = go.gameObject.GetComponent<Slot>();
+                return true;
+            }
+
+            else if (m_slot.tag == "FootArmorSlot" && tag == "Shoes" && go.gameObject.tag == "ArmorSlot")
+            {
+                m_targetSlot = go.gameObject.GetComponent<Slot>();
+                return true;
+            }
+
+            // Gloves
+            else if (m_slot.tag == "ArmorSlot" && tag == "Gloves" && go.gameObject.tag == "HandArmorSlot")
+            {
+                m_targetSlot = go.gameObject.GetComponent<Slot>();
+                return true;
+            }
+
+            else if (m_slot.tag == "HandArmorSlot" && tag == "Gloves" && go.gameObject.tag == "ArmorSlot")
+            {
+                m_targetSlot = go.gameObject.GetComponent<Slot>();
+                return true;
+            }
+
+            // Chest Armor
+            else if (m_slot.tag == "ArmorSlot" && tag == "ChestArmor" && go.gameObject.tag == "ChestArmorSlot")
+            {
+                m_targetSlot = go.gameObject.GetComponent<Slot>();
+                return true;
+            }
+
+            else if (m_slot.tag == "ChestArmorSlot" && tag == "ChestArmor" && go.gameObject.tag == "ArmorSlot")
+            {
+                m_targetSlot = go.gameObject.GetComponent<Slot>();
+                return true;
+            }
+
+            // Pants
+            else if (m_slot.tag == "ArmorSlot" && tag == "Pants" && go.gameObject.tag == "LegArmorSlot")
+            {
+                m_targetSlot = go.gameObject.GetComponent<Slot>();
+                return true;
+            }
+
+            else if (m_slot.tag == "LegArmorSlot" && tag == "Pants" && go.gameObject.tag == "ArmorSlot")
             {
                 m_targetSlot = go.gameObject.GetComponent<Slot>();
                 return true;

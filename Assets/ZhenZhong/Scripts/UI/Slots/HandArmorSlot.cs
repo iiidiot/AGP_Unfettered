@@ -2,22 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EquippedSlot : Inventory
+public class HandArmorSlot : Inventory
 {
-    private Slot m_slot;
-
-	// Use this for initialization
-	void Start ()
-    {
-       
-	}
-	
-	// Update is called once per frame
-	protected override void Update ()
-    {
-
-	}
-
     protected override void CreateLayOut()
     {
         m_slots = new List<GameObject>();
@@ -48,8 +34,8 @@ public class EquippedSlot : Inventory
 
                 RectTransform slotRect = newSlot.GetComponent<RectTransform>();
 
-                newSlot.name = "SwordSlot";
-                newSlot.tag = "SwordSlot";
+                newSlot.name = "HandArmorSlot";
+                newSlot.tag = "HandArmorSlot";
 
                 // Set the new slot's parent as the Inventory's parent (Canvas).
                 // Otherwise, it will not be displayed onto the screen.

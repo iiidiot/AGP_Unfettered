@@ -2,49 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WeaponInventory : Inventory
+public class FuSlot : Inventory
 {
-    private bool m_oneClicked = false;
-
-    private bool m_timeRunning;
-
-    private float m_doubleClickTimer;
-
-    //this is how long in seconds to allow for a double click
-    private float m_delay = 1.0f;
-
-    public Transform sword;
-    public Transform fu;
-    public Transform sword2;
-
-    protected override void Awake()
-    {
-        base.Awake();
-
-        // Fu
-        base.AddItem(fu.GetComponent<Item>());
-
-        // Sword
-        base.AddItem(sword.GetComponent<Item>());
-
-        // Sword2
-        base.AddItem(sword2.GetComponent<Item>());
-    }
-
-    // Use this for initialization
-    void Start ()
-    {
-
-    }
-
-    // Update is called once per frame
-    protected override void Update  ()
-    {
-        base.Update();
-
-
-	}
-
     protected override void CreateLayOut()
     {
         m_slots = new List<GameObject>();
@@ -75,8 +34,8 @@ public class WeaponInventory : Inventory
 
                 RectTransform slotRect = newSlot.GetComponent<RectTransform>();
 
-                newSlot.name = "WeaponSlot";
-                newSlot.tag = "WeaponSlot";
+                newSlot.name = "FuSlot";
+                newSlot.tag = "FuSlot";
 
                 // Set the new slot's parent as the Inventory's parent (Canvas).
                 // Otherwise, it will not be displayed onto the screen.
@@ -94,55 +53,4 @@ public class WeaponInventory : Inventory
             }
         }
     }
-
-
-    protected virtual void doubleClick()
-    {
-        if (Input.GetMouseButtonDown(0))
-        {
-
-            if (!m_oneClicked)
-            {
-                m_oneClicked = true;
-
-                // save the current timer
-                m_doubleClickTimer = Time.time;
-
-                // TODO: do one click things
-            }
-
-            else
-            {
-                // Found a double click, reset
-                m_oneClicked = false;
-
-                // TODO: do double click things
-            }
-        }
-
-        // At this point if the one click is still true
-        // we should reset it. It's not a double click, and it passes the 
-        // effectiveness of the current first click
-        if (m_oneClicked)
-        {
-            if (Time.time - m_doubleClickTimer > m_delay)
-            {
-                m_oneClicked = false;
-            }
-        }
-    }
-
-    //protected override void MoveItem(GameObject clicked)
-    //{
-    //    //base.MoveItem(clicked);
-
-
-    //}
-
-    //protected override void Drag(GameObject item)
-    //{
-    //    //base.Drag(item);
-        
-    //}
-
 }
