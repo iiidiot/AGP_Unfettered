@@ -4,8 +4,16 @@ using UnityEngine;
 
 public enum ItemType
 {
+    NONE,
     HEALTH,
-    ENERGY
+    ENERGY,
+}
+
+public enum WeaponType
+{
+    NONE,
+    FU,
+    SWORD,
 }
 
 /*
@@ -19,6 +27,8 @@ public enum ItemType
 public class Item : MonoBehaviour
 {
     public ItemType itemType;
+
+    public WeaponType weaponType;
 
     public Sprite normalSprite;
 
