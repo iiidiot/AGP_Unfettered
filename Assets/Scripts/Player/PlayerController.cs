@@ -177,12 +177,7 @@ public class PlayerController : MonoBehaviour {
 		}
 
 
-        if (Input.GetKey(KeyCode.S)) // camera shake
-        {
-            // camera shake
-            Camera mainCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
-            mainCamera.GetComponent<CameraFollowSmooth>().CameraShake(0.1f);
-        }
+       
 		//place hoder for attack
 		if (Input.GetKey(KeyCode.Q)) 
         {

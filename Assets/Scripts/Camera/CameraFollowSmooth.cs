@@ -16,23 +16,6 @@ public class CameraFollowSmooth : MonoBehaviour {
 
 
 
-    // shaking factors
-    private bool isShaking = false;
-    public float shake = 0f; //shake time
-    //抖动幅度（振幅）
-    //振幅越大抖动越厉害
-    public float shakeAmount = 0.7f;
-    public float decreaseFactor = 1.0f;
-    Vector3 originalPos;
-
-    public void CameraShake(float shaketime)
-    {
-        shake = shaketime;
-        originalPos = Camera.main.transform.localPosition;
-        isShaking = true;
-    }
-
-
     // Use this for initialization
     void Start () {
         offset = transform.position - followTarget.position;
@@ -50,38 +33,20 @@ public class CameraFollowSmooth : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void LateUpdate () {
+    void LateUpdate()
+    {
+        //x 跟随
+        transform.position = new Vector3((followTarget.position + offset).x, transform.position.y, transform.position.z);
 
-        if (isShaking)
+
+        //y 平滑跟上
+        //float newCamY = (followTarget.position + offset).y;
+        //float deltaY = (newCamY - transform.position.y) / co;
+        //transform.Translate(0, deltaY, 0);
+        if (isMove)
         {
-            Transform camTransform = Camera.main.transform;
-            if (shake > 0)
-            {
-                camTransform.localPosition = originalPos + Random.insideUnitSphere * shakeAmount;
-
-                shake -= Time.deltaTime * decreaseFactor;
-            }
-            else
-            {
-                shake = 0f;
-                camTransform.localPosition = originalPos;
-                isShaking = false;
-            }
+            transform.position = Vector3.Lerp(transform.position, followTarget.position + offset, Time.deltaTime * smooth);
         }
-        else
-        {
-            //x 跟随
-            transform.position = new Vector3((followTarget.position + offset).x, transform.position.y, transform.position.z);
 
-
-            //y 平滑跟上
-            //float newCamY = (followTarget.position + offset).y;
-            //float deltaY = (newCamY - transform.position.y) / co;
-            //transform.Translate(0, deltaY, 0);
-            if (isMove)
-            {
-                transform.position = Vector3.Lerp(transform.position, followTarget.position + offset, Time.deltaTime * smooth);
-            }
-        }
     }
 }

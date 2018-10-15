@@ -16,7 +16,7 @@ public class Inventory : MonoBehaviour
     private static GameObject m_hoverObject;
 
     private static Slot m_fromSlot;
-    private static Slot m_toSlot;
+    //private static Slot m_toSlot;
 
     protected float m_hoverYOffset;
 
@@ -82,26 +82,26 @@ public class Inventory : MonoBehaviour
     // Update is called once per frame
     protected virtual void Update()
     {
-        DetectedShop();
+        //DetectedShop();
 
         FollowMousePosition();
     }
 
-    protected virtual void DetectedShop()
-    {
-        // Check if the left mouse button was clicked (up)
-        if (Input.GetMouseButtonUp(0))
-        {
-            // Check if the mouse was clicked over a shop UI element
-            SellItem();
+    //protected virtual void DetectedShop()
+    //{
+    //    // Check if the left mouse button was clicked (up)
+    //    if (Input.GetMouseButtonUp(0))
+    //    {
+    //        // Check if the mouse was clicked over a shop UI element
+    //        SellItem();
 
-            // Check if the mouse is not over a game object. If not, drop it.
-            if (!eventSystem.IsPointerOverGameObject(-1) && m_fromSlot)
-            {
-                ResetSlotData();
-            }
-        }
-    }
+    //        // Check if the mouse is not over a game object. If not, drop it.
+    //        if (!eventSystem.IsPointerOverGameObject(-1) && m_fromSlot)
+    //        {
+    //            ResetSlotData();
+    //        }
+    //    }
+    //}
 
     // Helper function to reset all the slot data for dragging and dropping.
     protected virtual void ResetSlotData()
@@ -110,7 +110,7 @@ public class Inventory : MonoBehaviour
         m_fromSlot.GetComponent<Image>().color = Color.white;
         m_fromSlot.ClearSlot();
         Destroy(GameObject.Find("Hover Object"));
-        m_toSlot = null;
+        //m_toSlot = null;
         m_fromSlot = null;
         m_hoverObject = null;
     }
