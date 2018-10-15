@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class ArmorInventory : Inventory
 {
-    private bool m_oneClicked = false;
+    //private bool m_oneClicked = false;
 
     private bool m_timeRunning;
 
     private float m_doubleClickTimer;
 
     //this is how long in seconds to allow for a double click
-    private float m_delay = 1.0f;
+    //private float m_delay = 1.0f;
 
     public Transform armor;
     public Transform pants;
