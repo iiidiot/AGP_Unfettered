@@ -10,6 +10,6 @@ using UnityEngine;
 public class CurrentGameData : ScriptableObject
 {
     public static List<int> itemIDs;
-    public static int health;
+    public static int health = 1;
 
 }

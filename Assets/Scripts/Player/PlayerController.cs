@@ -183,10 +183,21 @@ public class PlayerController : MonoBehaviour {
         {
 			SoundController.PlaySound(1);
         }
+
+
+        if (Input.GetKey(KeyCode.F1))
+        {
+            SaveAndLoadUtil.SavePlayerStatus();
+        }
+        if (Input.GetKey(KeyCode.F2))
+        {
+            SaveAndLoadUtil.LoadPlayerStatus();
+        }
+
     }
 
-	// change to air layer when player jump
-	private void HandleLayer()
+    // change to air layer when player jump
+    private void HandleLayer()
 	{
 		if(!OnGround)
 		{
