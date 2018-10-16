@@ -75,14 +75,14 @@ public class PlayerController : MonoBehaviour {
     {
 		myRigibody = GetComponent<Rigidbody>();
 		myAnimator = GetComponent<Animator>();
-		SetGravity();
+		SetGravity(); 
 	}
 	
 	// Update is called once per frame
 	void Update ()
     {
-		
-		HandleInput();
+
+        HandleInput();
 		// TODO delete it when finalized the jump parameter
 		SetGravity();
 		CheckVelocity();
