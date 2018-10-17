@@ -24,6 +24,7 @@ public class PlayerTestController : MonoBehaviour
     public float zero_threshold = 0.003f;
     public bool isOnGround = false;
     public float maxClimbSpeed = 2f;
+    public bool CanMoveStone{get; set;}
 
     Rigidbody r;
     float g_speed;//重力加速度，每秒
@@ -47,6 +48,7 @@ public class PlayerTestController : MonoBehaviour
 
     void Update()
     {
+        HandleInput();
         StatusController();
         MoveController();
         AnimeController();
@@ -58,6 +60,29 @@ public class PlayerTestController : MonoBehaviour
         MyGravity();//模拟重力
     }
 
+    private void HandleInput()
+    {
+
+		if(Input.GetKey(KeyCode.F))
+        {
+			CanMoveStone = true;
+		}
+
+		//place hoder for attack
+		if (Input.GetKey(KeyCode.Q)) 
+        {
+			SoundController.PlaySound(1);
+        }
+
+        if (Input.GetKey(KeyCode.F1))
+        {
+            SaveAndLoadUtil.SavePlayerStatus();
+        }
+        if (Input.GetKey(KeyCode.F2))
+        {
+            SaveAndLoadUtil.LoadPlayerStatus();
+        }
+    }
     void OnCollisionEnter(Collision collision)
     {
         //如果是斜坡

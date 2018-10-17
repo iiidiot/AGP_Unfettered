@@ -52,7 +52,7 @@ public class StoneController : MonoBehaviour {
 
 	private void StoneMassChange(){
 
-		if(PlayerController.Instance.CanMoveStone == true){
+		if(PlayerTestController.Instance.CanMoveStone == true){
 			myRigidbody.mass = movableStoneMass;
 		}
 		else

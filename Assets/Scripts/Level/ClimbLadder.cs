@@ -11,7 +11,6 @@ public class ClimbLadder : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
 	}
 
 
@@ -22,8 +21,8 @@ public class ClimbLadder : MonoBehaviour {
 			other.GetComponent<Rigidbody>().useGravity = false;
 			other.GetComponent<Rigidbody>().velocity = new Vector2(0,0);
 			PlayerTestController.Instance.OnLadder = true;
-			PlayerTestController.Instance.facingRight = false;
-			PlayerTestController.Instance.Flip(1);
+			// PlayerTestController.Instance.facingRight = false;
+			// PlayerTestController.Instance.Flip(1);
 
 		}
 
