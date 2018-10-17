@@ -29,6 +29,8 @@ public class PlayerTestController : MonoBehaviour
     public Transform[] startPlace;
     public int startPlaceNumber = 0;
 
+    [SerializeField]
+    private Collider knifeAttack;
     Rigidbody r;
     float g_speed;//重力加速度，每秒
     float jump_speed;//起跳速度
@@ -37,6 +39,7 @@ public class PlayerTestController : MonoBehaviour
 
     public bool facingRight{get; set;}
     public bool OnLadder{get; set;}
+    public bool IsPushing{get; set;}
 
 
     void Awake ()
@@ -85,9 +88,15 @@ public class PlayerTestController : MonoBehaviour
     private void HandleInput()
     {
 
-		if(Input.GetKey(KeyCode.F))
+		if(Input.GetKeyDown(KeyCode.F))
         {
 			CanMoveStone = true;
+		}
+
+        if(Input.GetKeyUp(KeyCode.F))
+        {
+			CanMoveStone = false;
+            IsPushing = false;
 		}
 
 		//place hoder for attack
@@ -103,6 +112,11 @@ public class PlayerTestController : MonoBehaviour
         if (Input.GetKey(KeyCode.F2))
         {
             SaveAndLoadUtil.LoadPlayerStatus();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            myAnimator.SetTrigger("attack");
         }
     }
     void OnCollisionEnter(Collision collision)
@@ -196,6 +210,12 @@ public class PlayerTestController : MonoBehaviour
         myAnimator.SetFloat("verticalSpeed", r.velocity.y);
         myAnimator.SetFloat("absVerticalSpeed", Mathf.Abs(r.velocity.y));
         myAnimator.SetBool("isOnGround", isOnGround);
+
+        if(IsPushing){
+            myAnimator.SetBool("isPushing", true);
+        }else{
+             myAnimator.SetBool("isPushing", false);
+        }
     }
 
     void MoveController()
@@ -254,5 +274,9 @@ public class PlayerTestController : MonoBehaviour
 			facingRight = !facingRight;
             transform.Rotate(new Vector3(0.0f, 1.0f, 0.0f), 180);
         }
+    }
+
+    public void KnifeAttackAppear() {
+        knifeAttack.enabled = !knifeAttack.enabled;
     }
 }
