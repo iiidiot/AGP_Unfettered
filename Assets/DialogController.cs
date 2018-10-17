@@ -8,6 +8,8 @@ using DG.Tweening;
 
 public class DialogController : MonoBehaviour {
 
+    public string path;
+
     List<DialogStruct> dialogList = new List<DialogStruct>();
 
     private Transform bg;
@@ -29,6 +31,7 @@ public class DialogController : MonoBehaviour {
         hide();
 
         ReadDialogContent("Text/Dialog/test");
+//        ReadDialogContent(Application.streamingAssetsPath + path);
 
         
 
