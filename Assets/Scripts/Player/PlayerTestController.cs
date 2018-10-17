@@ -42,10 +42,10 @@ public class PlayerTestController : MonoBehaviour
     void Awake ()
     {
 		// set the start place
-		// if(startPlace.Length != 0)
-		// {
-		// 	transform.parent.position = startPlaceNumber < startPlace.Length ? startPlace[startPlaceNumber].transform.position : startPlace[0].transform.position;
-		// }
+		if(startPlace.Length != 0)
+		{
+			transform.parent.position = startPlaceNumber < startPlace.Length ? startPlace[startPlaceNumber].transform.position : startPlace[0].transform.position;
+		}
 	}
     void Start()
     {
