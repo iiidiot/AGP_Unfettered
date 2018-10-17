@@ -184,12 +184,10 @@ header.masthead {
 }
 
 header.masthead .intro-text {
-  padding-top: 150px;
-  padding-bottom: 100px;
 }
 
 header.masthead .intro-text .intro-lead-in {
-  font-size: 22px;
+  font-size: 50px;
   font-style: italic;
   line-height: 22px;
   margin-bottom: 25px;
@@ -199,8 +197,8 @@ header.masthead .intro-text .intro-lead-in {
 header.masthead .intro-text .intro-heading {
   font-size: 50px;
   font-weight: 700;
-  line-height: 50px;
-  margin-bottom: 25px;
+  line-height: 120px;
+  margin-bottom: 100px;
   font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 }
 
