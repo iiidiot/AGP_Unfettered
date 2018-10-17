@@ -45,7 +45,7 @@ public class RepellingEffect : MonoBehaviour {
 		float direction = (damageoBject.GetComponent<Rigidbody>().velocity.x) > 0 ? 1 : -1;
 		myRigidbody.velocity = new Vector3(0, 0, 0);
 		myRigidbody.AddForce( direction * repellingforce,myRigidbody.velocity.y, 0);
-		PlayerController.Instance.Flip(-1 * direction);
+		PlayerTestController.Instance.Flip(-1 * direction);
 
 		// EnemyMovementController enemyMovementController = damageoBject.gameObject.GetComponent<EnemyMovementController>();
         // enemyMovementController.FacingRight = true;

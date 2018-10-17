@@ -15,24 +15,26 @@ public class ClimbLadder : MonoBehaviour {
 	}
 
 
-	void OnCollisionEnter(Collision other)
+	void OnTriggerEnter(Collider other)
 	{
-		if(other.gameObject.tag == "Player")
+		if(other.tag == "Player")
 		{
-			other.gameObject.GetComponent<Rigidbody>().useGravity = false;
-			other.gameObject.GetComponent<Rigidbody>().velocity = new Vector2(0,0);
-			PlayerController.Instance.OnLadder = true;
+			other.GetComponent<Rigidbody>().useGravity = false;
+			other.GetComponent<Rigidbody>().velocity = new Vector2(0,0);
+			PlayerTestController.Instance.OnLadder = true;
+			PlayerTestController.Instance.facingRight = false;
+			PlayerTestController.Instance.Flip(1);
 
 		}
 
 	}
 
-	void OnCollisionExit(Collision other)
+	void OnTriggerExit(Collider other)
 	{
-		if(other.gameObject.tag == "Player")
+		if(other.tag == "Player")
 		{
-			other.gameObject.GetComponent<Rigidbody>().useGravity = true;
-			PlayerController.Instance.OnLadder = false;
+			//other.gameObject.GetComponent<Rigidbody>().useGravity = true; 
+			PlayerTestController.Instance.OnLadder = false;
 		}
 	}
 }
