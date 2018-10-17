@@ -114,7 +114,7 @@ public class PlayerTestController : MonoBehaviour
             SaveAndLoadUtil.LoadPlayerStatus();
         }
 
-        if (Input.GetKeyDown(KeyCode.Z))
+        if (Input.GetMouseButtonDown(0))
         {
             myAnimator.SetTrigger("attack");
         }
