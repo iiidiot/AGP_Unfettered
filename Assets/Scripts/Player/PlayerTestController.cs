@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -25,6 +26,8 @@ public class PlayerTestController : MonoBehaviour
     public bool isOnGround = false;
     public float maxClimbSpeed = 2f;
     public bool CanMoveStone{get; set;}
+    public Transform[] startPlace;
+    public int startPlaceNumber = 0;
 
     Rigidbody r;
     float g_speed;//重力加速度，每秒
@@ -36,7 +39,14 @@ public class PlayerTestController : MonoBehaviour
     public bool OnLadder{get; set;}
 
 
-    // Use this for initialization
+    void Awake ()
+    {
+		// set the start place
+		// if(startPlace.Length != 0)
+		// {
+		// 	transform.parent.position = startPlaceNumber < startPlace.Length ? startPlace[startPlaceNumber].transform.position : startPlace[0].transform.position;
+		// }
+	}
     void Start()
     {
         r = GetComponent<Rigidbody>();
@@ -52,8 +62,20 @@ public class PlayerTestController : MonoBehaviour
         StatusController();
         MoveController();
         AnimeController();
+        SoundEffectController();
     }
 
+    private void SoundEffectController()
+    {
+               //horizontal move===========================================
+        float h_direction = Input.GetAxisRaw("Horizontal");
+        //
+        if( Mathf.Abs(h_direction) > 2 * zero_threshold && isOnGround){
+			SoundController.PlaySound(0);
+		}else{
+			SoundController.StopPlayingSound();
+		}
+    }
 
     void FixedUpdate()
     {
@@ -194,6 +216,7 @@ public class PlayerTestController : MonoBehaviour
         //jump========================================================
         if (Input.GetKeyDown(KeyCode.Space) && isOnGround)
         {
+            SoundController.PlaySound(2);
             r.velocity = new Vector3(r.velocity.x, jump_speed, 0);
         }
 

@@ -43,14 +43,15 @@ public class RepellingEffect : MonoBehaviour {
 	private void GetDamage ( Collider damageoBject ){
 		// can not use position cos there is error by unity 
 		float direction = (damageoBject.GetComponent<Rigidbody>().velocity.x) > 0 ? 1 : -1;
-		myRigidbody.velocity = new Vector3(0, 0, 0);
-		myRigidbody.AddForce( direction * repellingforce,myRigidbody.velocity.y, 0);
-		PlayerTestController.Instance.Flip(-1 * direction);
+		myRigidbody.velocity = new Vector3(100, 0, 0);
+		Debug.Log(myRigidbody.velocity );
+		//myRigidbody.AddForce( direction * repellingforce,myRigidbody.velocity.y, 0);
+		//PlayerTestController.Instance.Flip(-1 * direction);
 
 		// EnemyMovementController enemyMovementController = damageoBject.gameObject.GetComponent<EnemyMovementController>();
         // enemyMovementController.FacingRight = true;
 
-		myAnimator.SetTrigger(damageTrigger);
+		//myAnimator.SetTrigger(damageTrigger);
 	}
 
 }
