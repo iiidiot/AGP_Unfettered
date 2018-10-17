@@ -194,6 +194,20 @@ public class PlayerController : MonoBehaviour {
             SaveAndLoadUtil.LoadPlayerStatus();
         }
 
+
+        if (Input.GetKeyDown(KeyCode.F3)) //damage
+        {
+            GetDamage();
+        }
+
+
+    }
+
+
+    private void GetDamage()
+    {
+        // play some animation maybe
+        PlayerStatus.health -= 1; // record some damage 
     }
 
     // change to air layer when player jump
