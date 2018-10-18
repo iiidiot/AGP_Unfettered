@@ -294,10 +294,6 @@ public class Painting : MonoBehaviour
     {
         raw.texture = texRender;
     }
-    public void OnClickClear()
-    {
-        Clear(texRender);
-    }
 
     //二阶贝塞尔曲线
     public void TwoOrderBézierCurse(Vector3 pos, float distance)

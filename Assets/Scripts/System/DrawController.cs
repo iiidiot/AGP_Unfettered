@@ -16,7 +16,7 @@ public class DrawController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (Input.GetMouseButtonDown(KeyCode.Mouse0))
+        if (Input.GetKeyDown(KeyCode.Mouse1))
         {
             if (isDrawing)
             {
@@ -32,7 +32,7 @@ public class DrawController : MonoBehaviour {
     void EnableDraw()
     {
         Camera.main.GetComponent<Painting>().enabled = true;
-        Camera.main.GetComponent<Painting>().Clear();
+        //Camera.main.GetComponent<Painting>().Clear();
 
         FuDrawPanel.SetActive(true);
 

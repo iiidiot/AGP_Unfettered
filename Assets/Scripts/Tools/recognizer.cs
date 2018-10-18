@@ -7,6 +7,7 @@ using TensorFlow;
 
 public class recognizer : MonoBehaviour
 {
+    public SkillReleaser sr;
     public TextAsset graphModel;
     private TFGraph graph;
     private TFSession session;
@@ -3811,9 +3812,22 @@ public class recognizer : MonoBehaviour
         var prob = tensors[0].GetValue() as float[,];
         var characterIndex = tensors[1].GetValue() as int[,];
 
-        Debug.Log(characters[characterIndex[0, 0]] + prob[0, 0].ToString());
-        Debug.Log(characters[characterIndex[0, 1]] + prob[0, 1].ToString());
-        Debug.Log(characters[characterIndex[0, 2]] + prob[0, 2].ToString());
+        for(int i=0; i < 3; i++)
+        {
+            if(characters[characterIndex[0, i]].Equals("火"))
+            {
+                print("火球术！");
+                sr.releaseSkill("FireBall");
+            }
+            else if (characters[characterIndex[0, i]].Equals("水"))
+            {
+                print("水弹术！");
+            }
+        }
+
+        //Debug.Log(characters[characterIndex[0, 0]] + prob[0, 0].ToString());
+        //Debug.Log(characters[characterIndex[0, 1]] + prob[0, 1].ToString());
+        //Debug.Log(characters[characterIndex[0, 2]] + prob[0, 2].ToString());
 
         // frees up resources - very important if you are running graph > 400 or so times
       
