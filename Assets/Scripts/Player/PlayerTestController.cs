@@ -52,7 +52,6 @@ public class PlayerTestController : MonoBehaviour
 	}
     void Start()
     {
-        speed = 7;
         r = GetComponent<Rigidbody>();
         g_speed = -2f * jump_height / (jump_duration * jump_duration * 0.25f);
         jump_speed = -g_speed * jump_duration * 0.5f;
@@ -236,7 +235,7 @@ public class PlayerTestController : MonoBehaviour
     {
         //horizontal move===========================================
         float h_direction = Input.GetAxisRaw("Horizontal");
-        float v_direction = Input.GetAxis("Vertical");
+        float v_direction = Input.GetAxisRaw("Vertical");
         Flip(h_direction);
         if (FloatEqualsZero(h_direction))
         {
