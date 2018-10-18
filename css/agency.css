@@ -17,8 +17,9 @@ body {
 }
 
 
-.img-responsive {
-  max-width: 50%;
+.my-gif {
+  display: block;
+  margin: auto auto;
 }
 
 #team{
