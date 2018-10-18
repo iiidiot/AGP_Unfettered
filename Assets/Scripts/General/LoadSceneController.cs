@@ -9,6 +9,7 @@ public class SceneManagerUnfettered
     public static string[] sceneList =
     {
             "Map2_1",
+            "Map1_1",
 
     };
     public static int nextSceneID = 0;
