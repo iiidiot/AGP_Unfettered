@@ -57,7 +57,7 @@ public class BubbleEffectController : MonoBehaviour {
     {
 
         this.transform.Find("bg/content/text").GetComponent<TextMeshProUGUI>().text = saySomething;
-        if (saySomething.Length > 100)
+        if (saySomething.Length > 80)
         {
             this.transform.Find("bg").GetComponent<RectTransform>().DOAnchorMax(new Vector2(0.95f, 0.85f), 1f);
         }

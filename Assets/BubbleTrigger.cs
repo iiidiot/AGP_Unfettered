@@ -6,7 +6,7 @@ using LitJson;
 public class BubbleTrigger : MonoBehaviour {
 
     public string jsonPath;
-    private float Y_offset = 200;
+    private float Y_offset = 250;
 
     private List<DialogStruct> dialogList = new List<DialogStruct>();    
     private int index;
