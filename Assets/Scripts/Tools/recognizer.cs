@@ -3822,6 +3822,7 @@ public class recognizer : MonoBehaviour
             else if (characters[characterIndex[0, i]].Equals("水"))
             {
                 print("水弹术！");
+                sr.releaseSkill("FrostBall");
             }
         }
 
