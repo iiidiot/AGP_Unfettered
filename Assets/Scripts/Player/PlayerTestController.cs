@@ -19,7 +19,7 @@ public class PlayerTestController : MonoBehaviour
 		}
 	}
 
-    public float speed = 1;//每秒移动速度
+    public float speed = 7;//每秒移动速度
     public float jump_height = 1;
     public float jump_duration = 1;
     public float zero_threshold = 0.003f;
@@ -52,6 +52,7 @@ public class PlayerTestController : MonoBehaviour
 	}
     void Start()
     {
+        speed = 7;
         r = GetComponent<Rigidbody>();
         g_speed = -2f * jump_height / (jump_duration * jump_duration * 0.25f);
         jump_speed = -g_speed * jump_duration * 0.5f;
@@ -114,11 +115,24 @@ public class PlayerTestController : MonoBehaviour
             SaveAndLoadUtil.LoadPlayerStatus();
         }
 
+        if (Input.GetKey(KeyCode.F3))
+        {
+            GetDamage();
+        }
+
+
         if (Input.GetMouseButtonDown(0))
         {
             myAnimator.SetTrigger("attack");
         }
     }
+
+    private void GetDamage()
+    {
+        // play some animation maybe
+        PlayerStatus.health -= 1; // record some damage 
+    }
+
     void OnCollisionEnter(Collision collision)
     {
         //如果是斜坡
@@ -230,7 +244,7 @@ public class PlayerTestController : MonoBehaviour
         }
         else
         {
-            r.velocity = new Vector3(h_direction * speed * Time.deltaTime, r.velocity.y, 0);
+            r.velocity = new Vector3(h_direction * speed, r.velocity.y, 0);
         }
 
         //jump========================================================
