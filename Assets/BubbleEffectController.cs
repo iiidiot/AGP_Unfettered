@@ -54,13 +54,23 @@ public class BubbleEffectController : MonoBehaviour {
     public void setSaySomething(string saySomething)
     {
 
-        this.transform.Find("content").Find("text").GetComponent<TextMeshProUGUI>().text = saySomething;
-        //this.saySomething = saySomething;
-        //if (content.Find("text").GetComponent<TextMeshProUGUI>())
-        //{
-        //    content.Find("text").GetComponent<TextMeshProUGUI>().text = saySomething;
-        //}
+        this.transform.Find("content/text").GetComponent<TextMeshProUGUI>().text = saySomething;
+        
     }
+
+    public void setName(string name)
+    {
+
+        this.transform.Find("name/text").GetComponent<TextMeshProUGUI>().text = name;
+
+    }
+
+    public void setHead(string path)
+    {
+        this.transform.Find("head").GetComponent<Image>().sprite = Resources.Load<Sprite>(path);
+    }
+
+
 
 
     // Update is called once per frame
