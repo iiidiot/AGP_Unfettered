@@ -8,23 +8,27 @@ public static class CharactersConfig
     public const string GAME_OBJECT_PATH = "Game Object Path";
     public const string SPRITE_PATH = "Sprite Path";
 
+    public const string PLAYER_ID = "player";
+    public const string Sister_ID = "sister";
+
+
     public static Dictionary<string, Dictionary<string, string>> character = new Dictionary<string, Dictionary<string, string>>()
     {
          {
-            "player", new Dictionary<string, string>()
+            PLAYER_ID, new Dictionary<string, string>()
             {
                 {NAME, "Gentian"},
                 {GAME_OBJECT_PATH, "PlayerGroup/Player" },
-                {SPRITE_PATH, "Assets/Resources/Sprites/CharacterHead/Gentian" }
+                {SPRITE_PATH, "Sprites/CharacterHead/Gentian" }
             }
          },
 
           {
-            "sister", new Dictionary<string, string>()
+            Sister_ID, new Dictionary<string, string>()
             {
                 {NAME, "Oenothera"},
                 {GAME_OBJECT_PATH, "NPC/Sister" },
-                {SPRITE_PATH, "Assets/Resources/Sprites/CharacterHead/sister" }
+                {SPRITE_PATH, "Sprites/CharacterHead/sister" }
             }
          },
     };

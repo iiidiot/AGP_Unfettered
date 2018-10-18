@@ -8,23 +8,26 @@ public class BubbleTrigger : MonoBehaviour {
     public string jsonPath;
     private float Y_offset = 200;
 
-
-    private bool isEnabled = true;
     private List<DialogStruct> dialogList = new List<DialogStruct>();    
     private int index;
-    //private bool inDialogProcess;
 
+    private Transform curSpeakingTransform;
+
+    private GameObject bubble;
+
+    private bool nextDialog;
+    private bool canInput;
+    private string curSpeakerId = "";
+
+    public bool canMoveHere = true;
 
     // Use this for initialization
     void Start () {
         index = 0;
-        //inDialogProcess = false;
         dialogList = DialogUtil.ReadDialogContent(jsonPath);
 	}
 
-    bool nextDialog;
-    bool canInput;
-    string curSpeakerId = "";
+
     // Update is called once per frame
     void Update() {
 
@@ -38,7 +41,7 @@ public class BubbleTrigger : MonoBehaviour {
         //}
 
 
-        if (canInput && (Input.GetKey(KeyCode.F5) || Input.GetMouseButtonDown(1)))
+        if (canInput && (Input.GetKey(KeyCode.F5) || Input.GetMouseButtonDown(0)))
         {
             nextDialog = true;
             
@@ -46,6 +49,13 @@ public class BubbleTrigger : MonoBehaviour {
 
         if (nextDialog)
         {
+            string playerPath = CharactersConfig.character[CharactersConfig.PLAYER_ID][CharactersConfig.GAME_OBJECT_PATH];
+            if (!canMoveHere)
+            {
+                
+                GameObject.Find(playerPath).GetComponent<PlayerTestController>().MuteAllPlayerControlInput();
+            }
+
             nextDialog = false;
             if (index == dialogList.Count)
             {
@@ -54,6 +64,11 @@ public class BubbleTrigger : MonoBehaviour {
                 if(bubble)
                 {
                     Destroy(bubble);
+                }
+                if (!canMoveHere)
+                {
+                    Debug.Log("%%%%%%%%%%%%%%%restore");
+                    GameObject.Find(playerPath).GetComponent<PlayerTestController>().RestoreAllPlayerControlInput();
                 }
                 return;
             }
@@ -113,22 +128,20 @@ public class BubbleTrigger : MonoBehaviour {
         canInput = true;
     }
 
-   // private Transform curBubbleTransform;
-    private Transform curSpeakingTransform;
-
-    GameObject bubble;
+  
 
     void OnTriggerEnter(Collider collider)
     {
         if (collider.tag == "Player")
         {
             nextDialog = true;
+            if (!canMoveHere)
+            {
+                string playerPath = CharactersConfig.character[CharactersConfig.PLAYER_ID][CharactersConfig.GAME_OBJECT_PATH];
+                GameObject.Find(playerPath).GetComponent<PlayerTestController>().MuteAllPlayerControlInput();
+            }
         }
     }
-
-    
-
-
 
 
     void OnTriggerExit(Collider collider)

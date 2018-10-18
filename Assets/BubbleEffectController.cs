@@ -14,7 +14,7 @@ public class BubbleEffectController : MonoBehaviour {
 
     // private BubbleTrigger bubbleTrigger;
 
-    string saySomething;
+    //string saySomething;
 
     //public void setBubbleTrigger(BubbleTrigger bubbleTrigger)
     //{
@@ -24,8 +24,8 @@ public class BubbleEffectController : MonoBehaviour {
     // Use this for initialization
     void Start () {
 
-        content = this.transform.Find("content");
-        nameTag = this.transform.Find("name");
+        content = this.transform.Find("bg/content");
+        nameTag = this.transform.Find("bg/name");
         head = this.transform.Find("head");
         bg = this.transform.Find("bg");
 
@@ -51,23 +51,33 @@ public class BubbleEffectController : MonoBehaviour {
         mySequence.Append(show1);
     }
 
+    
+
     public void setSaySomething(string saySomething)
     {
 
-        this.transform.Find("content/text").GetComponent<TextMeshProUGUI>().text = saySomething;
-        
+        this.transform.Find("bg/content/text").GetComponent<TextMeshProUGUI>().text = saySomething;
+        if (saySomething.Length > 100)
+        {
+            this.transform.Find("bg").GetComponent<RectTransform>().DOAnchorMax(new Vector2(0.95f, 0.85f), 1f);
+        }
+        else
+        {
+            this.transform.Find("bg").GetComponent<RectTransform>().DOAnchorMax(new Vector2(0.8f, 0.75f), 1f);
+        }
     }
 
     public void setName(string name)
     {
 
-        this.transform.Find("name/text").GetComponent<TextMeshProUGUI>().text = name;
+        this.transform.Find("bg/name/text").GetComponent<TextMeshProUGUI>().text = name;
 
     }
 
     public void setHead(string path)
     {
         this.transform.Find("head").GetComponent<Image>().sprite = Resources.Load<Sprite>(path);
+        this.transform.Find("head").GetComponent<Image>().SetNativeSize();
     }
 
 
@@ -75,6 +85,7 @@ public class BubbleEffectController : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-		
-	}
+        bg.GetComponent<RectTransform>().offsetMax = Vector2.zero;
+        bg.GetComponent<RectTransform>().offsetMin = Vector2.zero;
+    }
 }

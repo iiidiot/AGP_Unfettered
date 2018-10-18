@@ -1,0 +1,14 @@
+[
+    {
+        "id": "player", 
+        "content": "Sister! You all right?"
+    },
+    {
+        "id": "sister", 
+        "content": "Gentian, Watch out! This monster is powerful! There’s no way you can deal with it! Go ask Seniors for help!"
+    },
+    {
+        "id": "player", 
+        "content": " I won’t leave you in danger! Take a snap and I will take care of it!"
+    }
+]

@@ -7,17 +7,17 @@ public class PlayerTestController : MonoBehaviour
 {
     private static PlayerTestController instance;
 
-	public static PlayerTestController Instance
-	{
-		get
-		{
-			if(instance == null )
-			{
-				instance = GameObject.FindObjectOfType<PlayerTestController>();
-			}
-			return instance;
-		}
-	}
+    public static PlayerTestController Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                instance = GameObject.FindObjectOfType<PlayerTestController>();
+            }
+            return instance;
+        }
+    }
 
     public float speed = 7;//每秒移动速度
     public float jump_height = 1;
@@ -25,7 +25,7 @@ public class PlayerTestController : MonoBehaviour
     public float zero_threshold = 0.003f;
     public bool isOnGround = false;
     public float maxClimbSpeed = 2f;
-    public bool CanMoveStone{get; set;}
+    public bool CanMoveStone { get; set; }
     public Transform[] startPlace;
     public int startPlaceNumber = 0;
 
@@ -37,19 +37,19 @@ public class PlayerTestController : MonoBehaviour
     public List<int> grounds;
     private Animator myAnimator;
 
-    public bool facingRight{get; set;}
-    public bool OnLadder{get; set;}
-    public bool IsPushing{get; set;}
+    public bool facingRight { get; set; }
+    public bool OnLadder { get; set; }
+    public bool IsPushing { get; set; }
 
 
-    void Awake ()
+    void Awake()
     {
-		// set the start place
-		if(startPlace.Length != 0)
-		{
-			transform.parent.position = startPlaceNumber < startPlace.Length ? startPlace[startPlaceNumber].transform.position : startPlace[0].transform.position;
-		}
-	}
+        // set the start place
+        if (startPlace.Length != 0)
+        {
+            transform.parent.position = startPlaceNumber < startPlace.Length ? startPlace[startPlaceNumber].transform.position : startPlace[0].transform.position;
+        }
+    }
     void Start()
     {
         r = GetComponent<Rigidbody>();
@@ -59,13 +59,39 @@ public class PlayerTestController : MonoBehaviour
         myAnimator = GetComponent<Animator>();
     }
 
+    private bool isHandleInput = true;
+    public void MuteAllPlayerControlInput()
+    {
+        isHandleInput = false;
+    }
+    public void RestoreAllPlayerControlInput()
+    {
+        isHandleInput = true;
+    }
+
     void Update()
     {
-        HandleInput();
+
+        if (isHandleInput)
+        {
+            HandleInput();
+        }
+
         StatusController();
-        MoveController();
-        AnimeController();
-        SoundEffectController();
+
+        if (isHandleInput)  // todo: 需要重构：用状态来控制animator/sound等，input控制状态
+        {
+            MoveController(); 
+            AnimeController();
+            SoundEffectController();
+        }
+        else
+        {
+            r.velocity = Vector3.zero;
+            myAnimator.SetFloat("horizontalSpeed", 0);
+        }
+
+        
     }
 
     private void SoundEffectController()
@@ -114,7 +140,7 @@ public class PlayerTestController : MonoBehaviour
             SaveAndLoadUtil.LoadPlayerStatus();
         }
 
-        if (Input.GetKey(KeyCode.F3))
+        if (Input.GetKeyDown(KeyCode.F3))
         {
             GetDamage();
         }

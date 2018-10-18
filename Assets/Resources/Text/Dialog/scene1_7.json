@@ -1,0 +1,18 @@
+[
+    {
+        "id": "sister", 
+        "content": "Gentian, Why you didn’t listen to my words! Told you to ask for help! Argh…My head…"
+    },
+    {
+        "id": "player", 
+        "content": "Sorry Sister, I should have head back for help, my bad."
+    },
+    {
+        "id": "sister", 
+        "content": "Anyway, seems that no way to collect peaceful Soul Herb today. About the dark shadow…We’d better report to the Master about this. Argh…"
+    },
+     {
+        "id": "player", 
+        "content": "No problem, let head back to the Religion."
+    }
+]
