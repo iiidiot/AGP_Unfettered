@@ -160,6 +160,9 @@ public class PlayerTestController : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
+
+       
+
         //如果是斜坡
         if (Mathf.Abs(collision.transform.rotation.eulerAngles.z) > zero_threshold)
         {
@@ -177,6 +180,7 @@ public class PlayerTestController : MonoBehaviour
                 grounds.Add(collision.gameObject.GetInstanceID());
             }
         }
+      
         //如果不是斜坡
         else
         {
@@ -202,12 +206,26 @@ public class PlayerTestController : MonoBehaviour
                     grounds.Add(collision.gameObject.GetInstanceID());
                 }
             }
+
+            
         }
     }
     void OnCollisionExit(Collision collision)
     {
         grounds.Remove(collision.gameObject.GetInstanceID());
     }
+
+    private void OnTriggerEnter(Collider collider)
+    {
+        if (collider.tag == "Lava")
+        {
+            GetDamage();
+       
+        }
+    }
+
+
+   
 
     void StatusController()
     {
