@@ -103,7 +103,7 @@ public class BubbleTrigger : MonoBehaviour {
 
 
                 canInput = false;
-                Invoke("EnableInput", 2f);
+                Invoke("EnableInput", 0.5f);
 
 
                 curSpeakerId = dialog.speakerID;
@@ -112,7 +112,7 @@ public class BubbleTrigger : MonoBehaviour {
             {
                 bubble.GetComponent<BubbleEffectController>().setSaySomething(dialog.content);
                 canInput = false;
-                Invoke("EnableInput", 2f);
+                Invoke("EnableInput", 0.5f);
             }
             index++;
 
