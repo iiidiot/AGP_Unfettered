@@ -74,15 +74,18 @@ public class BubbleTrigger : MonoBehaviour {
                 Debug.Log(bubble);
                 bubble.transform.SetParent(GameObject.Find("Canvas").transform);
                 //curBubbleTransform = bubble.transform;
-                string objectName = "";
-                if (dialog.speakerID == "player")
-                {
-                    objectName = "PlayerGroup/Player";
-
-                }
+                string objectName = CharactersConfig.character[dialog.speakerID][CharactersConfig.GAME_OBJECT_PATH];
+                
                 curSpeakingTransform = GameObject.Find(objectName).transform;
 
                 bubble.GetComponent<BubbleEffectController>().setSaySomething(dialog.content);
+
+                string speakerName = CharactersConfig.character[dialog.speakerID][CharactersConfig.NAME];
+                bubble.GetComponent<BubbleEffectController>().setName(speakerName);
+
+                string spritePath = CharactersConfig.character[dialog.speakerID][CharactersConfig.SPRITE_PATH];
+                bubble.GetComponent<BubbleEffectController>().setHead(spritePath);
+
 
                 canInput = false;
                 Invoke("EnableInput", 2f);
