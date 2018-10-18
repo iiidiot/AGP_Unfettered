@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="1013ee90-5991-4149-b9c5-b0a28122c0ba" name="Default Changelist" comment="" />
+    <list default="true" id="1013ee90-5991-4149-b9c5-b0a28122c0ba" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/css/agency.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/agency.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
+    </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
     <ignored path="$PROJECT_DIR$/tmp/" />
@@ -16,16 +19,17 @@
       <usages-collector id="statistics.lifecycle.project">
         <counts>
           <entry key="project.closed" value="2" />
+          <entry key="project.open.time.13" value="1" />
           <entry key="project.open.time.2" value="1" />
           <entry key="project.open.time.26" value="1" />
           <entry key="project.open.time.3" value="1" />
-          <entry key="project.opened" value="3" />
+          <entry key="project.opened" value="4" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="css" value="211" />
-          <entry key="html" value="1414" />
+          <entry key="css" value="464" />
+          <entry key="html" value="1522" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
@@ -42,8 +46,8 @@
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="CSS" value="211" />
-          <entry key="HTML" value="1414" />
+          <entry key="CSS" value="464" />
+          <entry key="HTML" value="1522" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.js.language.service.starts" />
@@ -52,23 +56,20 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="628">
-              <caret line="197" column="55" selection-start-line="197" selection-start-column="55" selection-end-line="197" selection-end-column="55" />
-              <folding>
-                <element signature="n#section#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" />
-              </folding>
+            <state relative-caret-position="629">
+              <caret line="501" column="99" selection-start-line="501" selection-start-column="99" selection-end-line="501" selection-end-column="99" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/css/agency.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="272">
-              <caret line="46" column="158" selection-start-line="46" selection-start-column="158" selection-end-line="46" selection-end-column="158" />
+            <state relative-caret-position="409">
+              <caret line="611" column="17" selection-start-line="611" selection-start-column="17" selection-end-line="611" selection-end-column="17" />
             </state>
           </provider>
         </entry>
@@ -87,10 +88,15 @@
       <find>sec</find>
       <find>media</find>
       <find>background-color</find>
-      <find>background</find>
       <find>bg</find>
-      <find>contact</find>
       <find>portfolioModal1</find>
+      <find>background</find>
+      <find>color</find>
+      <find>contact</find>
+      <find>portfolio-caption</find>
+      <find>footer</find>
+      <find>team</find>
+      <find>member</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -99,8 +105,8 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/css/agency.css" />
+        <option value="$PROJECT_DIR$/index.html" />
       </list>
     </option>
   </component>
@@ -178,14 +184,16 @@
       <workItem from="1539634116154" duration="664000" />
       <workItem from="1539736928448" duration="724000" />
       <workItem from="1539738351696" duration="12216000" />
+      <workItem from="1539821338377" duration="4702000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="13604000" />
+    <option name="totallyTimeSpent" value="18306000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.17913593" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -213,20 +221,17 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/index.html">
+    <entry file="file://$PROJECT_DIR$/css/agency.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="628">
-          <caret line="197" column="55" selection-start-line="197" selection-start-column="55" selection-end-line="197" selection-end-column="55" />
-          <folding>
-            <element signature="n#section#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" />
-          </folding>
+        <state relative-caret-position="409">
+          <caret line="611" column="17" selection-start-line="611" selection-start-column="17" selection-end-line="611" selection-end-column="17" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/css/agency.css">
+    <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="46" column="158" selection-start-line="46" selection-start-column="158" selection-end-line="46" selection-end-column="158" />
+        <state relative-caret-position="629">
+          <caret line="501" column="99" selection-start-line="501" selection-start-column="99" selection-end-line="501" selection-end-column="99" />
         </state>
       </provider>
     </entry>
