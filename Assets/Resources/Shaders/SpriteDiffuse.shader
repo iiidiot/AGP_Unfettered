@@ -6,7 +6,7 @@
 	}
 
 		SubShader{
-		Tags{ "Queue" = "Transparent" "RenderType" = "Transparent" }
+		Tags{ "Queue" = "Transparent" "IgnoreProjector" = "True" "RenderType" = "Transparent" }
 		Cull Off
 		LOD 200
 
@@ -17,10 +17,7 @@
 			half NdotL = dot(s.Normal, lightDir);
 			half INdotL = dot(-s.Normal, lightDir);
 			// Figure out if we should use the inverse normal or the regular normal based on light direction.
-			half diff = NdotL;
-			if (diff < 0) {
-				diff = -diff;
-			}
+			half diff = (NdotL < 0) ? INdotL : NdotL;
 			half4 c;
 			c.rgb = s.Albedo * _LightColor0.rgb * (diff * atten);
 			c.a = s.Alpha;
@@ -42,4 +39,6 @@
 	}
 	ENDCG
 	}
+
+		Fallback "Transparent/VertexLit"
 }
