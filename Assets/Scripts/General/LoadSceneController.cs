@@ -10,7 +10,7 @@ public class SceneManagerUnfettered
     {
             "Map2_1",
 
-        };
+    };
     public static int nextSceneID = 0;
 }
 
