@@ -1,22 +1,22 @@
 [
     {
         "index": 1, 
-        "id": 1, 
+        "id": "player", 
         "content": "hello"
     },
     {
         "index": 2, 
-        "id": 2, 
+        "id": "player", 
         "content": "hello2"
     },
 	{
         "index": 3, 
-        "id": 1, 
+        "id": "player", 
         "content": "hello3"
     },
     {
         "index": 4, 
-        "id": 2, 
+        "id": "player", 
         "content": "hello4"
     }
 ]
