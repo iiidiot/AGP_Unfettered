@@ -20,91 +20,81 @@ public class PlayerTestController : MonoBehaviour
     }
 
     public float speed = 7;//每秒移动速度
+
     public float jump_height = 1;
+
     public float jump_duration = 1;
+
     public float zero_threshold = 0.003f;
+
     public bool isOnGround = false;
+
     public float maxClimbSpeed = 2f;
+
     public bool CanMoveStone { get; set; }
+
     public Transform[] startPlace;
+
     public int startPlaceNumber = 0;
+
+    private Vector2 directionInput;
+    
+    private bool isHandleInput = true;
 
     [SerializeField]
     private Collider knifeAttack;
-    Rigidbody r;
+
+    private Rigidbody r;
+
     float g_speed;//重力加速度，每秒
+
     float jump_speed;//起跳速度
+
     public List<int> grounds;
+
     private Animator myAnimator;
 
-    public bool facingRight { get; set; }
-    public bool OnLadder { get; set; }
-    public bool IsPushing { get; set; }
+    public bool FacingRight { get; set; }
 
+    public bool OnLadder { get; set; }
+
+    public bool PlayerPush { get; set; }
+
+    public bool PlayerAttack{get; set; }
+    
+    public bool PlayerJump{get; set; }
 
     void Awake()
     {
-        // set the start place
-        if (startPlace.Length != 0)
-        {
-            transform.parent.position = startPlaceNumber < startPlace.Length ? startPlace[startPlaceNumber].transform.position : startPlace[0].transform.position;
-        }
+        SetBirthPlace();
     }
     void Start()
     {
         r = GetComponent<Rigidbody>();
+        myAnimator = GetComponent<Animator>();
+        
         g_speed = -2f * jump_height / (jump_duration * jump_duration * 0.25f);
         jump_speed = -g_speed * jump_duration * 0.5f;
         grounds = new List<int>();
-        myAnimator = GetComponent<Animator>();
-    }
-
-    private bool isHandleInput = true;
-    public void MuteAllPlayerControlInput()
-    {
-        isHandleInput = false;
-    }
-    public void RestoreAllPlayerControlInput()
-    {
-        isHandleInput = true;
     }
 
     void Update()
     {
-
         if (isHandleInput)
-        {
-            HandleInput();
-        }
-
-        StatusController();
-
-        if (isHandleInput)  // todo: 需要重构：用状态来控制animator/sound等，input控制状态
-        {
-            MoveController(); 
-            AnimeController();
-            SoundEffectController();
+        {  
+             HandleInput();
         }
         else
         {
-            r.velocity = Vector3.zero;
-            myAnimator.SetFloat("horizontalSpeed", 0);
+            directionInput = Vector2.zero;
         }
 
-        
+        MoveController();
+        StatusController();
+        SoundEffectController();
+        AnimeController();
     }
 
-    private void SoundEffectController()
-    {
-               //horizontal move===========================================
-        float h_direction = Input.GetAxisRaw("Horizontal");
-        //
-        if( Mathf.Abs(h_direction) > 2 * zero_threshold && isOnGround){
-			SoundController.PlaySound(0);
-		}else{
-			SoundController.StopPlayingSound();
-		}
-    }
 
     void FixedUpdate()
     {
@@ -114,6 +104,13 @@ public class PlayerTestController : MonoBehaviour
     private void HandleInput()
     {
 
+        directionInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxis("Vertical"));
+
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            PlayerJump = true;
+        }
+
 		if(Input.GetKeyDown(KeyCode.F))
         {
 			CanMoveStone = true;
@@ -122,19 +119,14 @@ public class PlayerTestController : MonoBehaviour
         if(Input.GetKeyUp(KeyCode.F))
         {
 			CanMoveStone = false;
-            IsPushing = false;
+            PlayerPush = false;
 		}
-
-		//place hoder for attack
-		if (Input.GetKey(KeyCode.Q)) 
-        {
-			SoundController.PlaySound(1);
-        }
 
         if (Input.GetKey(KeyCode.F1))
         {
             SaveAndLoadUtil.SavePlayerStatus();
         }
+
         if (Input.GetKey(KeyCode.F2))
         {
             SaveAndLoadUtil.LoadPlayerStatus();
@@ -145,13 +137,34 @@ public class PlayerTestController : MonoBehaviour
             GetDamage();
         }
 
-
         if (Input.GetMouseButtonDown(0))
         {
-            myAnimator.SetTrigger("attack");
+            PlayerAttack = true;
+           
+            
         }
     }
 
+    private void SoundEffectController()
+    {
+        if( Mathf.Abs(directionInput.x) > 2 * zero_threshold && isOnGround){
+			SoundController.PlaySound(0);
+		}else{
+			SoundController.StopPlayingSound();
+		}
+
+        if(PlayerJump && isOnGround){
+            SoundController.PlaySound(2);
+        }
+
+        if(OnLadder){
+            // play climbing sound effect;
+        }
+
+        if(PlayerAttack){
+            SoundController.PlaySound(1);
+        }
+    }
     private void GetDamage()
     {
         // play some animation maybe
@@ -160,8 +173,6 @@ public class PlayerTestController : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-
-       
 
         //如果是斜坡
         if (Mathf.Abs(collision.transform.rotation.eulerAngles.z) > zero_threshold)
@@ -224,9 +235,6 @@ public class PlayerTestController : MonoBehaviour
         }
     }
 
-
-   
-
     void StatusController()
     {
         //地面上以及在空中的状态切换
@@ -238,69 +246,56 @@ public class PlayerTestController : MonoBehaviour
         {
             isOnGround = false;
         }
+
+        //reset all layer 
+        for(int layer=0; layer < myAnimator.layerCount; layer++){
+            myAnimator.SetLayerWeight(layer,0);
+        }
+
+        // swtich layer
+        if (!isOnGround) 
+        {
+            myAnimator.SetLayerWeight(1,1);
+        } 
+        else if (OnLadder) 
+        {
+            myAnimator.SetLayerWeight(2,1);
+        } 
     }
 
     void AnimeController()
     {
-        //在空中时======================
-        //如果速度为上升，调用跳，如果速度为下降，调用落
-        if (!isOnGround) {
-            myAnimator.SetLayerWeight(1,1);
-            myAnimator.SetLayerWeight(0,0);
-            myAnimator.SetLayerWeight(2,0);
-
-        } else if (OnLadder) {
-            myAnimator.SetLayerWeight(2,1);
-            myAnimator.SetLayerWeight(1,0);
-            myAnimator.SetLayerWeight(0,0);
-
-        } else {
-            myAnimator.SetLayerWeight(0,0);
-            myAnimator.SetLayerWeight(1,0);
-            myAnimator.SetLayerWeight(2,0);
-        }
-
-        //在地面时
-        //如果有左右速度，跑。如果没有，idle
-        float h_direction = Input.GetAxisRaw("Horizontal");
-        myAnimator.SetFloat("horizontalSpeed", Mathf.Abs(h_direction));
+        //set anime trigger
+        myAnimator.SetFloat("horizontalSpeed", Mathf.Abs(directionInput.x));
         myAnimator.SetFloat("verticalSpeed", r.velocity.y);
         myAnimator.SetFloat("absVerticalSpeed", Mathf.Abs(r.velocity.y));
         myAnimator.SetBool("isOnGround", isOnGround);
-
-        if(IsPushing){
-            myAnimator.SetBool("isPushing", true);
-        }else{
-             myAnimator.SetBool("isPushing", false);
-        }
+        myAnimator.SetBool("attack", PlayerAttack);
+        myAnimator.SetBool("isPushing", PlayerPush);
     }
 
     void MoveController()
     {
-        //horizontal move===========================================
-        float h_direction = Input.GetAxisRaw("Horizontal");
-        float v_direction = Input.GetAxisRaw("Vertical");
-        Flip(h_direction);
-        if (FloatEqualsZero(h_direction))
+        Flip(directionInput.x);
+        if (FloatEqualsZero(directionInput.x))
         {
             r.velocity = new Vector3(0, r.velocity.y, 0);
         }
         else
         {
-            r.velocity = new Vector3(h_direction * speed, r.velocity.y, 0);
+            r.velocity = new Vector3(directionInput.x * speed, r.velocity.y, 0);
         }
 
         //jump========================================================
-        if (Input.GetKeyDown(KeyCode.Space) && isOnGround)
+        if (PlayerJump && isOnGround)
         {
-            SoundController.PlaySound(2);
             r.velocity = new Vector3(r.velocity.x, jump_speed, 0);
         }
 
         if(OnLadder)
         {
             isOnGround = true;
-			r.velocity = new Vector2(h_direction * maxClimbSpeed, v_direction * maxClimbSpeed);
+			r.velocity = new Vector2(directionInput.x * maxClimbSpeed, directionInput.y * maxClimbSpeed);
 		}
     }
 
@@ -326,14 +321,31 @@ public class PlayerTestController : MonoBehaviour
 
     public void Flip(float horizontal)
     {
-        if(horizontal > 0 && !facingRight || horizontal <0 && facingRight)
+        if(horizontal > 0 && !FacingRight || horizontal <0 && FacingRight)
 		{
-			facingRight = !facingRight;
+			FacingRight = !FacingRight;
             transform.Rotate(new Vector3(0.0f, 1.0f, 0.0f), 180);
         }
     }
 
     public void KnifeAttackAppear() {
         knifeAttack.enabled = !knifeAttack.enabled;
+    }
+
+    public void MuteAllPlayerControlInput()
+    {
+        isHandleInput = false;
+    }
+    public void RestoreAllPlayerControlInput()
+    {
+        isHandleInput = true;
+    }
+
+    private void SetBirthPlace () {
+        if (startPlace.Length != 0)
+        {
+            transform.parent.position = startPlaceNumber < startPlace.Length 
+                ? startPlace[startPlaceNumber].transform.position : startPlace[0].transform.position;
+        }
     }
 }

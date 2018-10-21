@@ -47,7 +47,7 @@ public class StoneController : MonoBehaviour {
 		if(other.gameObject.tag == "Player")
 		{
 			canBeMoved = false;
-			PlayerTestController.Instance.IsPushing = false;
+			PlayerTestController.Instance.PlayerPush = false;
 		}
 	}
 
@@ -55,7 +55,7 @@ public class StoneController : MonoBehaviour {
 
 		if(PlayerTestController.Instance.CanMoveStone == true){
 			myRigidbody.mass = movableStoneMass;
-			PlayerTestController.Instance.IsPushing = true;
+			PlayerTestController.Instance.PlayerPush = true;
 		}
 		else
 		{
