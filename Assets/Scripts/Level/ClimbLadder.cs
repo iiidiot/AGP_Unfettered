@@ -32,7 +32,6 @@ public class ClimbLadder : MonoBehaviour {
 	{
 		if(other.tag == "Player")
 		{
-			//other.gameObject.GetComponent<Rigidbody>().useGravity = true; 
 			PlayerTestController.Instance.OnLadder = false;
 		}
 	}

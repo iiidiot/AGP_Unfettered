@@ -116,12 +116,6 @@ public class PlayerTestController : MonoBehaviour
 			CanMoveStone = true;
 		}
 
-        if(Input.GetKeyUp(KeyCode.F))
-        {
-			CanMoveStone = false;
-            PlayerPush = false;
-		}
-
         if (Input.GetKey(KeyCode.F1))
         {
             SaveAndLoadUtil.SavePlayerStatus();
@@ -159,6 +153,7 @@ public class PlayerTestController : MonoBehaviour
 
         if(OnLadder){
             // play climbing sound effect;
+           //
         }
 
         if(PlayerAttack){
@@ -253,7 +248,7 @@ public class PlayerTestController : MonoBehaviour
         }
 
         // swtich layer
-        if (!isOnGround) 
+        if (!isOnGround && !OnLadder) 
         {
             myAnimator.SetLayerWeight(1,1);
         } 
@@ -301,7 +296,7 @@ public class PlayerTestController : MonoBehaviour
 
     void MyGravity()
     {
-        if (!isOnGround)
+        if (!isOnGround && !OnLadder)
         {
             r.velocity = new Vector3(r.velocity.x, r.velocity.y + g_speed * Time.fixedDeltaTime, 0);
         }
