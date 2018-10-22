@@ -56,7 +56,7 @@ public class PlayerTestController : MonoBehaviour
 
     public bool FacingRight { get; set; }
 
-    public bool OnLadder { get; set; }
+    public bool isOnLadder { get; set; }
 
     public bool PlayerPush { get; set; }
 
@@ -151,7 +151,7 @@ public class PlayerTestController : MonoBehaviour
             SoundController.PlaySound(2);
         }
 
-        if(OnLadder){
+        if(isOnLadder){
             // play climbing sound effect;
            //
         }
@@ -248,11 +248,11 @@ public class PlayerTestController : MonoBehaviour
         }
 
         // swtich layer
-        if (!isOnGround && !OnLadder) 
+        if (!isOnGround && !isOnLadder) 
         {
             myAnimator.SetLayerWeight(1,1);
         } 
-        else if (OnLadder) 
+        else if (isOnLadder) 
         {
             myAnimator.SetLayerWeight(2,1);
         } 
@@ -287,7 +287,7 @@ public class PlayerTestController : MonoBehaviour
             r.velocity = new Vector3(r.velocity.x, jump_speed, 0);
         }
 
-        if(OnLadder)
+        if(isOnLadder)
         {
             isOnGround = true;
 			r.velocity = new Vector2(directionInput.x * maxClimbSpeed, directionInput.y * maxClimbSpeed);
@@ -296,7 +296,7 @@ public class PlayerTestController : MonoBehaviour
 
     void MyGravity()
     {
-        if (!isOnGround && !OnLadder)
+        if (!isOnGround && !isOnLadder)
         {
             r.velocity = new Vector3(r.velocity.x, r.velocity.y + g_speed * Time.fixedDeltaTime, 0);
         }
