@@ -74,9 +74,9 @@ Shader "Custom/OutLine"
 
 				half4 frag(v2f IN) :COLOR
 				{
-					return _FillInColor;
-					//half4 c = tex2D(_MainTex,IN.uv);
-					//return c;
+					//return _FillInColor;
+					half4 c = tex2D(_MainTex,IN.uv);
+					return c;
 				}
 				ENDCG
 			}
