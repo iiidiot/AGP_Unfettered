@@ -3,48 +3,46 @@ using System.Collections.Generic;
 using UnityEngine;
 using LitJson;
 
-public class BubbleTrigger : MonoBehaviour {
+public class BubbleTrigger : MonoBehaviour
+{
 
     public string jsonPath;
-    private float Y_offset = 250;
+    public bool canMoveHere = true;
 
-    private List<DialogStruct> dialogList = new List<DialogStruct>();    
+    private List<DialogStruct> dialogList = new List<DialogStruct>();
     private int index;
-
     private Transform curSpeakingTransform;
-
     private GameObject bubble;
-
     private bool nextDialog;
     private bool canInput;
     private string curSpeakerId = "";
 
-    public bool canMoveHere = true;
-
+    
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
         index = 0;
         dialogList = DialogUtil.ReadDialogContent(jsonPath);
-	}
+    }
 
 
     // Update is called once per frame
-    void Update() {
+    void Update()
+    {
 
-        //if (inDialogProcess)
-        //{
-            if (bubble && curSpeakingTransform)
-            {
-                bubble.transform.position = Camera.main.WorldToScreenPoint(curSpeakingTransform.position) + new Vector3(0, Y_offset, 0);
+        if (bubble && curSpeakingTransform)
+        {
+            //float yOffset = curSpeakingTransform.gameObject.GetComponent<Renderer>().bounds.size.y;
 
-            }
-        //}
+            bubble.transform.position = Camera.main.WorldToScreenPoint(curSpeakingTransform.position + new Vector3(0, 0, 0));
+
+        }
 
 
         if (canInput && (Input.GetKey(KeyCode.F5) || Input.GetMouseButtonDown(0)))
         {
             nextDialog = true;
-            
+
         }
 
         if (nextDialog)
@@ -52,7 +50,7 @@ public class BubbleTrigger : MonoBehaviour {
             string playerPath = CharactersConfig.character[CharactersConfig.PLAYER_ID][CharactersConfig.GAME_OBJECT_PATH];
             if (!canMoveHere)
             {
-                
+
                 GameObject.Find(playerPath).GetComponent<PlayerTestController>().MuteAllPlayerControlInput();
             }
 
@@ -61,7 +59,7 @@ public class BubbleTrigger : MonoBehaviour {
             {
                 Debug.Log("dialog ends");
                 canInput = false;
-                if(bubble)
+                if (bubble)
                 {
                     Destroy(bubble);
                 }
@@ -73,7 +71,7 @@ public class BubbleTrigger : MonoBehaviour {
                 return;
             }
 
-            
+
             DialogStruct dialog = dialogList[index];
 
             if (dialog.speakerID != curSpeakerId) // new speaker
@@ -90,7 +88,7 @@ public class BubbleTrigger : MonoBehaviour {
                 bubble.transform.SetParent(GameObject.Find("Canvas").transform);
                 //curBubbleTransform = bubble.transform;
                 string objectName = CharactersConfig.character[dialog.speakerID][CharactersConfig.GAME_OBJECT_PATH];
-                
+
                 curSpeakingTransform = GameObject.Find(objectName).transform;
 
                 bubble.GetComponent<BubbleEffectController>().setSaySomething(dialog.content);
@@ -128,7 +126,7 @@ public class BubbleTrigger : MonoBehaviour {
         canInput = true;
     }
 
-  
+
 
     void OnTriggerEnter(Collider collider)
     {
@@ -148,7 +146,7 @@ public class BubbleTrigger : MonoBehaviour {
     {
         if (collider.tag == "Player")
         {
-            
+
         }
     }
 
