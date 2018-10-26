@@ -47,7 +47,7 @@ public class BubbleTrigger : MonoBehaviour
 
         if (nextDialog)
         {
-            string playerPath = CharactersConfig.character[CharactersConfig.PLAYER_ID][CharactersConfig.GAME_OBJECT_PATH];
+            string playerPath = CharactersConfigManager.GetCharacterGameObjectPath(CharactersConfigManager.k_PlayerID);
             if (!canMoveHere)
             {
 
@@ -87,16 +87,16 @@ public class BubbleTrigger : MonoBehaviour
                 Debug.Log(bubble);
                 bubble.transform.SetParent(GameObject.Find("Canvas").transform);
                 //curBubbleTransform = bubble.transform;
-                string objectName = CharactersConfig.character[dialog.speakerID][CharactersConfig.GAME_OBJECT_PATH];
+                string objectName = CharactersConfigManager.GetCharacterGameObjectPath(dialog.speakerID);
 
                 curSpeakingTransform = GameObject.Find(objectName).transform;
 
                 bubble.GetComponent<BubbleEffectController>().setSaySomething(dialog.content);
 
-                string speakerName = CharactersConfig.character[dialog.speakerID][CharactersConfig.NAME];
+                string speakerName = CharactersConfigManager.GetCharacterName(dialog.speakerID);
                 bubble.GetComponent<BubbleEffectController>().setName(speakerName);
 
-                string spritePath = CharactersConfig.character[dialog.speakerID][CharactersConfig.SPRITE_PATH];
+                string spritePath = CharactersConfigManager.GetCharacterSpritePath(dialog.speakerID);
                 bubble.GetComponent<BubbleEffectController>().setHead(spritePath);
 
 
@@ -135,7 +135,7 @@ public class BubbleTrigger : MonoBehaviour
             nextDialog = true;
             if (!canMoveHere)
             {
-                string playerPath = CharactersConfig.character[CharactersConfig.PLAYER_ID][CharactersConfig.GAME_OBJECT_PATH];
+                string playerPath = CharactersConfigManager.GetCharacterGameObjectPath(CharactersConfigManager.k_PlayerID);
                 GameObject.Find(playerPath).GetComponent<PlayerTestController>().MuteAllPlayerControlInput();
             }
         }

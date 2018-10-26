@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+// todo: move this to ItemUnfettered.cs
+
+// try to avoid global variables like these 2 enums, moved to ItemManager
 public enum ItemType
 {
     NONE,
