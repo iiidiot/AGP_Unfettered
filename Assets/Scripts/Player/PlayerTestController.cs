@@ -37,15 +37,6 @@ public class PlayerTestController : MonoBehaviour
     public int startPlaceNumber = 0;
 
     private Vector2 directionInput;
-    
-     
-    private bool isHandleInput = true;
-
-    private bool isBlockMeleeAttack = false;
-    private bool isBlockFuAttack = false;
-    private bool isBlockMovement = false;
-    private bool isBlockItemUsage = false;
-
     private Dictionary<string, bool> m_blockStatement;
 
     [SerializeField]
