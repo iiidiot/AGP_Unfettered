@@ -10,4 +10,5 @@ public static class PlayerStatus {
     public static double defense = 0;
 
     public static Dictionary<string, string> item = new Dictionary<string, string>();
+    public static string[] blockStatement = {"isBlockMeleeAttack", "isBlockFuAttack", "isBlockMovement", "isBlockItemUsage"};
 }

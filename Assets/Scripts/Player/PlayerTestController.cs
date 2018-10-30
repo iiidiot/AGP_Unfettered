@@ -6,7 +6,6 @@ using UnityEngine;
 public class PlayerTestController : MonoBehaviour
 {
     private static PlayerTestController instance;
-
     public static PlayerTestController Instance
     {
         get
@@ -39,7 +38,15 @@ public class PlayerTestController : MonoBehaviour
 
     private Vector2 directionInput;
     
+     
     private bool isHandleInput = true;
+
+    private bool isBlockMeleeAttack = false;
+    private bool isBlockFuAttack = false;
+    private bool isBlockMovement = false;
+    private bool isBlockItemUsage = false;
+
+    private Dictionary<string, bool> m_blockStatement;
 
     [SerializeField]
     private Collider knifeAttack;
@@ -67,6 +74,7 @@ public class PlayerTestController : MonoBehaviour
     void Awake()
     {
         SetBirthPlace();
+        initBlockStatement();
     }
     void Start()
     {
@@ -80,15 +88,7 @@ public class PlayerTestController : MonoBehaviour
 
     void Update()
     {
-        if (isHandleInput)
-        {  
-             HandleInput();
-        }
-        else
-        {
-            directionInput = Vector2.zero;
-        }
-
+        HandleInput();
         MoveController();
         StatusController();
         SoundEffectController();
@@ -103,18 +103,41 @@ public class PlayerTestController : MonoBehaviour
 
     private void HandleInput()
     {
-
-        directionInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxis("Vertical"));
-
-        if(Input.GetKeyDown(KeyCode.Space))
+        if(!m_blockStatement[PlayerStatus.blockStatement[0]])
         {
-            PlayerJump = true;
+            if(Input.GetMouseButtonDown(0))
+            {
+                PlayerAttack = true;
+            }
         }
 
-		if(Input.GetKeyDown(KeyCode.F))
+        if(!m_blockStatement[PlayerStatus.blockStatement[1]])
         {
-			CanMoveStone = true;
-		}
+
+        }
+
+        if(!m_blockStatement[PlayerStatus.blockStatement[2]])
+        {
+            directionInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxis("Vertical"));
+
+            if(Input.GetKeyDown(KeyCode.Space))
+            {
+                PlayerJump = true;
+            }
+            if(Input.GetKeyDown(KeyCode.F))
+            {
+                CanMoveStone = true;
+            }
+        }
+        else
+        {
+            directionInput = Vector3.zero;
+        }
+
+        if(!m_blockStatement[PlayerStatus.blockStatement[3]])
+        {
+
+        }
 
         if (Input.GetKey(KeyCode.F1))
         {
@@ -129,13 +152,6 @@ public class PlayerTestController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.F3))
         {
             GetDamage();
-        }
-
-        if (Input.GetMouseButtonDown(0))
-        {
-            PlayerAttack = true;
-           
-            
         }
     }
 
@@ -327,13 +343,19 @@ public class PlayerTestController : MonoBehaviour
         knifeAttack.enabled = !knifeAttack.enabled;
     }
 
-    public void MuteAllPlayerControlInput()
+    public void MuteAllPlayerControlInput(string[] blockState)
     {
-        isHandleInput = false;
+        foreach(string state in blockState)
+        {
+            m_blockStatement[state] = true;
+        }
     }
-    public void RestoreAllPlayerControlInput()
+    public void RestoreAllPlayerControlInput(string[] blockState)
     {
-        isHandleInput = true;
+        foreach(string state in blockState)
+        {
+            m_blockStatement[state] = false;
+        }  
     }
 
     private void SetBirthPlace () {
@@ -341,6 +363,13 @@ public class PlayerTestController : MonoBehaviour
         {
             transform.parent.position = startPlaceNumber < startPlace.Length 
                 ? startPlace[startPlaceNumber].transform.position : startPlace[0].transform.position;
+        }
+    }
+
+    private void initBlockStatement(){
+        m_blockStatement = new Dictionary<string, bool>();
+        foreach( string state in PlayerStatus.blockStatement){
+            m_blockStatement.Add(state, false);
         }
     }
 }

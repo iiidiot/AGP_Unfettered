@@ -50,8 +50,8 @@ public class BubbleTrigger : MonoBehaviour
             string playerPath = CharactersConfigManager.GetCharacterGameObjectPath(CharactersConfigManager.k_PlayerID);
             if (!canMoveHere)
             {
-
-                GameObject.Find(playerPath).GetComponent<PlayerTestController>().MuteAllPlayerControlInput();
+                string[] blockstate = PlayerStatus.blockStatement;
+                GameObject.Find(playerPath).GetComponent<PlayerTestController>().MuteAllPlayerControlInput(blockstate);
             }
 
             nextDialog = false;
@@ -66,7 +66,8 @@ public class BubbleTrigger : MonoBehaviour
                 if (!canMoveHere)
                 {
                     Debug.Log("%%%%%%%%%%%%%%%restore");
-                    GameObject.Find(playerPath).GetComponent<PlayerTestController>().RestoreAllPlayerControlInput();
+                    string[] blockstate = PlayerStatus.blockStatement;
+                    GameObject.Find(playerPath).GetComponent<PlayerTestController>().RestoreAllPlayerControlInput(blockstate);
                 }
                 return;
             }
@@ -136,7 +137,8 @@ public class BubbleTrigger : MonoBehaviour
             if (!canMoveHere)
             {
                 string playerPath = CharactersConfigManager.GetCharacterGameObjectPath(CharactersConfigManager.k_PlayerID);
-                GameObject.Find(playerPath).GetComponent<PlayerTestController>().MuteAllPlayerControlInput();
+                string[] blockstate = PlayerStatus.blockStatement;
+                GameObject.Find(playerPath).GetComponent<PlayerTestController>().MuteAllPlayerControlInput(blockstate);
             }
         }
     }
