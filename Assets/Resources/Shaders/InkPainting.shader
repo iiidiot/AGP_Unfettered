@@ -3,6 +3,7 @@
 	Properties
 	{
 		_MainTex("main tex",2D) = ""{}
+		_BrushFeel("brush feel",2D) = ""{}
 	
 		_PlainWhiteColor("Plain Color", Color) = (1,1,1,1)
 		_EdgeThred("Edge Thred", float) = 0.15
@@ -29,6 +30,7 @@
 			fixed4 _PlainWhiteColor;
 			float _EdgeThred;
 			sampler2D _MainTex;
+			sampler2D _BrushFeel;
 			int _Tooniness;
 			half _Brightness;
 			half _Saturation;
@@ -92,6 +94,9 @@
 				float edge = dot(worldNormal, worldCamDir);
 				float edgeOpt = (edge > _EdgeThred) ? 1 : edge* edge;
 				half4 texColor = tex2D(_MainTex, i.uv);
+
+				half4 brushEffect = tex2D(_BrushFeel, i.uv);
+
 				half4 color = SimplifyColor(texColor);
 				half4 color2 = BrightnessSaturationContrast(color);
 
