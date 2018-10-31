@@ -19,7 +19,7 @@ public class SkillReleaser : MonoBehaviour {
 
     public void releaseSkill(string FuName)
     {
-        Transform player = PlayerTestController.Instance.transform;
+        Transform player = PlayerTestController.instance.transform;
         float h_direction = player.rotation.y > 179 ? 1 : -1;
 
         if (FuName == "FireBall")

@@ -5,62 +5,48 @@ using UnityEngine;
 
 public class PlayerTestController : MonoBehaviour
 {
-    private static PlayerTestController instance;
-    public static PlayerTestController Instance
+    private static PlayerTestController m_instance;
+    public static PlayerTestController instance
     {
         get
         {
-            if (instance == null)
+            if (m_instance == null)
             {
-                instance = GameObject.FindObjectOfType<PlayerTestController>();
+                m_instance = GameObject.FindObjectOfType<PlayerTestController>();
             }
-            return instance;
+            return m_instance;
         }
     }
-
     public float speed = 7;//每秒移动速度
-
     public float jump_height = 1;
-
     public float jump_duration = 1;
-
     public float zero_threshold = 0.003f;
-
     public bool isOnGround = false;
-
     public float maxClimbSpeed = 2f;
 
-    public bool CanMoveStone { get; set; }
-
     public Transform[] startPlace;
-
+    // index for birth place location in the up-front places
     public int startPlaceNumber = 0;
 
-    private Vector2 directionInput;
-    private Dictionary<string, bool> m_blockStatement;
+    public bool canMoveStone { get; set; }
+    public bool facingRight { get; set; }
+    public bool isOnLadder { get; set; }
+    public bool playerPush { get; set; }
+    public bool playerAttack{get; set; }
+    public bool playerJump{get; set; }
 
-    [SerializeField]
-    private Collider knifeAttack;
-
-    private Rigidbody r;
-
-    float g_speed;//重力加速度，每秒
-
-    float jump_speed;//起跳速度
-
+    // Obj collided with the player 
     public List<int> grounds;
 
-    private Animator myAnimator;
-
-    public bool FacingRight { get; set; }
-
-    public bool isOnLadder { get; set; }
-
-    public bool PlayerPush { get; set; }
-
-    public bool PlayerAttack{get; set; }
-    
-    public bool PlayerJump{get; set; }
+    [Tooltip("The player melee attack area")]
+    public Collider knifeAttack;
+    // player direction input
+    private Vector2 m_directionInput;
+    private Dictionary<string, bool> m_blockStatement;
+    private Rigidbody m_rigidbody;
+    private Animator m_animator;
+    private float m_gravity;//重力加速度，每秒
+    private float m_jumpSpeed;//起跳速度
 
     void Awake()
     {
@@ -69,11 +55,11 @@ public class PlayerTestController : MonoBehaviour
     }
     void Start()
     {
-        r = GetComponent<Rigidbody>();
-        myAnimator = GetComponent<Animator>();
+        m_rigidbody = GetComponent<Rigidbody>();
+        m_animator = GetComponent<Animator>();
         
-        g_speed = -2f * jump_height / (jump_duration * jump_duration * 0.25f);
-        jump_speed = -g_speed * jump_duration * 0.5f;
+        m_gravity = -2f * jump_height / (jump_duration * jump_duration * 0.25f);
+        m_jumpSpeed = -m_gravity * jump_duration * 0.5f;
         grounds = new List<int>();
     }
 
@@ -92,13 +78,16 @@ public class PlayerTestController : MonoBehaviour
         MyGravity();//模拟重力
     }
 
+    //
+    // Summary:
+    //     listen the input from keyboard and mouse
     private void HandleInput()
     {
         if(!m_blockStatement[PlayerStatus.blockStatement[0]])
         {
             if(Input.GetMouseButtonDown(0))
             {
-                PlayerAttack = true;
+                playerAttack = true;
             }
         }
 
@@ -109,20 +98,20 @@ public class PlayerTestController : MonoBehaviour
 
         if(!m_blockStatement[PlayerStatus.blockStatement[2]])
         {
-            directionInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxis("Vertical"));
+            m_directionInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxis("Vertical"));
 
             if(Input.GetKeyDown(KeyCode.Space))
             {
-                PlayerJump = true;
+                playerJump = true;
             }
             if(Input.GetKeyDown(KeyCode.F))
             {
-                CanMoveStone = true;
+                canMoveStone = true;
             }
         }
         else
         {
-            directionInput = Vector3.zero;
+            m_directionInput = Vector3.zero;
         }
 
         if(!m_blockStatement[PlayerStatus.blockStatement[3]])
@@ -146,15 +135,19 @@ public class PlayerTestController : MonoBehaviour
         }
     }
 
+    //
+    // Summary:
+    //     tigger the different sound effects according to behavior state
+    //
     private void SoundEffectController()
     {
-        if( Mathf.Abs(directionInput.x) > 2 * zero_threshold && isOnGround){
+        if( Mathf.Abs(m_directionInput.x) > 2 * zero_threshold && isOnGround){
 			SoundController.PlaySound(0);
 		}else{
 			SoundController.StopPlayingSound();
 		}
 
-        if(PlayerJump && isOnGround){
+        if(playerJump && isOnGround){
             SoundController.PlaySound(2);
         }
 
@@ -163,7 +156,7 @@ public class PlayerTestController : MonoBehaviour
            //
         }
 
-        if(PlayerAttack){
+        if(playerAttack){
             SoundController.PlaySound(1);
         }
     }
@@ -223,6 +216,7 @@ public class PlayerTestController : MonoBehaviour
             
         }
     }
+
     void OnCollisionExit(Collision collision)
     {
         grounds.Remove(collision.gameObject.GetInstanceID());
@@ -237,6 +231,9 @@ public class PlayerTestController : MonoBehaviour
         }
     }
 
+    //
+    // Summary:
+    //     control the player animation by switch the layers
     void StatusController()
     {
         //地面上以及在空中的状态切换
@@ -250,67 +247,81 @@ public class PlayerTestController : MonoBehaviour
         }
 
         //reset all layer 
-        for(int layer=0; layer < myAnimator.layerCount; layer++){
-            myAnimator.SetLayerWeight(layer,0);
+        for(int layer=0; layer < m_animator.layerCount; layer++){
+            m_animator.SetLayerWeight(layer,0);
         }
 
         // swtich layer
         if (!isOnGround && !isOnLadder) 
         {
-            myAnimator.SetLayerWeight(1,1);
+            m_animator.SetLayerWeight(1,1);
         } 
         else if (isOnLadder) 
         {
-            myAnimator.SetLayerWeight(2,1);
+            m_animator.SetLayerWeight(2,1);
         } 
     }
 
+    //
+    // Summary:
+    //     control the player animation by setting animation parameters
     void AnimeController()
     {
         //set anime trigger
-        myAnimator.SetFloat("horizontalSpeed", Mathf.Abs(directionInput.x));
-        myAnimator.SetFloat("verticalSpeed", r.velocity.y);
-        myAnimator.SetFloat("absVerticalSpeed", Mathf.Abs(r.velocity.y));
-        myAnimator.SetBool("isOnGround", isOnGround);
-        myAnimator.SetBool("attack", PlayerAttack);
-        myAnimator.SetBool("isPushing", PlayerPush);
+        m_animator.SetFloat("horizontalSpeed", Mathf.Abs(m_directionInput.x));
+        m_animator.SetFloat("verticalSpeed", m_rigidbody.velocity.y);
+        m_animator.SetFloat("absVerticalSpeed", Mathf.Abs(m_rigidbody.velocity.y));
+        m_animator.SetBool("isOnGround", isOnGround);
+        m_animator.SetBool("attack", playerAttack);
+        m_animator.SetBool("isPushing", playerPush);
     }
 
+    //
+    // Summary:
+    //     control the horizontal, vertical and climb behavior of the player
     void MoveController()
     {
-        Flip(directionInput.x);
-        if (FloatEqualsZero(directionInput.x))
+        Flip(m_directionInput.x);
+        if (FloatEqualsZero(m_directionInput.x))
         {
-            r.velocity = new Vector3(0, r.velocity.y, 0);
+            m_rigidbody.velocity = new Vector3(0, m_rigidbody.velocity.y, 0);
         }
         else
         {
-            r.velocity = new Vector3(directionInput.x * speed, r.velocity.y, 0);
+            m_rigidbody.velocity = new Vector3(m_directionInput.x * speed, m_rigidbody.velocity.y, 0);
         }
 
         //jump========================================================
-        if (PlayerJump && isOnGround)
+        if (playerJump && isOnGround)
         {
-            r.velocity = new Vector3(r.velocity.x, jump_speed, 0);
+            m_rigidbody.velocity = new Vector3(m_rigidbody.velocity.x, m_jumpSpeed, 0);
         }
 
         if(isOnLadder)
         {
             isOnGround = true;
-			r.velocity = new Vector2(directionInput.x * maxClimbSpeed, directionInput.y * maxClimbSpeed);
+			m_rigidbody.velocity = new Vector2(m_directionInput.x * maxClimbSpeed, m_directionInput.y * maxClimbSpeed);
 		}
     }
 
+    //
+    // Summary:
+    //     update vertical speed (gravity) according to different condition.
     void MyGravity()
     {
         if (!isOnGround && !isOnLadder)
         {
-            r.velocity = new Vector3(r.velocity.x, r.velocity.y + g_speed * Time.fixedDeltaTime, 0);
+            m_rigidbody.velocity = new Vector3(m_rigidbody.velocity.x, m_rigidbody.velocity.y + m_gravity * Time.fixedDeltaTime, 0);
         }
     }
 
-
-
+    //
+    // Summary:
+    //     check if data has changed beyond the threshold
+    //
+    // Parameters:
+    //   f:
+    //     the data needs to check
     bool FloatEqualsZero(float f)
     {
         if (Mathf.Abs(f) < zero_threshold)
@@ -320,20 +331,37 @@ public class PlayerTestController : MonoBehaviour
         return false;
     }
 
-
+    //
+    // Summary:
+    //     Change the player direction
+    //
+    // Parameters:
+    //   horizontal:
+    //     the horizontal input; 
+    //        positive: face right; negative: face left;
     public void Flip(float horizontal)
     {
-        if(horizontal > 0 && !FacingRight || horizontal <0 && FacingRight)
+        if(horizontal > 0 && !facingRight || horizontal <0 && facingRight)
 		{
-			FacingRight = !FacingRight;
+			facingRight = !facingRight;
             transform.Rotate(new Vector3(0.0f, 1.0f, 0.0f), 180);
         }
     }
 
+    //
+    // Summary:
+    //     Switch the enabled state of melee attack area
     public void KnifeAttackAppear() {
         knifeAttack.enabled = !knifeAttack.enabled;
     }
 
+    //
+    // Summary:
+    //     Set block statement to true to unblock player behavior
+    //
+    // Parameters:
+    //   blockState:
+    //     a list of block statement name which need to block
     public void MuteAllPlayerControlInput(string[] blockState)
     {
         foreach(string state in blockState)
@@ -341,6 +369,13 @@ public class PlayerTestController : MonoBehaviour
             m_blockStatement[state] = true;
         }
     }
+    //
+    // Summary:
+    //     set block statement to false to unblock player behavior
+    //
+    // Parameters:
+    //   blockState:
+    //     a list of block statement name which need to unblock
     public void RestoreAllPlayerControlInput(string[] blockState)
     {
         foreach(string state in blockState)
@@ -349,6 +384,9 @@ public class PlayerTestController : MonoBehaviour
         }  
     }
 
+    //
+    // Summary:
+    //     set player birthPlace according to the startPlaceNumber setting in the inspector 
     private void SetBirthPlace () {
         if (startPlace.Length != 0)
         {
@@ -357,6 +395,9 @@ public class PlayerTestController : MonoBehaviour
         }
     }
 
+    //
+    // Summary:
+    //     set all the block parameter to false to init the blockstatement
     private void initBlockStatement(){
         m_blockStatement = new Dictionary<string, bool>();
         foreach( string state in PlayerStatus.blockStatement){

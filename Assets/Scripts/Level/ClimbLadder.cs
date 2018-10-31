@@ -20,7 +20,7 @@ public class ClimbLadder : MonoBehaviour {
 		{
 			other.GetComponent<Rigidbody>().useGravity = false;
 			other.GetComponent<Rigidbody>().velocity = new Vector2(0,0);
-			PlayerTestController.Instance.isOnLadder = true;
+			PlayerTestController.instance.isOnLadder = true;
 			// PlayerTestController.Instance.facingRight = false;
 			// PlayerTestController.Instance.Flip(1);
 
@@ -32,7 +32,7 @@ public class ClimbLadder : MonoBehaviour {
 	{
 		if(other.tag == "Player")
 		{
-			PlayerTestController.Instance.isOnLadder = false;
+			PlayerTestController.instance.isOnLadder = false;
 		}
 	}
 }

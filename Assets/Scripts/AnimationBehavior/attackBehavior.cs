@@ -18,7 +18,7 @@ public class attackBehavior : StateMachineBehaviour {
 	// OnStateExit is called when a transition ends and the state machine finishes evaluating this state
 	override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
 		animator.SetBool("isAttacking", false);
-		PlayerTestController.Instance.PlayerAttack = false;
+		PlayerTestController.instance.playerAttack = false;
 		
 	}
 
