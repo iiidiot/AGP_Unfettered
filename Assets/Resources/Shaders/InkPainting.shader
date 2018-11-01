@@ -102,7 +102,7 @@
 
 				
 
-				return color2 * edgeOpt;
+				return color * edgeOpt;
 				//return i.color;
 			}
 	ENDCG
