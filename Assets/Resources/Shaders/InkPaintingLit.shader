@@ -37,7 +37,7 @@
 		{
 			
 			Tags { "RenderType" = "Opaque" }
-			Cull Back
+			//Cull Back
 			CGPROGRAM
 
 			#pragma surface surf Toon finalcolor:mycolor
@@ -154,22 +154,22 @@
 					ramp = interval * smoothstep(level - _RampSmooth * interval * 0.5, level + _RampSmooth * interval * 0.5, diff) + level - interval;
 				}
 				ramp = max(0, ramp);
-				ramp *= atten;
+				//ramp *= atten;
 
 				_SColor = lerp(_HColor, _SColor, _SColor.a);
 				float3 rampColor = lerp(_SColor.rgb, _HColor.rgb, ramp);
 
 				// specular
 				float spec = pow(ndh, s.Specular * 128.0) * s.Gloss;
-				spec *= atten;
+				//spec *= atten;
 				spec = smoothstep(0.5 - _SpecSmooth * 0.5, 0.5 + _SpecSmooth * 0.5, spec);
 
 				// rim
 				float rim = (1.0 - ndv) * ndl;
-				rim *= atten;
+				//rim *= atten;
 				rim = smoothstep(_RimThreshold - _RimSmooth * 0.5, _RimThreshold + _RimSmooth * 0.5, rim);
 
-				fixed3 lightColor = _LightColor0.rgb;
+				fixed3 lightColor = _LightColor0.rgb * atten;
 
 				fixed4 color;
 				fixed3 diffuse = s.Albedo * lightColor * rampColor;
