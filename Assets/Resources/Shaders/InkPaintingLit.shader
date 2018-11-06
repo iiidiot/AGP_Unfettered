@@ -186,6 +186,7 @@
 			{
 				fixed4 mainTex = tex2D(_MainTex, IN.uv_MainTex);
 				o.Albedo = mainTex.rgb;
+				o.Emission = 0;
 
 				/*o.Albedo = mainTex.rgb * _Color.rgb;
 

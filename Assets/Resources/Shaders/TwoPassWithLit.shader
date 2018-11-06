@@ -17,10 +17,12 @@ Shader "Unfettered/TwoPassWithLit" {
 			_RimColor("Rim Color", Color) = (0.8, 0.8, 0.8, 0.6)
 			_RimThreshold("Rim Threshold", Range(0, 1)) = 0.5
 			_RimSmooth("Rim Smooth", Range(0, 1)) = 0.1
+
+			_HDR("hdr factor", Range(0.01, 10)) = 0.1
 			 
 	}
 		SubShader{
-			Tags { "RenderType" = "Opaque" }
+			Tags { "RenderType" = "Transparant" }
 			LOD 200
 
 			// outline pass
@@ -119,6 +121,7 @@ Shader "Unfettered/TwoPassWithLit" {
 				fixed4 _RimColor;
 				fixed _RimThreshold;
 				float _RimSmooth;
+				float _HDR;
 
 				struct a2v
 				{
@@ -206,7 +209,8 @@ Shader "Unfettered/TwoPassWithLit" {
 
 					//c.a = inkA;
 
-					c.rgb *= edgeOpt;
+					c.rgb *= edgeOpt*_HDR;
+					c.a = 0.5;
 					return c;
 
 				}
@@ -242,7 +246,7 @@ Shader "Unfettered/TwoPassWithLit" {
 
 				float _EdgeThred;
 				float _Tooniness;
-				
+				float _HDR;
 
 				struct a2v
 				{
@@ -326,7 +330,8 @@ Shader "Unfettered/TwoPassWithLit" {
 
 					c.a = inkA;*/
 
-					c.rgb *= edgeOpt;
+					c.rgb *= edgeOpt*_HDR;
+					c.a = 0.5;
 					return c;
 				}
 

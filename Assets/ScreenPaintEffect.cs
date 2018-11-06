@@ -100,9 +100,9 @@ public class ScreenPaintEffect : MonoBehaviour
         {
 
 
-            tempRT = RenderTexture.GetTemporary(sourceTexture.width, sourceTexture.height, 0);
-            tempRT2 = RenderTexture.GetTemporary(sourceTexture.width, sourceTexture.height, 0);
-            additionalCamera.targetTexture = tempRT;
+           // tempRT = RenderTexture.GetTemporary(sourceTexture.width, sourceTexture.height, 0);
+            //tempRT2 = RenderTexture.GetTemporary(sourceTexture.width, sourceTexture.height, 0);
+            //additionalCamera.targetTexture = tempRT;
 
            
 
@@ -112,17 +112,17 @@ public class ScreenPaintEffect : MonoBehaviour
             material.SetInt("_Radius", RadiusValue);
             material.SetVector("_ScreenResolution", new Vector4(sourceTexture.width, sourceTexture.height, 0.0f, 0.0f));
             
-            additionalCamera.Render();
+            //additionalCamera.Render();
 
            
 
-            Graphics.Blit(tempRT, tempRT2, material);
+            //Graphics.Blit(tempRT, tempRT2, material);
 
             material2.SetTexture("_SceneTex", sourceTexture);
-            ////拷贝源纹理到目标渲染纹理，加上我们的材质效果
-            Graphics.Blit(tempRT2, destTexture, material2);
+            
+            Graphics.Blit(sourceTexture, destTexture, material);
 
-            tempRT.Release();
+            //tempRT.Release();
         }
 
         //着色器实例为空，直接拷贝屏幕上的效果。此情况下是没有实现屏幕特效的
