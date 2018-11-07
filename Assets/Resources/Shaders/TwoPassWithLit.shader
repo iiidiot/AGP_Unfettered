@@ -9,16 +9,26 @@ Shader "Unfettered/TwoPassWithLit" {
 		_Ramp("Ramp Texture", 2D) = "white" {}
 		//_Ink("Ink Texture", 2D) = "white" {}
 		_Tooniness("Tooniness", Range(0.1,20)) = 4
-		_OutlineThickness("Detail Outline Thickness", Range(0.01,0.1)) = 0.023
+
+
+		_OutlineThickness("Detail Outline Thickness", Range(0,1)) = 0.023
 		_EdgeThred("Rough Outline Thickness", Range(0,1)) = 0.3
 		_OutLineColor("outline color",Color) = (0,0,0,1)//描边颜色
-			
+
 			// rim light
 			_RimColor("Rim Color", Color) = (0.8, 0.8, 0.8, 0.6)
 			_RimThreshold("Rim Threshold", Range(0, 1)) = 0.5
 			_RimSmooth("Rim Smooth", Range(0, 1)) = 0.1
 
 			_HDR("hdr factor", Range(0.01, 10)) = 0.1
+
+			[Toggle(IS_CUSTOMIZE_BACK_COLOR)]
+			_IsCustomizeBackColor("Customize Back Color", Float) = 0 
+			_BackColor("Back color",Color) = (0,0,0,1)
+			
+			[Toggle(IS_CUSTOMIZE_FRONT_COLOR)]
+			_IsCustomizeFrontColor("Customize Front Color", Float) = 0
+			_ForwardColor("Forward color",Color) = (0,0,0,1)
 			 
 	}
 		SubShader{
@@ -28,6 +38,12 @@ Shader "Unfettered/TwoPassWithLit" {
 			// outline pass
 			Pass {
 				Tags { "LightMode" = "ForwardBase" }
+				Blend SrcAlpha OneMinusSrcAlpha // 传统透明度
+//Blend One OneMinusSrcAlpha // 预乘透明度
+//Blend One One // 叠加
+//Blend OneMinusDstColor One // 柔和叠加
+//Blend DstColor Zero // 相乘——正片叠底
+//Blend DstColor SrcColor // 两倍相乘
 
 				Cull Front
 				Lighting Off
@@ -41,6 +57,8 @@ Shader "Unfettered/TwoPassWithLit" {
 				#pragma multi_compile_fwdbase
 
 				#include "UnityCG.cginc"
+
+				float _EdgeThred;
 
 				float _OutlineThickness;
 				half4 _OutLineColor;
@@ -56,6 +74,7 @@ Shader "Unfettered/TwoPassWithLit" {
 				{
 					float4 pos : POSITION;
 					float3 color : TEXCOORD1;
+					float3 normal : TEXCOORD2;
 				};
 
 				v2f vert(a2v v)
@@ -75,8 +94,10 @@ Shader "Unfettered/TwoPassWithLit" {
 
 					half4 scaledNormal = _OutlineThickness  * thicknessFactor  * projSpaceNormal; // * projSpacePos.w;
 
-					scaledNormal.z += 0.000001;
+					//scaledNormal.z += 0.000001;
 					o.pos = projSpacePos + scaledNormal;
+					
+					o.normal = mul((float3x3)unity_ObjectToWorld, SCALED_NORMAL); // world normal
 
 					return o;
 				
@@ -84,7 +105,16 @@ Shader "Unfettered/TwoPassWithLit" {
 
 				float4 frag(v2f i) : COLOR
 				{
-					return _OutLineColor;
+
+					fixed3 worldNormal = normalize(i.normal);
+					float3 forward = normalize(mul((float3x3)unity_CameraToWorld, float3(0, 0, 1)));
+					//fixed3 worldCamDir = normalize(_WorldSpaceCameraPos.xyz - i.worldPos.xyz);
+					float edge = abs(dot(worldNormal, forward));
+					//float edgeOpt = (edge > _EdgeThred) ? 1 : edge;
+
+					float4 c = _OutLineColor;
+					c.a = 3*edge ;
+					return c;
 				}
 
 				ENDCG
@@ -92,8 +122,9 @@ Shader "Unfettered/TwoPassWithLit" {
 
 			Pass {
 				Tags { "LightMode" = "ForwardBase" }
+				//Blend SrcAlpha OneMinusSrcAlpha // 传统透明度
 
-				Cull Back
+				Cull Off
 				Lighting On
 
 				CGPROGRAM
@@ -102,6 +133,9 @@ Shader "Unfettered/TwoPassWithLit" {
 				#pragma fragment frag
 
 				#pragma multi_compile_fwdbase
+
+				#pragma shader_feature IS_CUSTOMIZE_BACK_COLOR
+				#pragma shader_feature IS_CUSTOMIZE_FRONT_COLOR
 
 				#include "UnityCG.cginc"
 				#include "Lighting.cginc"
@@ -123,6 +157,10 @@ Shader "Unfettered/TwoPassWithLit" {
 				float _RimSmooth;
 				float _HDR;
 
+				
+				fixed4 _BackColor;
+				fixed4 _ForwardColor;
+
 				struct a2v
 				{
 					float4 vertex : POSITION;
@@ -136,6 +174,7 @@ Shader "Unfettered/TwoPassWithLit" {
 					float4 pos : POSITION;
 					float2 uv : TEXCOORD0;
 					float3 normal : TEXCOORD1;
+					float3 localNormal:TEXCOORD4;
 					float4 worldPos:TEXCOORD2;
 					LIGHTING_COORDS(2,3)
 				};
@@ -147,6 +186,8 @@ Shader "Unfettered/TwoPassWithLit" {
 					//Transform the vertex to projection space
 					o.pos = UnityObjectToClipPos(v.vertex);
 					o.normal = mul((float3x3)unity_ObjectToWorld, SCALED_NORMAL); // world normal
+					o.localNormal = normalize(v.normal);
+
 					//Get the UV coordinates
 					o.uv = TRANSFORM_TEX(v.texcoord, _MainTex);
 
@@ -159,10 +200,20 @@ Shader "Unfettered/TwoPassWithLit" {
 
 				float4 frag(v2f i) : COLOR
 				{
-					//Get the color of the pixel from the texture
 					float4 c = tex2D(_MainTex, i.uv);
-					//Merge the colours
-					c.rgb = (floor(c.rgb*_Tooniness) / _Tooniness);
+				fixed3 tempWorldNormal = normalize(i.normal);
+				float3 tempForward = normalize(mul((float3x3)unity_CameraToWorld, float3(0, 0, 1)));
+				float frontBackToogle = dot(tempWorldNormal, tempForward);
+# ifdef IS_CUSTOMIZE_BACK_COLOR  
+				if (frontBackToogle < 0)
+					c = _BackColor;
+#endif
+# ifdef IS_CUSTOMIZE_FRONT_COLOR  
+				if (frontBackToogle > 0)
+					c = _ForwardColor;
+#endif
+												   //Merge the colours
+					//c.rgb = (floor(c.rgb*_Tooniness) / _Tooniness);
 
 					//Based on the ambient light
 					float3 lightColor = UNITY_LIGHTMODEL_AMBIENT.xyz;
@@ -210,7 +261,15 @@ Shader "Unfettered/TwoPassWithLit" {
 					//c.a = inkA;
 
 					c.rgb *= edgeOpt*_HDR;
-					c.a = 0.5;
+					
+					
+					//c.a = 0.5;
+
+
+					// alpha adjustment
+					c.a = 3 * edge * edge;
+					
+
 					return c;
 
 				}
@@ -220,8 +279,9 @@ Shader "Unfettered/TwoPassWithLit" {
 
 			Pass {
 				Tags { "LightMode" = "ForwardAdd" }
+				//Blend SrcAlpha OneMinusSrcAlpha // 传统透明度
 
-				Cull Back
+				Cull Off
 				Lighting On
 				Blend One One
 
@@ -231,6 +291,8 @@ Shader "Unfettered/TwoPassWithLit" {
 				#pragma fragment frag
 
 				#pragma multi_compile_fwdadd
+				#pragma shader_feature IS_CUSTOMIZE_BACK_COLOR
+				#pragma shader_feature IS_CUSTOMIZE_FRONT_COLOR
 
 				#include "UnityCG.cginc"
 				#include "Lighting.cginc"
@@ -248,6 +310,10 @@ Shader "Unfettered/TwoPassWithLit" {
 				float _Tooniness;
 				float _HDR;
 
+				
+				fixed4 _BackColor;
+				fixed4 _ForwardColor;
+
 				struct a2v
 				{
 					float4 vertex : POSITION;
@@ -264,6 +330,7 @@ Shader "Unfettered/TwoPassWithLit" {
 					half3 lightDir : TEXCOORD2;
 					LIGHTING_COORDS(3, 4)
 					float4 worldPos:TEXCOORD5;
+					float3 localNormal:TEXCOORD6;
 				};
 
 				v2f vert(a2v v)
@@ -273,6 +340,8 @@ Shader "Unfettered/TwoPassWithLit" {
 					//Transform the vertex to projection space
 					o.pos = UnityObjectToClipPos(v.vertex);
 					o.normal = mul((float3x3)unity_ObjectToWorld, SCALED_NORMAL);
+					o.localNormal = normalize(v.normal);
+
 					o.lightDir = WorldSpaceLightDir(v.vertex);
 					//Get the UV coordinates
 					o.uv = TRANSFORM_TEX(v.texcoord, _MainTex);
@@ -286,10 +355,21 @@ Shader "Unfettered/TwoPassWithLit" {
 
 				float4 frag(v2f i) : COLOR
 				{
-					//Get the color of the pixel from the texture
-					float4 c = tex2D(_MainTex, i.uv);
+	float4 c = tex2D(_MainTex, i.uv);
+				fixed3 tempWorldNormal = normalize(i.normal);
+				float3 tempForward = normalize(mul((float3x3)unity_CameraToWorld, float3(0, 0, 1)));
+				float frontBackToogle = dot(tempWorldNormal, tempForward);
+# ifdef IS_CUSTOMIZE_BACK_COLOR  
+				if (frontBackToogle < 0)
+					c = _BackColor;
+#endif
+# ifdef IS_CUSTOMIZE_FRONT_COLOR  
+				if (frontBackToogle > 0)
+					c = _ForwardColor;
+#endif
+					
 					//Merge the colours
-					c.rgb = (floor(c.rgb*_Tooniness) / _Tooniness);
+					//c.rgb = (floor(c.rgb*_Tooniness) / _Tooniness);
 
 					//Based on the ambient light
 					float3 lightColor = float3(0,0,0);
@@ -331,7 +411,11 @@ Shader "Unfettered/TwoPassWithLit" {
 					c.a = inkA;*/
 
 					c.rgb *= edgeOpt*_HDR;
-					c.a = 0.5;
+					
+
+					// alpha adjustment
+					c.a = 3 * edge * edge;
+
 					return c;
 				}
 

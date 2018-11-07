@@ -17,6 +17,7 @@ ModelImporter:
     400010: polySurface5
     2100000: lambert3
     2100002: QNVPU_low_pe_lambert3SG1
+    2100004: Default_Material
     2300000: polySurface34
     2300002: polySurface36
     2300004: polySurface38
@@ -85,7 +86,7 @@ ModelImporter:
     secondaryUVHardAngle: 88
     secondaryUVPackMargin: 4
     useFileScale: 1
-    previousCalculatedGlobalScale: 0.0254
+    previousCalculatedGlobalScale: 0.01
     hasPreviousCalculatedGlobalScale: 1
   tangentSpace:
     normalSmoothAngle: 60
