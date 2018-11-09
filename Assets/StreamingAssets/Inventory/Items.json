@@ -1,0 +1,32 @@
+﻿[
+	{
+		"id": 0,
+		"title": "steel sword",
+		"value": 6,
+		"stats": {
+			"power": 1,
+			"defence": 4,
+			"vitality": 2
+		},
+		"description": "is steal, good quaility",
+		"stackable": true,
+		"rarity": 2,
+		"slug": "ItemSwrord",
+		"type": 0
+	},
+	{
+		"id": 1,
+		"title": "steel shield",
+		"value": 523,
+		"stats": {
+			"power": 2,
+			"defence": 5,
+			"vitality": 3
+		},
+		"description": "is steal, good quaility shield",
+		"stackable": false,
+		"rarity": 1,
+		"slug": "ItemShield",
+		"type": 1
+	}
+]
