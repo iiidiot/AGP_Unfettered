@@ -11,4 +11,12 @@ public static class PlayerStatus {
 
     public static Dictionary<string, string> item = new Dictionary<string, string>();
     public static string[] blockStatement = {"isBlockMeleeAttack", "isBlockFuAttack", "isBlockMovement", "isBlockItemUsage"};
+
+    public static Dictionary<string, float> characterProperty = new Dictionary<string, float>()
+    {
+        ["max_health"] = 0,
+        ["health"] = 0,
+        ["attack"] = 0,
+        ["defense"] = 0,
+    };
 }

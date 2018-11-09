@@ -22,7 +22,7 @@ public class ItemDatabase : MonoBehaviour {
 		{
 			database.Add(new ItemObject((int)itemData[i]["id"], itemData[i]["title"].ToString(), (int)itemData[i]["value"],
 				(int)itemData[i]["stats"]["power"], (int)itemData[i]["stats"]["defence"], (int)itemData[i]["stats"]["vitality"],
-				itemData[i]["description"].ToString(), (bool)itemData[i]["stackable"], (int)itemData[i]["rarity"], itemData[i]["slug"].ToString()));
+				itemData[i]["description"].ToString(), (bool)itemData[i]["stackable"], (int)itemData[i]["rarity"], itemData[i]["slug"].ToString(),(int)itemData[i]["type"]));
 		}
 	}
 
@@ -47,9 +47,10 @@ public class ItemObject
 	public bool Stackable { get; set;}
 	public int Rarity { get; set;}
 	public string Slug { get; set;}
+	public int Type { get; set;}
 	public Sprite Sprite { get; set;}
 
-	public ItemObject( int id, string title, int value, int power, int defence, int vitality, string description, bool stackable, int rarity, string slug)
+	public ItemObject( int id, string title, int value, int power, int defence, int vitality, string description, bool stackable, int rarity, string slug, int type)
 	{
 		this.ID = id;
 		this.Title = title;
@@ -61,6 +62,7 @@ public class ItemObject
 		this.Stackable = stackable;
 		this.Rarity = rarity;
 		this.Slug = slug;
+		this.Type = type;
 		this.Sprite = Resources.Load<Sprite>("Sprites/Inventory/Items/" + slug);
 	}
 
