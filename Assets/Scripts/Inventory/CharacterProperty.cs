@@ -9,8 +9,10 @@ public class CharacterProperty : MonoBehaviour {
 	private GameObject propertyContent;
 
 	public List<GameObject> PropertyItems = new List<GameObject>();
+	public List<GameObject> FiveElementsItems = new List<GameObject>();
 
 	public GameObject PropertyItem; 
+	public GameObject FiveElementsItem; 
 
 	void Start ()
 	{
@@ -18,24 +20,64 @@ public class CharacterProperty : MonoBehaviour {
 		propertyContent = PropertyList.transform.GetChild(0).gameObject;
 		InitProperty();
 		
+		FiveElementsList = GameObject.Find("Five Elements Panel").gameObject;
+		InitFiveElements();
 	}
 	private void InitProperty()
 	{
-		for(int i = 0; i < PlayerStatus.characterProperty.Count; i++)
+		for(int i = 0; i < PlayerStatus.characterAttributes.Count; i++)
 		{
 			PropertyItems.Add(Instantiate(PropertyItem));
 			PropertyItems[i].transform.SetParent(propertyContent.transform);
+
 		}
 	}
 
-	private void LoadFiveElement()
+	private void InitFiveElements()
 	{
-		
+		for(int i = 0; i < PlayerStatus.fiveElementsProperty.Count; i++)
+		{
+			FiveElementsItems.Add(Instantiate(FiveElementsItem));
+			FiveElementsItems[i].transform.SetParent(FiveElementsList.transform);
+
+		}
+	}
+
+	private void updateProperty()
+	{
+		int index = 0;
+		foreach ( KeyValuePair<string,float > item in PlayerStatus.characterAttributes)
+		{
+			//Debug.Log(SaveAndLoadUtil.PlayerStatusSavableObject);
+		 	PropertyItems[index].transform.GetChild(0).GetComponent<Text>().text = item.Key + ":  " + item.Value;
+		 	index++;
+		}
+	}
+
+	private void updateFiveElementsProperty()
+	{
+		int index = 0;
+		foreach ( KeyValuePair<string,float > item in PlayerStatus.fiveElementsProperty)
+		{
+			FiveElementsItems[index].transform.GetChild(0).GetComponent<Text>().text = item.Key.ToString();
+			FiveElementsItems[index].transform.GetChild(1).GetComponent<Text>().text = item.Value.ToString();
+		 	index++;
+		}		
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		LoadFiveElement();
+		updateProperty();
+		updateFiveElementsProperty();
+		inputH();
 		
+	}
+
+	private void inputH()
+	{
+		if (Input.GetKeyDown(KeyCode.Q))
+        {
+            PlayerStatus.characterAttributes["Health"] -= 1;
+        }
 	}
 }

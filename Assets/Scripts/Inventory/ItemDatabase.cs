@@ -20,9 +20,14 @@ public class ItemDatabase : MonoBehaviour {
 	{
 		for(int i = 0; i < itemData.Count; i++)
 		{
-			database.Add(new ItemObject((int)itemData[i]["id"], itemData[i]["title"].ToString(), (int)itemData[i]["value"],
-				(int)itemData[i]["stats"]["power"], (int)itemData[i]["stats"]["defence"], (int)itemData[i]["stats"]["vitality"],
-				itemData[i]["description"].ToString(), (bool)itemData[i]["stackable"], (int)itemData[i]["rarity"], itemData[i]["slug"].ToString(),(int)itemData[i]["type"]));
+			database.Add(new ItemObject((int)itemData[i]["id"], itemData[i]["title"].ToString(), (int)itemData[i]["type"],
+							(int)itemData[i]["price"], (int)itemData[i]["stats"]["property"]["health"], (int)itemData[i]["stats"]["property"]["mana"], 
+							(int)itemData[i]["stats"]["property"]["power"], (int)itemData[i]["stats"]["property"]["defence"], (int)itemData[i]["stats"]["property"]["critical_chance"],
+							(int)itemData[i]["stats"]["property"]["speed"], (int)itemData[i]["stats"]["property"]["luck"], (int)itemData[i]["stats"]["property"]["intelligence"],
+							(int)itemData[i]["stats"]["property"]["metal"], (int)itemData[i]["stats"]["property"]["wood"], (int)itemData[i]["stats"]["property"]["water"],
+							(int)itemData[i]["stats"]["property"]["fire"], (int)itemData[i]["stats"]["property"]["earth"], (int)itemData[i]["stats"]["durability"], 
+							itemData[i]["description"].ToString(), (int)itemData[i]["stackable_quantity"], (int)itemData[i]["rarity"], itemData[i]["sprite_path"].ToString(),
+							itemData[i]["model_path"].ToString()));
 		}
 	}
 
@@ -39,38 +44,62 @@ public class ItemObject
 {
 	public int ID { get; set; }
 	public string Title { get; set; }
-	public int Value { get; set;}
+	public int Type { get; set;}
+	public int Price { get; set;}
+	public int Health { get; set;}
+	public int Mana { get; set;}
 	public int Power { get; set;}
 	public int Defence { get; set;}
-	public int Vitality { get; set;}
+	public int CriticalChance { get; set;}
+	public int Speed { get; set;}
+	public int Luck { get; set;}
+	public int Intelligence { get; set;}
+	public int Metal { get; set;}
+	public int Wood { get; set;}
+	public int Water { get; set;}
+	public int Fire { get; set;}
+	public int Earth { get; set;}
+	public int Durablility { get; set;}
 	public string Description { get; set;}
-	public bool Stackable { get; set;}
+	public int StackableQuantity { get; set;}
 	public int Rarity { get; set;}
-	public string Slug { get; set;}
-	public int Type { get; set;}
 	public Sprite Sprite { get; set;}
+	public string ModelPath { get; set;}
 
-	public ItemObject( int id, string title, int value, int power, int defence, int vitality, string description, bool stackable, int rarity, string slug, int type)
+	public ItemObject( int id, string title, int type, int price, int health, int mana, int power, int defence, int criticalChance,
+						int speed, int luck, int intellignece, int metal, int wood, int water, int fire,
+						int earth, int durability, string description, int stackable_quantity, int rarity, string sprite_path,
+						string model_path)
 	{
 		this.ID = id;
 		this.Title = title;
-		this.Value = value;
+		this.Type = type;
+		this.Price = price;
+		this.Health = health;
+		this.Mana = mana;
 		this.Power = power;
 		this.Defence = defence;
-		this.Vitality = vitality;
+		this.CriticalChance = criticalChance;
+		this.Speed = speed;
+		this.Luck = luck;
+		this.Intelligence = intellignece;
+		this.Metal = metal;
+		this.Wood = wood;
+		this.Water = water;
+		this.Fire = fire;
+		this.Earth = earth;
+		this.Durablility = durability;
 		this.Description = description;
-		this.Stackable = stackable;
+		this.StackableQuantity = stackable_quantity;
 		this.Rarity = rarity;
-		this.Slug = slug;
-		this.Type = type;
-		this.Sprite = Resources.Load<Sprite>("Sprites/Inventory/Items/" + slug);
+		this.Sprite = Resources.Load<Sprite>("Sprites/Inventory/Items/" + sprite_path);
 	}
 
-		public ItemObject( int id, string title, int value)
+		public ItemObject( int id, string title, int price)
 	{
 		this.ID = id;
 		this.Title = title;
-		this.Value = value;
+		this.Price = price;
 	}
 
 

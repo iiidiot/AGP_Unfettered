@@ -61,4 +61,8 @@ public class ItemData : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     {
         tooltip.Deactive();
     }
+
+	public void changeProperty(){
+		
+	}
 }
