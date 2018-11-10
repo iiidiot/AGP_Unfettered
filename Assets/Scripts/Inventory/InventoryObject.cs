@@ -24,7 +24,7 @@ public class InventoryObject : MonoBehaviour {
 		InitAccessoryPanel();
 		InitInventoryPanel();
 		AddAccessoryItem(0);
-		AddAccessoryItem(1);
+		//AddAccessoryItem(1);
 		AddItem(0);
 		AddItem(0);
 		AddItem(1);
