@@ -12,11 +12,29 @@ public static class PlayerStatus {
     public static Dictionary<string, string> item = new Dictionary<string, string>();
     public static string[] blockStatement = {"isBlockMeleeAttack", "isBlockFuAttack", "isBlockMovement", "isBlockItemUsage"};
 
-    public static Dictionary<string, float> characterProperty = new Dictionary<string, float>()
+    public static Dictionary<string, float> characterAttributes = new Dictionary<string, float>()
     {
-        ["max_health"] = 0,
-        ["health"] = 0,
-        ["attack"] = 0,
-        ["defense"] = 0,
+        ["Max_health"] = 10,
+        ["Health"] = 10,
+        ["Mana"] = 10,
+        ["Power"] = 1,
+        ["Defense"] = 0,
+        ["Speed"] = 0,
+        ["Intelligence"] = 0,
+        ["Magic"] = 0,
+        ["CriticalChance"] = 0,
+        ["Luck"] = 0,
+        ["Vitality"] = 0,
+        ["Experience"] = 0,
+        ["Level"] = 0,
+    };
+
+    public static Dictionary<string, float> fiveElementsProperty = new Dictionary<string, float>()
+    {
+        ["METAL"] = 0,
+        ["WOOD"] = 0,
+        ["WATER"] = 0,
+        ["FIRE"] = 0,
+        ["EARTH"] = 0,
     };
 }
