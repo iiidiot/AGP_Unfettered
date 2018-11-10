@@ -30,7 +30,10 @@ public class InventoryObject : MonoBehaviour {
 		AddItem(1);
 		AddItem(1);
 		AddItem(1);
-
+		AddItem(2);
+		AddItem(2);
+		AddItem(2);
+		
 		
 	}
 
@@ -65,7 +68,7 @@ public class InventoryObject : MonoBehaviour {
 	public void AddItem(int id)
 	{
 		ItemObject itemToAdd = database.FetchItemByID(id);
-		if(itemToAdd.Stackable && checkDuplicate(itemToAdd))
+		if(itemToAdd.StackableQuantity > 1 && checkDuplicate(itemToAdd))
 		{
 			for(int i = generalType; i < items.Count; i++)
 			{

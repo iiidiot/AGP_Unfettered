@@ -21,7 +21,6 @@ public static class PlayerStatus {
         ["Defense"] = 0,
         ["Speed"] = 0,
         ["Intelligence"] = 0,
-        ["Magic"] = 0,
         ["CriticalChance"] = 0,
         ["Luck"] = 0,
         ["Vitality"] = 0,

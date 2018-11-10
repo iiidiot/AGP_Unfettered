@@ -7,7 +7,6 @@ using UnityEngine.EventSystems;
 public class SlotObject : MonoBehaviour, IDropHandler {
 	public int id;
 	private InventoryObject inventory;
-
 	public int itemType;
 	public int generalType = 4;
 
