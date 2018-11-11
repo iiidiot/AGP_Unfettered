@@ -25,7 +25,7 @@ public class CharacterProperty : MonoBehaviour {
 	}
 	private void InitProperty()
 	{
-		for(int i = 0; i < PlayerStatus.characterAttributes.Count; i++)
+		for(int i = 0; i < PlayerStatus.getItemRelatedAttribute().Count; i++)
 		{
 			PropertyItems.Add(Instantiate(PropertyItem));
 			PropertyItems[i].transform.SetParent(propertyContent.transform);
@@ -45,7 +45,6 @@ public class CharacterProperty : MonoBehaviour {
 	private void updateProperty()
 	{
 		int index = 0;
-		Debug.Log(PlayerStatus.getItemRelatedAttribute().Count);
 		foreach ( KeyValuePair<string,double > item in PlayerStatus.getItemRelatedAttribute())
 		{
 		 	PropertyItems[index].transform.GetChild(0).GetComponent<Text>().text = item.Key + ":  " + item.Value;
