@@ -36,8 +36,8 @@
 			"property": {
 				"health": 0,
 				"mana": 0,
-				"power": 3,
-				"defence": 0,
+				"power": 0,
+				"defence": 4,
 				"critical_chance": 1,
 				"speed": 0,
 				"luck": 0,

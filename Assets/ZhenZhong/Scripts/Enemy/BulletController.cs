@@ -61,7 +61,7 @@ public class BulletController : MonoBehaviour
         if(other.tag != "Enemy")
         {
             Destroy(gameObject);
-            PlayerStatus.health -= 1;
+            PlayerStatus.Health -= 1;
         } 
     }
 }

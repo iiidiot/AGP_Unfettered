@@ -18,9 +18,9 @@ public static class SaveAndLoadUtil {
         public double defense;
         public PlayerStatusSavableObject()
         {
-            health = PlayerStatus.health;
-            attack = PlayerStatus.attack;
-            defense = PlayerStatus.defense;
+            health = PlayerStatus.Health;
+            attack = PlayerStatus.Power;
+            defense = PlayerStatus.Defense;
         }
     }
 
@@ -46,11 +46,11 @@ public static class SaveAndLoadUtil {
         string input = sr.ReadToEnd();
         PlayerStatusSavableObject jsonObject = JsonMapper.ToObject<PlayerStatusSavableObject>(input);
 
-        PlayerStatus.health = jsonObject.health;
-        PlayerStatus.defense = jsonObject.defense;
-        PlayerStatus.attack = jsonObject.attack;
+        PlayerStatus.Health = jsonObject.health;
+        PlayerStatus.Defense = jsonObject.defense;
+        PlayerStatus.Power = jsonObject.attack;
 
-        Debug.Log(PlayerStatus.health);
+        Debug.Log(PlayerStatus.Health);
 
         sr.Close();
         sr.Dispose();

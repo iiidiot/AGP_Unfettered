@@ -49,7 +49,7 @@ public class ItemObject
 	public int Health { get; set;}
 	public int Mana { get; set;}
 	public int Power { get; set;}
-	public int Defence { get; set;}
+	public int Defense { get; set;}
 	public int CriticalChance { get; set;}
 	public int Speed { get; set;}
 	public int Luck { get; set;}
@@ -78,7 +78,7 @@ public class ItemObject
 		this.Health = health;
 		this.Mana = mana;
 		this.Power = power;
-		this.Defence = defence;
+		this.Defense = defence;
 		this.CriticalChance = criticalChance;
 		this.Speed = speed;
 		this.Luck = luck;
@@ -106,5 +106,26 @@ public class ItemObject
 	public ItemObject()
 	{
 		this.ID = -1;
+	}
+
+	public Dictionary<string, float> getAllCharacterRelatedAttribute(){
+		Dictionary<string, float> attribute = new Dictionary<string, float>()
+		{
+			["Max_health"] = this.Health,
+			["Max_Mana"] = this.Mana,
+			["Power"] = this.Power,
+			["Defense"] = this.Defense,
+			["Speed"] = this.Speed,
+			["Intelligence"] = this.Intelligence,
+			["CriticalChance"] = this.CriticalChance,
+			["Luck"] = this.Luck,
+			["Metal"] = this.Metal,
+			["Wood"] = this.Metal,
+			["Water"] = this.Water,	
+			["Fire"] = this.Fire,	
+			["Earth"] = this.Earth,	
+    	};
+	
+		return attribute;
 	}
 }

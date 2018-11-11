@@ -4,10 +4,19 @@ using UnityEngine;
 
 public static class PlayerStatus {
 
-    public const double MAX_HEALTH = 10;
-    public static double health = 10;
-    public static double attack = 1;
-    public static double defense = 0;
+    public static double MaxHealth = 10;
+    public static double MaxMana = 10;
+    public static double Health = 10;
+    public static double Power = 1;
+    public static double Defense = 0;
+    public static double Speed = 0;
+    public static double Intelligence = 0;
+    public static double CriticalChance = 0;
+    public static double Luck = 0;
+    public static double Vitality = 0;
+    public static double Experience = 0;
+    public static double Level = 0;
+     
 
     public static Dictionary<string, string> item = new Dictionary<string, string>();
     public static string[] blockStatement = {"isBlockMeleeAttack", "isBlockFuAttack", "isBlockMovement", "isBlockItemUsage"};

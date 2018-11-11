@@ -63,6 +63,6 @@ public class ItemData : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     }
 
 	public void changeProperty(){
-		
+
 	}
 }

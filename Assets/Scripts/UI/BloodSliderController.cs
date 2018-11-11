@@ -16,16 +16,16 @@ public class BloodSliderController : MonoBehaviour {
     // Use this for initialization
     void Start () {
         slider = this.transform.Find("Slider").GetComponent<Slider>();
-        slider.value = (float)(PlayerStatus.health / PlayerStatus.MAX_HEALTH);
+        slider.value = (float)(PlayerStatus.Health / PlayerStatus.MaxHealth);
     }
 
     void Update()
     {
 
-        number.text = PlayerStatus.health.ToString();
+        number.text = PlayerStatus.Health.ToString();
 
 
-        targetValue = (float) (PlayerStatus.health / PlayerStatus.MAX_HEALTH);
+        targetValue = (float) (PlayerStatus.Health / PlayerStatus.MaxHealth);
 
         if (targetValue != slider.value)
         {

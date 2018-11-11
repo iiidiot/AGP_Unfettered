@@ -163,7 +163,7 @@ public class PlayerTestController : MonoBehaviour
     private void GetDamage()
     {
         // play some animation maybe
-        PlayerStatus.health -= 1; // record some damage 
+        PlayerStatus.Health -= 1; // record some damage 
     }
 
     void OnCollisionEnter(Collision collision)
