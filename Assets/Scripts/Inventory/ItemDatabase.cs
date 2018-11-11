@@ -21,11 +21,11 @@ public class ItemDatabase : MonoBehaviour {
 		for(int i = 0; i < itemData.Count; i++)
 		{
 			database.Add(new ItemObject((int)itemData[i]["id"], itemData[i]["title"].ToString(), (int)itemData[i]["type"],
-							(int)itemData[i]["price"], (int)itemData[i]["stats"]["property"]["health"], (int)itemData[i]["stats"]["property"]["mana"], 
-							(int)itemData[i]["stats"]["property"]["power"], (int)itemData[i]["stats"]["property"]["defence"], (int)itemData[i]["stats"]["property"]["critical_chance"],
-							(int)itemData[i]["stats"]["property"]["speed"], (int)itemData[i]["stats"]["property"]["luck"], (int)itemData[i]["stats"]["property"]["intelligence"],
-							(int)itemData[i]["stats"]["property"]["metal"], (int)itemData[i]["stats"]["property"]["wood"], (int)itemData[i]["stats"]["property"]["water"],
-							(int)itemData[i]["stats"]["property"]["fire"], (int)itemData[i]["stats"]["property"]["earth"], (int)itemData[i]["stats"]["durability"], 
+							(int)itemData[i]["price"], (double)(int)itemData[i]["stats"]["property"]["health"], (double)(int)itemData[i]["stats"]["property"]["mana"], 
+							(double)(int)itemData[i]["stats"]["property"]["power"], (double)(int)itemData[i]["stats"]["property"]["defence"], (double)(int)itemData[i]["stats"]["property"]["critical_chance"],
+							(double)(int)itemData[i]["stats"]["property"]["speed"], (double)(int)itemData[i]["stats"]["property"]["luck"], (double)(int)itemData[i]["stats"]["property"]["intelligence"],
+							(double)(int)itemData[i]["stats"]["property"]["metal"], (double)(int)itemData[i]["stats"]["property"]["wood"], (double)(int)itemData[i]["stats"]["property"]["water"],
+							(double)(int)itemData[i]["stats"]["property"]["fire"], (double)(int)itemData[i]["stats"]["property"]["earth"], (double)(int)itemData[i]["stats"]["durability"], 
 							itemData[i]["description"].ToString(), (int)itemData[i]["stackable_quantity"], (int)itemData[i]["rarity"], itemData[i]["sprite_path"].ToString(),
 							itemData[i]["model_path"].ToString()));
 		}
@@ -46,29 +46,29 @@ public class ItemObject
 	public string Title { get; set; }
 	public int Type { get; set;}
 	public int Price { get; set;}
-	public int Health { get; set;}
-	public int Mana { get; set;}
-	public int Power { get; set;}
-	public int Defense { get; set;}
-	public int CriticalChance { get; set;}
-	public int Speed { get; set;}
-	public int Luck { get; set;}
-	public int Intelligence { get; set;}
-	public int Metal { get; set;}
-	public int Wood { get; set;}
-	public int Water { get; set;}
-	public int Fire { get; set;}
-	public int Earth { get; set;}
-	public int Durablility { get; set;}
+	public double Health { get; set;}
+	public double Mana { get; set;}
+	public double Power { get; set;}
+	public double Defense { get; set;}
+	public double CriticalChance { get; set;}
+	public double Speed { get; set;}
+	public double Luck { get; set;}
+	public double Intelligence { get; set;}
+	public double Metal { get; set;}
+	public double Wood { get; set;}
+	public double Water { get; set;}
+	public double Fire { get; set;}
+	public double Earth { get; set;}
+	public double Durablility { get; set;}
 	public string Description { get; set;}
 	public int StackableQuantity { get; set;}
 	public int Rarity { get; set;}
 	public Sprite Sprite { get; set;}
 	public string ModelPath { get; set;}
 
-	public ItemObject( int id, string title, int type, int price, int health, int mana, int power, int defence, int criticalChance,
-						int speed, int luck, int intellignece, int metal, int wood, int water, int fire,
-						int earth, int durability, string description, int stackable_quantity, int rarity, string sprite_path,
+	public ItemObject( int id, string title, int type, int price, double health, double mana, double power, double defence, double criticalChance,
+						double speed, double luck, double intellignece, double metal, double wood, double water, double fire,
+						double earth, double durability, string description, int stackable_quantity, int rarity, string sprite_path,
 						string model_path)
 	{
 		this.ID = id;
@@ -108,8 +108,8 @@ public class ItemObject
 		this.ID = -1;
 	}
 
-	public Dictionary<string, float> getAllCharacterRelatedAttribute(){
-		Dictionary<string, float> attribute = new Dictionary<string, float>()
+	public Dictionary<string, double> getAllCharacterRelatedAttribute(){
+		Dictionary<string, double> attribute = new Dictionary<string, double>()
 		{
 			["Max_health"] = this.Health,
 			["Max_Mana"] = this.Mana,

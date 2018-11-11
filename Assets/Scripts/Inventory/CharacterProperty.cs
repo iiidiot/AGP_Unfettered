@@ -29,7 +29,6 @@ public class CharacterProperty : MonoBehaviour {
 		{
 			PropertyItems.Add(Instantiate(PropertyItem));
 			PropertyItems[i].transform.SetParent(propertyContent.transform);
-
 		}
 	}
 
@@ -46,12 +45,13 @@ public class CharacterProperty : MonoBehaviour {
 	private void updateProperty()
 	{
 		int index = 0;
-		foreach ( KeyValuePair<string,float > item in PlayerStatus.characterAttributes)
+		Debug.Log(PlayerStatus.getItemRelatedAttribute().Count);
+		foreach ( KeyValuePair<string,double > item in PlayerStatus.getItemRelatedAttribute())
 		{
-			//Debug.Log(SaveAndLoadUtil.PlayerStatusSavableObject);
 		 	PropertyItems[index].transform.GetChild(0).GetComponent<Text>().text = item.Key + ":  " + item.Value;
 		 	index++;
 		}
+		
 	}
 
 	private void updateFiveElementsProperty()

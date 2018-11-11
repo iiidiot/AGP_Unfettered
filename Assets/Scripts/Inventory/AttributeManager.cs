@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
+using System.Reflection;
 
 public class AttributeManager : MonoBehaviour {
 
@@ -31,10 +33,20 @@ public class AttributeManager : MonoBehaviour {
 			if(slot.transform.childCount > 0)
 			{
 				currentAccessoryItems[i] = slot.transform.GetChild(0).GetComponent<ItemData>().item;
-				PlayerStatus.characterAttributes["Power"] += currentAccessoryItems[i].Power;
-				PlayerStatus.characterAttributes["Defense"] += currentAccessoryItems[i].Defense;
-
-				Debug.Log(PlayerStatus.getItemRelatedAttribute()["Power"]); 
+				Dictionary<string, double> currentAttribute = currentAccessoryItems[i].getAllCharacterRelatedAttribute();
+				foreach ( KeyValuePair<string,double > item in currentAttribute)
+				{
+					Type playerstats = typeof(PlayerStatus);
+					FieldInfo[] properties = playerstats.GetFields(BindingFlags.Public | BindingFlags.Static );
+					foreach (FieldInfo property in properties)
+					{
+						if(item.Key.Equals(property.Name))
+						{
+							property.SetValue(null, item.Value + (double)property.GetValue(null));
+						}
+						
+					}
+				}
 			}
 			else
 			{
@@ -44,8 +56,19 @@ public class AttributeManager : MonoBehaviour {
 			// substract Previous item data;
 			if(previousAccessoryItems[i] != null )
 			{
-				PlayerStatus.characterAttributes["Power"] -= previousAccessoryItems[i].Power;
-				PlayerStatus.characterAttributes["Defense"] -= previousAccessoryItems[i].Defense;
+				Dictionary<string, double> previousAttribute = previousAccessoryItems[i].getAllCharacterRelatedAttribute();
+				foreach ( KeyValuePair<string,double > item in previousAttribute)
+				{
+					Type playerstats = typeof(PlayerStatus);
+					FieldInfo[] properties = playerstats.GetFields(BindingFlags.Public | BindingFlags.Static );
+					foreach (FieldInfo property in properties)
+					{
+						if(item.Key.Equals(property.Name))
+						{
+							property.SetValue(null, (double)property.GetValue(null) - item.Value);
+						}
+					}
+				}
 			}
 
 			// update Previous item

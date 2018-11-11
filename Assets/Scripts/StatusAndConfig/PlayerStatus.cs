@@ -17,6 +17,7 @@ public static class PlayerStatus {
     public static double Vitality = 0;
     public static double Experience = 0;
     public static double Level = 0;
+
     // five elements attributes
     public static double Metal = 0;
     public static double Wood = 0;
