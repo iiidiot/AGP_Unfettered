@@ -33,7 +33,8 @@ public class AttributeManager : MonoBehaviour {
 				currentAccessoryItems[i] = slot.transform.GetChild(0).GetComponent<ItemData>().item;
 				PlayerStatus.characterAttributes["Power"] += currentAccessoryItems[i].Power;
 				PlayerStatus.characterAttributes["Defense"] += currentAccessoryItems[i].Defense;
-				
+
+				Debug.Log(PlayerStatus.getItemRelatedAttribute()["Power"]); 
 			}
 			else
 			{

@@ -7,6 +7,7 @@ public static class PlayerStatus {
     public static double MaxHealth = 10;
     public static double MaxMana = 10;
     public static double Health = 10;
+    public static double Mana = 10;
     public static double Power = 1;
     public static double Defense = 0;
     public static double Speed = 0;
@@ -16,7 +17,13 @@ public static class PlayerStatus {
     public static double Vitality = 0;
     public static double Experience = 0;
     public static double Level = 0;
-     
+    // five elements attributes
+    public static double Metal = 0;
+    public static double Wood = 0;
+    public static double Water = 0;
+    public static double Fire = 0;
+    public static double Earth = 0;
+
 
     public static Dictionary<string, string> item = new Dictionary<string, string>();
     public static string[] blockStatement = {"isBlockMeleeAttack", "isBlockFuAttack", "isBlockMovement", "isBlockItemUsage"};
@@ -45,4 +52,26 @@ public static class PlayerStatus {
         ["FIRE"] = 0,
         ["EARTH"] = 0,
     };
+
+    public static Dictionary<string, double> getItemRelatedAttribute()
+    {
+        Dictionary<string, double> attribute = new Dictionary<string, double>()
+		{
+			["Max_health"] = Health,
+			["Max_Mana"] = Mana,
+			["Power"] = Power,
+			["Defense"] = Defense,
+			["Speed"] = Speed,
+			["Intelligence"] = Intelligence,
+			["CriticalChance"] = CriticalChance,
+			["Luck"] = Luck,
+			["Metal"] = Metal,
+			["Wood"] = Metal,
+			["Water"] = Water,	
+			["Fire"] = Fire,	
+			["Earth"] = Earth,	
+    	};
+
+		return attribute;
+    }
 }
