@@ -44,16 +44,19 @@ public static class PlayerStatus {
         ["Experience"] = 0,
         ["Level"] = 0,
     };
-
-    public static Dictionary<string, float> fiveElementsProperty = new Dictionary<string, float>()
+    public static Dictionary<string, double> getfiveElementsAttribute()
     {
-        ["METAL"] = 0,
-        ["WOOD"] = 0,
-        ["WATER"] = 0,
-        ["FIRE"] = 0,
-        ["EARTH"] = 0,
-    };
+        Dictionary<string, double> attribute = new Dictionary<string, double>()
+		{
+			["Metal"] = Metal,
+			["Wood"] = Wood,
+			["Water"] = Water,	
+			["Fire"] = Fire,	
+			["Earth"] = Earth,	
+    	};
 
+		return attribute;
+    }
     public static Dictionary<string, double> getItemRelatedAttribute()
     {
         Dictionary<string, double> attribute = new Dictionary<string, double>()
@@ -67,7 +70,7 @@ public static class PlayerStatus {
 			["CriticalChance"] = CriticalChance,
 			["Luck"] = Luck,
 			["Metal"] = Metal,
-			["Wood"] = Metal,
+			["Wood"] = Wood,
 			["Water"] = Water,	
 			["Fire"] = Fire,	
 			["Earth"] = Earth,	

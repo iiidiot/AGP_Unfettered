@@ -34,7 +34,7 @@ public class CharacterProperty : MonoBehaviour {
 
 	private void InitFiveElements()
 	{
-		for(int i = 0; i < PlayerStatus.fiveElementsProperty.Count; i++)
+		for(int i = 0; i < PlayerStatus.getfiveElementsAttribute().Count; i++)
 		{
 			FiveElementsItems.Add(Instantiate(FiveElementsItem));
 			FiveElementsItems[i].transform.SetParent(FiveElementsList.transform);
@@ -56,7 +56,7 @@ public class CharacterProperty : MonoBehaviour {
 	private void updateFiveElementsProperty()
 	{
 		int index = 0;
-		foreach ( KeyValuePair<string,float > item in PlayerStatus.fiveElementsProperty)
+		foreach ( KeyValuePair<string,double > item in PlayerStatus.getfiveElementsAttribute())
 		{
 			FiveElementsItems[index].transform.GetChild(0).GetComponent<Text>().text = item.Key.ToString();
 			FiveElementsItems[index].transform.GetChild(1).GetComponent<Text>().text = item.Value.ToString();
