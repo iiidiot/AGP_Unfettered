@@ -32,7 +32,7 @@ public class AttributeManager : MonoBehaviour {
 			//updateCurrent accessory item and add Current item data;;
 			if(slot.transform.childCount > 0)
 			{
-				currentAccessoryItems[i] = slot.transform.GetChild(0).GetComponent<ItemData>().item;
+				currentAccessoryItems[i] = slot.transform.GetChild(1).GetComponent<ItemData>().item;
 				Dictionary<string, double> currentAttribute = currentAccessoryItems[i].getAllCharacterRelatedAttribute();
 				foreach ( KeyValuePair<string,double > item in currentAttribute)
 				{

@@ -47,6 +47,11 @@ public class InventoryObject : MonoBehaviour {
 
 		AddFuInvItem(2);
 		AddFuInvItem(2);
+		AddFuInvItem(2);
+		AddFuInvItem(2);
+		AddFuInvItem(2);
+		AddFuInvItem(2);
+		AddFuInvItem(2);
 
 		
 		//AddAccessoryItem(1);
@@ -193,36 +198,34 @@ public class InventoryObject : MonoBehaviour {
 	{
 		ItemObject itemToAdd = database.FetchItemByID(id);
 		int startIndex = generalType + slotAmount;
-		if(itemToAdd.StackableQuantity > 1 && checkDuplicate(itemToAdd))
+		bool isRightSlot = false;
+		bool shouldStack = (itemToAdd.StackableQuantity > 1 && checkDuplicate(itemToAdd));
+		for(int i = startIndex ; i < startIndex + slotAmount; i++)
 		{
-			for(int i = startIndex ; i < startIndex + slotAmount; i++)
+			// find the stackable slot or empty slot 
+			if( shouldStack && (items[i].ID == id) && (slots[i].GetComponent<SlotObject>().amount < itemToAdd.StackableQuantity) )
 			{
-				if(items[i].ID == id)
-				{
-					ItemData data = slots[i].transform.GetChild(0).GetComponent<ItemData>();
-					data.amount++;
-					data.transform.GetChild(0).GetComponent<Text>().text = data.amount.ToString();
-					break;
-				}
+				slots[i].GetComponent<SlotObject>().amount += 1;
+				isRightSlot = true;
 			}
-		}
-		else
-		{
-			for(int i = startIndex ; i < startIndex + slotAmount; i++)
+			else if(items[i].ID == -1)
 			{
-				if(items[i].ID == -1)
-				{
-					items[i] = itemToAdd;
-					GameObject itemObj = Instantiate(inventoryItem);
-					itemObj.GetComponent<ItemData>().item = itemToAdd;
-					itemObj.GetComponent<ItemData>().amount = 1;
-					itemObj.GetComponent<ItemData>().slot = i;  
-					itemObj.transform.SetParent(slots[i].transform);
-					itemObj.transform.position = Vector2.zero;
-					itemObj.GetComponent<Image>().sprite = itemToAdd.Sprite;
-					itemObj.name = itemToAdd.Title;
-					break;
-				}
+				slots[i].GetComponent<SlotObject>().amount = 1;
+				isRightSlot = true;
+			}
+			
+			// add item to right slot 
+			if(isRightSlot)
+			{
+				items[i] = itemToAdd;
+				GameObject itemObj = Instantiate(inventoryItem);
+				itemObj.GetComponent<ItemData>().item = itemToAdd;
+				itemObj.GetComponent<ItemData>().slot = i;  
+				itemObj.transform.SetParent(slots[i].transform);
+				itemObj.transform.position = Vector2.zero;
+				itemObj.GetComponent<Image>().sprite = itemToAdd.Sprite;
+				itemObj.name = itemToAdd.Title;
+				break;
 			}
 		}
 	}

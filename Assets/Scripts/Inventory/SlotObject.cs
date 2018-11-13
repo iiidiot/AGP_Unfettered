@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class SlotObject : MonoBehaviour, IDropHandler {
 	public int id;
@@ -10,17 +11,42 @@ public class SlotObject : MonoBehaviour, IDropHandler {
 	public int itemType;
 	public int generalType = 4;
 
+	public int amount;
+
 	void Start () 
 	{
 		inventory = GameObject.Find("Inventory").GetComponent<InventoryObject>();
+	}
+
+	void Update ()
+	{
+		// TODO: this text update should put in more resonable place, we don't need to check each second.
+		if(this.transform.childCount > 2)
+		{
+
+			this.transform.GetChild(0).GetComponent<Text>().text = (transform.childCount - 1).ToString();
+		}
+		else
+		{
+			this.transform.GetChild(0).GetComponent<Text>().text = "";
+		}
 	}
 	
     public void OnDrop(PointerEventData eventData)
     {
         ItemData droppedItem = eventData.pointerDrag.GetComponent<ItemData>();
+		int currentStackedItem = transform.childCount - 1;
 		if((droppedItem.item.Type == id || id >= generalType ))
 		{
-			if(inventory.items[id].ID == -1)
+			if(inventory.items[id].ID == droppedItem.item.ID && currentStackedItem < droppedItem.item.StackableQuantity)
+			{
+				Debug.Log("currentStackedItem:"+currentStackedItem);
+				Debug.Log("sh0u:"+droppedItem.item.StackableQuantity);
+				inventory.items[droppedItem.slot] = new ItemObject();
+				inventory.items[id] = droppedItem.item;
+				droppedItem.slot = id;
+			}
+			else if(inventory.items[id].ID == -1)
 			{
 				inventory.items[droppedItem.slot] = new ItemObject();
 				inventory.items[id] = droppedItem.item;
