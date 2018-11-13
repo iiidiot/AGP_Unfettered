@@ -120,6 +120,7 @@ Shader "Unfettered/TwoPassWithLit" {
 				ENDCG
 			}
 
+			
 			Pass {
 				Tags { "LightMode" = "ForwardBase" }
 				//Blend SrcAlpha OneMinusSrcAlpha // 传统透明度
