@@ -4,7 +4,7 @@ using UnityEngine;
 using System;
 using UnityEngine.EventSystems;
 
-public class ItemData : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler {
+public class ItemData : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler {
 	public ItemObject item;
 	public int amount;
 	public int slot; 
@@ -12,9 +12,12 @@ public class ItemData : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 	private InventoryObject inventory;
 	private Tooltip tooltip;
 	public int generalType = 4;
+
+	public BuffController buffController;
 	void Start () 
 	{
 		inventory = GameObject.Find("Inventory").GetComponent<InventoryObject>();
+		buffController = GameObject.Find("BuffManager").GetComponent<BuffController>();
 		tooltip = inventory.GetComponent<Tooltip>();
 	}
 	public void OnBeginDrag(PointerEventData eventData)
@@ -65,4 +68,42 @@ public class ItemData : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 	public void changeProperty(){
 
 	}
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+		if(eventData.clickCount == 2)
+		{
+			int targetSlot = eventData.pointerPress.GetComponent<ItemData>().item.Type;
+			if( targetSlot >= generalType ){
+				 StartCoroutine(buffController.AddFireAttribute(3,10));
+				if(inventory.slots[slot].transform.childCount <= 2){
+					 //inventory.slots[slot].GetComponent<SlotObject>().id = -1;
+					 inventory.items[slot].ID = -1;
+					 Debug.Log("slot:"+ slot);
+				 }
+				 Destroy(gameObject);
+
+			}else{
+				if(inventory.items[targetSlot].ID == -1)
+				{
+					this.slot = targetSlot;
+					this.transform.SetParent(inventory.slots[targetSlot].transform);
+					this.transform.position = this.transform.parent.position;
+				}
+				else
+				{
+					GameObject targetItem = inventory.slots[targetSlot].transform.GetChild(1).gameObject;
+					targetItem.transform.SetParent(this.transform.parent);
+					targetItem.transform.position = this.transform.parent.position;
+					targetItem.GetComponent<ItemData>().slot = slot;
+
+					this.slot = targetSlot;
+					this.transform.SetParent(inventory.slots[targetSlot].transform);
+					this.transform.position = this.transform.parent.position;
+				}
+
+			}
+		}
+        
+    }
 }

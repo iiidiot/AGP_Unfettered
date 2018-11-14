@@ -30,7 +30,7 @@ public class AttributeManager : MonoBehaviour {
 		{
 			GameObject slot = GetComponent<InventoryObject>().slots[i];
 			//updateCurrent accessory item and add Current item data;;
-			if(slot.transform.childCount > 0)
+			if(slot.transform.childCount > 1)
 			{
 				currentAccessoryItems[i] = slot.transform.GetChild(1).GetComponent<ItemData>().item;
 				Dictionary<string, double> currentAttribute = currentAccessoryItems[i].getAllCharacterRelatedAttribute();

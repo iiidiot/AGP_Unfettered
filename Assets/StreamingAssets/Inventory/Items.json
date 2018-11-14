@@ -30,7 +30,7 @@
 	{
 		"id": 1,
 		"title": "steel shield",
-		"type": 1,
+		"type": 0,
 		"price": 10,
 		"stats": {
 			"property": {

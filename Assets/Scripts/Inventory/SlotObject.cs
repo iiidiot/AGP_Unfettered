@@ -36,12 +36,12 @@ public class SlotObject : MonoBehaviour, IDropHandler {
     {
         ItemData droppedItem = eventData.pointerDrag.GetComponent<ItemData>();
 		int currentStackedItem = transform.childCount - 1;
+		Debug.Log("id:"+id);
+		//Debug.Log("inventory.items[id].ID:"+inventory.items[id].ID);
 		if((droppedItem.item.Type == id || id >= generalType ))
 		{
 			if(inventory.items[id].ID == droppedItem.item.ID && currentStackedItem < droppedItem.item.StackableQuantity)
 			{
-				Debug.Log("currentStackedItem:"+currentStackedItem);
-				Debug.Log("sh0u:"+droppedItem.item.StackableQuantity);
 				inventory.items[droppedItem.slot] = new ItemObject();
 				inventory.items[id] = droppedItem.item;
 				droppedItem.slot = id;
@@ -54,7 +54,7 @@ public class SlotObject : MonoBehaviour, IDropHandler {
 			}
 			else if(droppedItem.slot != id)
 			{
-				Transform item = this.transform.GetChild(0);
+				Transform item = this.transform.GetChild(1);
 				item.GetComponent<ItemData>().slot = droppedItem.slot;
 				item.transform.SetParent(inventory.slots[droppedItem.slot].transform);
 				item.transform.position = inventory.slots[droppedItem.slot].transform.position;
