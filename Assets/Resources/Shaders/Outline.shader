@@ -1,11 +1,13 @@
 ﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
 
+// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
 Shader "Custom/OutLine"
 {
 	Properties
 	{
 		_MainTex("main tex",2D) = ""{}
-		_Factor("factor",Range(0,0.1)) = 0.01//描边粗细因子
+		_Factor("factor",Range(0,0.1)) = 0.02//描边粗细因子
 		_OutLineColor("outline color",Color) = (0,0,0,1)//描边颜色
 		_FillInColor("fill in color",Color) = (0,0,0,1) // temp
 	}
@@ -38,6 +40,7 @@ Shader "Custom/OutLine"
 					view_vertex.xyz += normalize(view_normal) * _Factor; //记得normalize
 					o.vertex = mul(UNITY_MATRIX_P,view_vertex);
 					return o;
+				
 				}
 
 				half4 frag(v2f IN) :COLOR
@@ -74,9 +77,9 @@ Shader "Custom/OutLine"
 
 				half4 frag(v2f IN) :COLOR
 				{
-					return _FillInColor;
-					//half4 c = tex2D(_MainTex,IN.uv);
-					//return c;
+					//return _FillInColor;
+					half4 c = tex2D(_MainTex,IN.uv);
+					return c;
 				}
 				ENDCG
 			}
