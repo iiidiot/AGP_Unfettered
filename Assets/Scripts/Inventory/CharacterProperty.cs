@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 public class CharacterProperty : MonoBehaviour {
 
+	private const int ELEMENTSCOUNT = 5; 
 	private GameObject PropertyList;
 	private GameObject FiveElementsList;
 	private GameObject propertyContent;
@@ -25,7 +26,7 @@ public class CharacterProperty : MonoBehaviour {
 	}
 	private void InitProperty()
 	{
-		for(int i = 0; i < PlayerStatus.getItemRelatedAttribute().Count; i++)
+		for(int i = 0; i < PlayerStatus.GetPanelAttributes().Count; i++)
 		{
 			PropertyItems.Add(Instantiate(PropertyItem));
 			PropertyItems[i].transform.SetParent(propertyContent.transform);
@@ -34,7 +35,7 @@ public class CharacterProperty : MonoBehaviour {
 
 	private void InitFiveElements()
 	{
-		for(int i = 0; i < PlayerStatus.getfiveElementsAttribute().Count; i++)
+		for(int i = 0; i < PlayerStatus.GetFiveElementsAttribute().Count - ELEMENTSCOUNT; i++)
 		{
 			FiveElementsItems.Add(Instantiate(FiveElementsItem));
 			FiveElementsItems[i].transform.SetParent(FiveElementsList.transform);
@@ -45,7 +46,7 @@ public class CharacterProperty : MonoBehaviour {
 	private void updateProperty()
 	{
 		int index = 0;
-		foreach ( KeyValuePair<string,double > item in PlayerStatus.getItemRelatedAttribute())
+		foreach ( KeyValuePair<string,double > item in PlayerStatus.GetPanelAttributes())
 		{
 		 	PropertyItems[index].transform.GetChild(0).GetComponent<Text>().text = item.Key + ":  " + item.Value;
 		 	index++;
@@ -55,13 +56,18 @@ public class CharacterProperty : MonoBehaviour {
 
 	private void updateFiveElementsProperty()
 	{
-		int index = 0;
-		foreach ( KeyValuePair<string,double > item in PlayerStatus.getfiveElementsAttribute())
+		List<double> attributeData = new List<double>();
+		foreach ( KeyValuePair<string,double > item in PlayerStatus.GetFiveElementsAttribute())
+		{	
+			attributeData.Add(item.Value);
+		}
+
+		for(int index = 0; index < ELEMENTSCOUNT; index++)
 		{
-			FiveElementsItems[index].transform.GetChild(0).GetComponent<Text>().text = item.Key.ToString();
-			FiveElementsItems[index].transform.GetChild(1).GetComponent<Text>().text = item.Value.ToString();
-		 	index++;
-		}		
+			FiveElementsItems[index].transform.GetChild(0).GetComponent<Text>().text = attributeData[index].ToString();
+			//Debug.Log(FiveElementsItems[index].transform.GetChild(0).GetComponent<Text>().text);
+			FiveElementsItems[index].transform.GetChild(1).GetComponent<Text>().text = attributeData[index+ELEMENTSCOUNT].ToString();
+		}	
 	}
 	
 	// Update is called once per frame
@@ -76,7 +82,7 @@ public class CharacterProperty : MonoBehaviour {
 	{
 		if (Input.GetKeyDown(KeyCode.Q))
         {
-            PlayerStatus.characterAttributes["Health"] -= 1;
+            //PlayerStatus.characterAttributes["Health"] -= 1;
         }
 	}
 }

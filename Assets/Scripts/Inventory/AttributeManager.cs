@@ -33,7 +33,7 @@ public class AttributeManager : MonoBehaviour {
 			if(slot.transform.childCount > 1)
 			{
 				currentAccessoryItems[i] = slot.transform.GetChild(1).GetComponent<ItemData>().item;
-				Dictionary<string, double> currentAttribute = currentAccessoryItems[i].getAllCharacterRelatedAttribute();
+				Dictionary<string, double> currentAttribute = currentAccessoryItems[i].GetCharacterRelatedAttribute();
 				foreach ( KeyValuePair<string,double > item in currentAttribute)
 				{
 					Type playerstats = typeof(PlayerStatus);
@@ -56,7 +56,7 @@ public class AttributeManager : MonoBehaviour {
 			// substract Previous item data;
 			if(previousAccessoryItems[i] != null )
 			{
-				Dictionary<string, double> previousAttribute = previousAccessoryItems[i].getAllCharacterRelatedAttribute();
+				Dictionary<string, double> previousAttribute = previousAccessoryItems[i].GetCharacterRelatedAttribute();
 				foreach ( KeyValuePair<string,double > item in previousAttribute)
 				{
 					Type playerstats = typeof(PlayerStatus);
@@ -70,13 +70,8 @@ public class AttributeManager : MonoBehaviour {
 					}
 				}
 			}
-
 			// update Previous item
 			previousAccessoryItems[i] = currentAccessoryItems[i];
-			
 		}
-		
-
-
 	}
 }

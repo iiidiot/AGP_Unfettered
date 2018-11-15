@@ -14,7 +14,7 @@ public class InventoryObject : MonoBehaviour {
 	public GameObject inventoryItem;
 	public int slotAmount = 35;
 	public int accessoryAmount = 4;
-	public int fuAmount = 5;
+	public int ShortcutSlotsCount = 5;
 	public int slot;
 	public List<ItemObject> items= new List<ItemObject>();
 	public List<GameObject> slots = new List<GameObject>();
@@ -83,10 +83,9 @@ public class InventoryObject : MonoBehaviour {
 
 	public void InitFuAccessoryInvPanel () 
 	{
-		inventoryPanel = GameObject.Find("Inventory Panel");
-		slotPanel = inventoryPanel.transform.GetChild(1).GetChild(2).gameObject;
+		slotPanel = GameObject.Find("Shortcut Panel");
 		int startIndex = slotIndex;
-		for(; slotIndex < fuAmount+startIndex; slotIndex++)
+		for(; slotIndex < ShortcutSlotsCount+startIndex; slotIndex++)
 		{
 			items.Add(new ItemObject());
 			slots.Add(Instantiate(inventoryFuSlot));

@@ -17,9 +17,9 @@ public class BuffController : MonoBehaviour {
 
 
 	public IEnumerator AddFireAttribute( double data, double time){
-		PlayerStatus.Fire += data;
+		PlayerStatus.FireAttack += data;
 		yield return new WaitForSeconds((float)time);
-		PlayerStatus.Fire -= data;
+		PlayerStatus.FireAttack -= data;
 	}
 
 

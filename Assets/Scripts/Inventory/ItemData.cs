@@ -86,9 +86,11 @@ public class ItemData : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 			}else{
 				if(inventory.items[targetSlot].ID == -1)
 				{
+					inventory.items[slot].ID = -1;
 					this.slot = targetSlot;
 					this.transform.SetParent(inventory.slots[targetSlot].transform);
 					this.transform.position = this.transform.parent.position;
+					
 				}
 				else
 				{
@@ -96,10 +98,12 @@ public class ItemData : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 					targetItem.transform.SetParent(this.transform.parent);
 					targetItem.transform.position = this.transform.parent.position;
 					targetItem.GetComponent<ItemData>().slot = slot;
+					inventory.items[slot].ID = targetItem.GetComponent<ItemData>().item.ID;
 
 					this.slot = targetSlot;
 					this.transform.SetParent(inventory.slots[targetSlot].transform);
 					this.transform.position = this.transform.parent.position;
+					inventory.items[slot].ID = this.item.ID;
 				}
 
 			}
