@@ -7,15 +7,64 @@ public class SkillReleaser : MonoBehaviour {
     public GameObject obj;
     public GameObject obj2;
 
+
+    public Transform skillSpellingPoint;
+
     // Use this for initialization
     void Start () {
         
     }
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+
+    private void Tm_CollisionEnter(object sender, RFX4_TransformMotion.RFX4_CollisionInfo e)
+    {
+        Debug.Log(e.Hit.transform.name); //will print collided object name to the console.
+    }
+
+    // Update is called once per frame
+    void Update () {
+
+
+        if (Input.GetKeyDown(KeyCode.F9))
+        {
+            ReleaseFireBallEffect();
+        }
+
+    }
+
+
+    private void ReleaseFireBallEffect()
+    {
+        Transform player = PlayerTestController.instance.transform;
+        bool isPlayerFaceLeft = player.rotation.y > 179;
+        GameObject effect = Instantiate(Resources.Load("Prefabs/Effects/Effect21_Hand"), skillSpellingPoint.position, Quaternion.Euler(0, -90, 0)) as GameObject;
+        var tm = effect.GetComponentInChildren<RFX4_TransformMotion>(true);
+        if (tm != null) tm.CollisionEnter += Tm_CollisionEnter;
+
+        // define color
+        float colorHUE = 6f; // red fire color
+        RFX4_ColorHelper.ChangeObjectColorByHUE(effect, colorHUE / 360f);
+        var transformMotion = effect.GetComponentInChildren<RFX4_TransformMotion>(true);
+        if (transformMotion != null)
+        {
+            transformMotion.HUE = colorHUE / 360f;
+            foreach (var collidedInstance in transformMotion.CollidedInstances)
+            {
+                if (collidedInstance != null) RFX4_ColorHelper.ChangeObjectColorByHUE(collidedInstance, colorHUE / 360f);
+            }
+        }
+
+        var rayCastCollision = effect.GetComponentInChildren<RFX4_RaycastCollision>(true);
+        if (rayCastCollision != null)
+        {
+            rayCastCollision.HUE = colorHUE / 360f;
+            foreach (var collidedInstance in rayCastCollision.CollidedInstances)
+            {
+                if (collidedInstance != null) RFX4_ColorHelper.ChangeObjectColorByHUE(collidedInstance, colorHUE / 360f);
+            }
+        }
+
+    }
+
 
     public void releaseSkill(string FuName)
     {
