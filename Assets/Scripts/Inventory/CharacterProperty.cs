@@ -17,7 +17,7 @@ public class CharacterProperty : MonoBehaviour {
 
 	void Start ()
 	{
-		PropertyList = GameObject.Find("Property Panel").transform.FindChild("Viewport").gameObject;
+		PropertyList = GameObject.Find("Property Panel").transform.Find("Viewport").gameObject;
 		propertyContent = PropertyList.transform.GetChild(0).gameObject;
 		InitProperty();
 		

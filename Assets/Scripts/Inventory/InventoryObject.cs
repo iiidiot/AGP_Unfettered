@@ -70,7 +70,7 @@ public class InventoryObject : MonoBehaviour {
 	public void InitAccessoryPanel () 
 	{
 		inventoryPanel = GameObject.Find("Character Panel");
-		slotPanel = inventoryPanel.transform.FindChild("Accessory Panel").gameObject;
+		slotPanel = inventoryPanel.transform.Find("Accessory Panel").gameObject;
 		for(; slotIndex < generalType; slotIndex++)
 		{
 			items.Add(new ItemObject());
