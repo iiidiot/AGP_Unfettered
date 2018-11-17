@@ -421,7 +421,7 @@ public class PlayerTestController : MonoBehaviour
     private void BlockStatementUpdate () 
     {
         // is attacking or getting damage, player can not move 
-        if( playerAttack || (m_playerStatement[PlayerStatus.PlayerStatement[1]] )
+        if( playerAttack || m_playerStatement[PlayerStatus.PlayerStatement[1]] )
         {
             m_blockStatement[PlayerStatus.blockStatement[2]] = true;
         }
