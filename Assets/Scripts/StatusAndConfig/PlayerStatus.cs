@@ -42,6 +42,7 @@ public static class PlayerStatus {
 
     public static Dictionary<string, string> item = new Dictionary<string, string>();
     public static string[] blockStatement = {"isBlockMeleeAttack", "isBlockFuAttack", "isBlockMovement", "isBlockItemUsage"};
+    public static string[] PlayerStatement = {"isDied", "isDamaged"};
 
     public static Dictionary<string, double> GetPanelAttributes()
     {

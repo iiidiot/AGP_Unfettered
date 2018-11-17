@@ -43,6 +43,7 @@ public class PlayerTestController : MonoBehaviour
     // player direction input
     private Vector2 m_directionInput;
     private Dictionary<string, bool> m_blockStatement;
+    private Dictionary<string, bool> m_playerStatement;
     private Rigidbody m_rigidbody;
     private Animator m_animator;
     private float m_gravity;//重力加速度，每秒
@@ -70,6 +71,7 @@ public class PlayerTestController : MonoBehaviour
         StatusController();
         SoundEffectController();
         AnimeController();
+        BlockStatementUpdate();
     }
 
 
@@ -302,6 +304,7 @@ public class PlayerTestController : MonoBehaviour
             isOnGround = true;
 			m_rigidbody.velocity = new Vector2(m_directionInput.x * maxClimbSpeed, m_directionInput.y * maxClimbSpeed);
 		}
+
     }
 
     //
@@ -403,5 +406,35 @@ public class PlayerTestController : MonoBehaviour
         foreach( string state in PlayerStatus.blockStatement){
             m_blockStatement.Add(state, false);
         }
+    }
+
+    private void initPlayerStatement(){
+        m_playerStatement = new Dictionary<string, bool>();
+        foreach( string state in PlayerStatus.PlayerStatement){
+            m_playerStatement.Add(state, false);
+        }
+    }
+
+    //
+    // Summary:
+    //     check the block statement as per animation statement
+    private void BlockStatementUpdate () 
+    {
+        // is attacking or getting damage, player can not move 
+        if( playerAttack || (m_playerStatement[PlayerStatus.PlayerStatement[1]] )
+        {
+            m_blockStatement[PlayerStatus.blockStatement[2]] = true;
+        }
+        else
+        {
+             m_blockStatement[PlayerStatus.blockStatement[2]] = false;
+        }
+
+        // is dead;
+        if(m_playerStatement[PlayerStatus.PlayerStatement[0]])
+        {
+            
+        }
+
     }
 }
