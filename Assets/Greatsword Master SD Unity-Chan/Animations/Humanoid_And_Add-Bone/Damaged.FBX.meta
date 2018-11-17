@@ -560,7 +560,7 @@ ModelImporter:
       name: damaged_back
       takeName: Take 001
       firstFrame: 50
-      lastFrame: 75
+      lastFrame: 73
       wrapMode: 0
       orientationOffsetY: 0
       level: 0

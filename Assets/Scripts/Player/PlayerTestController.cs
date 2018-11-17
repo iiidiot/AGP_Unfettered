@@ -53,6 +53,7 @@ public class PlayerTestController : MonoBehaviour
     {
         SetBirthPlace();
         initBlockStatement();
+        initPlayerStatement();
     }
     void Start()
     {
@@ -433,7 +434,7 @@ public class PlayerTestController : MonoBehaviour
         // is dead;
         if(m_playerStatement[PlayerStatus.PlayerStatement[0]])
         {
-            
+
         }
 
     }

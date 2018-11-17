@@ -41,6 +41,10 @@ public static class PlayerStatus {
 
 
     public static Dictionary<string, string> item = new Dictionary<string, string>();
+
+    // the 0-6 means: [0]isBlockAllMovement, [1]isBlockLeftMovement, [2]isBlocRightkMovement, [3]isBlockJumpMovement, [4]isBlockMeleeAttack, [5]isBlockMeleeAttack, [6]isBlockMeleeAttack
+    public static bool[] blockStatements = new bool[7];
+
     public static string[] blockStatement = {"isBlockMeleeAttack", "isBlockFuAttack", "isBlockMovement", "isBlockItemUsage"};
     public static string[] PlayerStatement = {"isDied", "isDamaged"};
 

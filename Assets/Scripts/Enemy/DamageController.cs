@@ -14,7 +14,7 @@ public class DamageController : MonoBehaviour {
 	[SerializeField]
 	private int Health = 10;
 	[SerializeField]
-	private int power = 2;
+	private int power = 1;
 
 	// Use this for initialization
 	void Start () {
@@ -24,7 +24,7 @@ public class DamageController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		CheckDeath();
+
 	}
 
 	void OnTriggerEnter (Collider collider) {
@@ -33,17 +33,18 @@ public class DamageController : MonoBehaviour {
 		}
 	}
 
-	void OnTriggerExit (Collider collider) {
-		if(CheckEnemy(collider.tag)){
-			myAnimator.SetBool("isHitted", false);
-		}
-	}
-
     private void GetDamage()
     {
-		Debug.Log("Health:"+Health);
-		Health -= power;
-        myAnimator.SetBool("isHitted", true);
+		Debug.Log("Health:"+PlayerStatus.Health);
+		PlayerStatus.Health -= power;
+		if(PlayerStatus.Health <= 0)
+		{
+			 myAnimator.SetTrigger("isDying");
+		}
+		else{
+			myAnimator.SetTrigger("isDamaged");
+		}
+        
     }
 
     private bool CheckEnemy (string colliderTag){
@@ -54,13 +55,4 @@ public class DamageController : MonoBehaviour {
 		}
 		return false;
 	}
-
-	private void CheckDeath () {
-
-		 if(Health <= 0){
-			 myAnimator.SetTrigger("isDied");
-			 gameObject.SetActive(false);
-		 }
-	}
-
 }
