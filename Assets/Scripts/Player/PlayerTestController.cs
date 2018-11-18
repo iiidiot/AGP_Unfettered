@@ -136,6 +136,7 @@ public class PlayerTestController : MonoBehaviour
         {
             GetDamage();
         }
+
     }
 
     //

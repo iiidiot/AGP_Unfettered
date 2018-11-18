@@ -3780,7 +3780,7 @@ public class recognizer : MonoBehaviour
         Recognize(new double[64 * 64]);
     }
 
-    public void Recognize(double[] arr)
+    public string Recognize(double[] arr)
     {
         float[,,,] inputTensor = new float[1, 64, 64, 1];
         double[] rawInputTensor = arr;
@@ -3812,20 +3812,23 @@ public class recognizer : MonoBehaviour
         var prob = tensors[0].GetValue() as float[,];
         var characterIndex = tensors[1].GetValue() as int[,];
 
+        string skillname = "";
         for(int i=0; i < 3; i++)
         {
             if(characters[characterIndex[0, i]].Equals("火"))
             {
                 print("火球术！");
                 sr.releaseSkill("FireBall");
+                skillname = "FireBall";
             }
             else if (characters[characterIndex[0, i]].Equals("水"))
             {
                 print("水弹术！");
                 sr.releaseSkill("FrostBall");
+                skillname = "FrostBall";
             }
         }
-
+        return skillname;
         //Debug.Log(characters[characterIndex[0, 0]] + prob[0, 0].ToString());
         //Debug.Log(characters[characterIndex[0, 1]] + prob[0, 1].ToString());
         //Debug.Log(characters[characterIndex[0, 2]] + prob[0, 2].ToString());

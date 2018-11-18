@@ -7,12 +7,14 @@ public class SkillReleaser : MonoBehaviour {
     public GameObject obj;
     public GameObject obj2;
 
+    private GameObject fireBall;
 
     public Transform skillSpellingPoint;
 
     // Use this for initialization
     void Start () {
-        
+        InitFireBall();
+        fireBall.SetActive(false);
     }
 
     private void Tm_CollisionEnter(object sender, RFX4_TransformMotion.RFX4_CollisionInfo e)
@@ -36,14 +38,27 @@ public class SkillReleaser : MonoBehaviour {
     {
         Transform player = PlayerTestController.instance.transform;
         bool isPlayerFaceLeft = player.rotation.y > 179;
-        GameObject effect = Instantiate(Resources.Load("Prefabs/Effects/Effect21_Hand"), skillSpellingPoint.position, Quaternion.Euler(0, -90, 0)) as GameObject;
-        var tm = effect.GetComponentInChildren<RFX4_TransformMotion>(true);
+        if (isPlayerFaceLeft)
+        {
+            fireBall.transform.SetPositionAndRotation(skillSpellingPoint.position, Quaternion.Euler(0, 90, 0));
+        }
+        else
+        {
+            fireBall.transform.SetPositionAndRotation(skillSpellingPoint.position, Quaternion.Euler(0, -90, 0));
+        }
+        fireBall.SetActive(true);
+    }
+
+    private void InitFireBall()
+    {
+        fireBall = Instantiate(Resources.Load("Prefabs/Effects/FireBall"), skillSpellingPoint.position, Quaternion.Euler(0, -90, 0)) as GameObject;
+        var tm = fireBall.GetComponentInChildren<RFX4_TransformMotion>(true);
         if (tm != null) tm.CollisionEnter += Tm_CollisionEnter;
 
         // define color
         float colorHUE = 6f; // red fire color
-        RFX4_ColorHelper.ChangeObjectColorByHUE(effect, colorHUE / 360f);
-        var transformMotion = effect.GetComponentInChildren<RFX4_TransformMotion>(true);
+        RFX4_ColorHelper.ChangeObjectColorByHUE(fireBall, colorHUE / 360f);
+        var transformMotion = fireBall.GetComponentInChildren<RFX4_TransformMotion>(true);
         if (transformMotion != null)
         {
             transformMotion.HUE = colorHUE / 360f;
@@ -53,7 +68,7 @@ public class SkillReleaser : MonoBehaviour {
             }
         }
 
-        var rayCastCollision = effect.GetComponentInChildren<RFX4_RaycastCollision>(true);
+        var rayCastCollision = fireBall.GetComponentInChildren<RFX4_RaycastCollision>(true);
         if (rayCastCollision != null)
         {
             rayCastCollision.HUE = colorHUE / 360f;
@@ -62,9 +77,7 @@ public class SkillReleaser : MonoBehaviour {
                 if (collidedInstance != null) RFX4_ColorHelper.ChangeObjectColorByHUE(collidedInstance, colorHUE / 360f);
             }
         }
-
     }
-
 
     public void releaseSkill(string FuName)
     {
@@ -73,9 +86,10 @@ public class SkillReleaser : MonoBehaviour {
 
         if (FuName == "FireBall")
         {
-            obj = Instantiate(obj, player.position, player.rotation) as GameObject;
-            Rigidbody r = obj.GetComponent<Rigidbody>();
-            r.velocity = new Vector2(h_direction * 15f, r.velocity.y);
+            ReleaseFireBallEffect();
+            //obj = Instantiate(obj, player.position, player.rotation) as GameObject;
+            //Rigidbody r = obj.GetComponent<Rigidbody>();
+            //r.velocity = new Vector2(h_direction * 15f, r.velocity.y);
         }
         if(FuName == "FrostBall")
         {
