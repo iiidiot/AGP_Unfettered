@@ -3818,13 +3818,13 @@ public class recognizer : MonoBehaviour
             if(characters[characterIndex[0, i]].Equals("火"))
             {
                 print("火球术！");
-                sr.releaseSkill("FireBall");
+                //sr.releaseSkill("FireBall");
                 skillname = "FireBall";
             }
             else if (characters[characterIndex[0, i]].Equals("水"))
             {
                 print("水弹术！");
-                sr.releaseSkill("FrostBall");
+                //sr.releaseSkill("FrostBall");
                 skillname = "FrostBall";
             }
         }
