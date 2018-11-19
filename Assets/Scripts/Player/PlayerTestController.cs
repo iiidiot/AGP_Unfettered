@@ -42,18 +42,16 @@ public class PlayerTestController : MonoBehaviour
     public Collider knifeAttack;
     // player direction input
     private Vector2 m_directionInput;
-    private Dictionary<string, bool> m_blockStatement;
-    private Dictionary<string, bool> m_playerStatement;
     private Rigidbody m_rigidbody;
     private Animator m_animator;
     private float m_gravity;//重力加速度，每秒
     private float m_jumpSpeed;//起跳速度
 
+    // the 0-6 means: [0]isBlockAllManipulation, [1]isBlockLeftMovement, [2]isBlocRightkMovement, [3]isBlockJumpMovement, [4]isBlockMeleeAttack, [5]isBlockFuAttack, [6]isBlockItemUsage
+    private static int[] m_blockStatements = new int[7];
     void Awake()
     {
         SetBirthPlace();
-        initBlockStatement();
-        initPlayerStatement();
     }
     void Start()
     {
@@ -86,24 +84,37 @@ public class PlayerTestController : MonoBehaviour
     //     listen the input from keyboard and mouse
     private void HandleInput()
     {
-        if(!m_blockStatement[PlayerStatus.blockStatement[0]])
+        //melee attack
+        if( (m_blockStatements[4] == 0) && (m_blockStatements[0] == 0) )
         {
             if(Input.GetMouseButtonDown(0))
             {
                 playerAttack = true;
             }
         }
-
-        if(!m_blockStatement[PlayerStatus.blockStatement[1]])
+        // fu attack
+        if((m_blockStatements[5] == 0) && (m_blockStatements[0] == 0) )
         {
 
         }
 
-        if(!m_blockStatement[PlayerStatus.blockStatement[2]])
-        {
-            m_directionInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxis("Vertical"));
+        m_directionInput = Vector3.zero;
 
-            if(Input.GetKeyDown(KeyCode.Space))
+        if(m_blockStatements[0] == 0)
+        {
+            float horizontalInput = 0f;
+            if( (m_blockStatements[1] == 0) && Input.GetAxisRaw("Horizontal") < 0)
+            {
+                horizontalInput = Input.GetAxisRaw("Horizontal");
+            }
+            else if( (m_blockStatements[2] == 0) && Input.GetAxisRaw("Horizontal") > 0 )
+            {
+                 horizontalInput = Input.GetAxisRaw("Horizontal");
+            }
+
+            m_directionInput = new Vector2(horizontalInput, Input.GetAxis("Vertical"));
+
+            if(Input.GetKeyDown(KeyCode.Space) && (m_blockStatements[3] == 0) )
             {
                 playerJump = true;
             }
@@ -112,22 +123,19 @@ public class PlayerTestController : MonoBehaviour
                 canMoveStone = true;
             }
         }
-        else
-        {
-            m_directionInput = Vector3.zero;
-        }
 
-        if(!m_blockStatement[PlayerStatus.blockStatement[3]])
+        // item usage
+        if( (m_blockStatements[6] == 0) && (m_blockStatements[0] == 0) )
         {
 
         }
 
-        if (Input.GetKey(KeyCode.F1))
+        if (Input.GetKey(KeyCode.F1) && (m_blockStatements[0] == 0) )
         {
             SaveAndLoadUtil.SavePlayerStatus();
         }
 
-        if (Input.GetKey(KeyCode.F2))
+        if (Input.GetKey(KeyCode.F2) && (m_blockStatements[0] == 0) )
         {
             SaveAndLoadUtil.LoadPlayerStatus();
         }
@@ -366,12 +374,12 @@ public class PlayerTestController : MonoBehaviour
     //
     // Parameters:
     //   blockState:
-    //     a list of block statement name which need to block
-    public void MuteAllPlayerControlInput(string[] blockState)
+    //     a list of block statement which need to block
+    public void BlockPlayerInput( List<int> blockState)
     {
-        foreach(string state in blockState)
+        foreach(int state in blockState)
         {
-            m_blockStatement[state] = true;
+            m_blockStatements[state] += 1;
         }
     }
     //
@@ -381,11 +389,12 @@ public class PlayerTestController : MonoBehaviour
     // Parameters:
     //   blockState:
     //     a list of block statement name which need to unblock
-    public void RestoreAllPlayerControlInput(string[] blockState)
+    public void UnblockPlayerInput(List<int> blockState)
     {
-        foreach(string state in blockState)
+        foreach(int state in blockState)
         {
-            m_blockStatement[state] = false;
+            if(m_blockStatements[state] > 0)
+                m_blockStatements[state] -= 1;
         }  
     }
 
@@ -402,40 +411,14 @@ public class PlayerTestController : MonoBehaviour
 
     //
     // Summary:
-    //     set all the block parameter to false to init the blockstatement
-    private void initBlockStatement(){
-        m_blockStatement = new Dictionary<string, bool>();
-        foreach( string state in PlayerStatus.blockStatement){
-            m_blockStatement.Add(state, false);
-        }
-    }
-
-    private void initPlayerStatement(){
-        m_playerStatement = new Dictionary<string, bool>();
-        foreach( string state in PlayerStatus.PlayerStatement){
-            m_playerStatement.Add(state, false);
-        }
-    }
-
-    //
-    // Summary:
     //     check the block statement as per animation statement
     private void BlockStatementUpdate () 
     {
-        // is attacking or getting damage, player can not move 
-        if( playerAttack || m_playerStatement[PlayerStatus.PlayerStatement[1]] )
-        {
-            m_blockStatement[PlayerStatus.blockStatement[2]] = true;
-        }
-        else
-        {
-             m_blockStatement[PlayerStatus.blockStatement[2]] = false;
-        }
-
         // is dead;
-        if(m_playerStatement[PlayerStatus.PlayerStatement[0]])
+        if(m_animator.GetBool("isDied"))
         {
-
+            m_blockStatements[0] += 1;
+            m_rigidbody.mass = 10000;
         }
 
     }

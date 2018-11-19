@@ -6,8 +6,10 @@ public class DamageBehaviour : StateMachineBehaviour {
 
 	 // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
 	override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-		PlayerStatus.blockStatements[0] = true;
-		Debug.Log("can player move: " + !PlayerStatus.blockStatements[0]);
+		List<int> blockstate = new List<int>();
+        blockstate.Add(0);
+		PlayerTestController.instance.BlockPlayerInput(blockstate);
+		
 	}
 
 	// OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -17,9 +19,10 @@ public class DamageBehaviour : StateMachineBehaviour {
 
 	// OnStateExit is called when a transition ends and the state machine finishes evaluating this state
 	override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-		PlayerStatus.blockStatements[0] = false;
-		Debug.Log("can player move: " + !PlayerStatus.blockStatements[0]);
 		animator.ResetTrigger("isDamaged");
+		List<int> blockstate = new List<int>();
+        blockstate.Add(0);
+		PlayerTestController.instance.UnblockPlayerInput(blockstate);
 	}
 
 	// OnStateMove is called right after Animator.OnAnimatorMove(). Code that processes and affects root motion should be implemented here

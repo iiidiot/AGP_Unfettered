@@ -48,11 +48,12 @@ public class BubbleTrigger : MonoBehaviour
         if (nextDialog)
         {
             string playerPath = CharactersConfigManager.GetCharacterGameObjectPath(CharactersConfigManager.k_PlayerID);
-            if (!canMoveHere)
-            {
-                string[] blockstate = PlayerStatus.blockStatement;
-                GameObject.Find(playerPath).GetComponent<PlayerTestController>().MuteAllPlayerControlInput(blockstate);
-            }
+            // if (!canMoveHere)
+            // {
+            //     List<int> blockstate = new List<int>();
+            //     blockstate.Add(0);
+            //     GameObject.Find(playerPath).GetComponent<PlayerTestController>().BlockPlayerInput(blockstate);
+            // }
 
             nextDialog = false;
             if (index == dialogList.Count)
@@ -66,8 +67,9 @@ public class BubbleTrigger : MonoBehaviour
                 if (!canMoveHere)
                 {
                     Debug.Log("%%%%%%%%%%%%%%%restore");
-                    string[] blockstate = PlayerStatus.blockStatement;
-                    GameObject.Find(playerPath).GetComponent<PlayerTestController>().RestoreAllPlayerControlInput(blockstate);
+                    List<int> blockstate = new List<int>();
+                    blockstate.Add(0);
+                    GameObject.Find(playerPath).GetComponent<PlayerTestController>().UnblockPlayerInput(blockstate);
                 }
                 return;
             }
@@ -137,8 +139,10 @@ public class BubbleTrigger : MonoBehaviour
             if (!canMoveHere)
             {
                 string playerPath = CharactersConfigManager.GetCharacterGameObjectPath(CharactersConfigManager.k_PlayerID);
-                string[] blockstate = PlayerStatus.blockStatement;
-                GameObject.Find(playerPath).GetComponent<PlayerTestController>().MuteAllPlayerControlInput(blockstate);
+                
+                List<int> blockstate = new List<int>();
+                blockstate.Add(0);
+                GameObject.Find(playerPath).GetComponent<PlayerTestController>().BlockPlayerInput(blockstate);
             }
         }
     }

@@ -17,7 +17,7 @@ public class TargetTest : MonoBehaviour {
 
 	
 	void OnTriggerEnter (Collider collider) {
-		Debug.Log("something collide");
+		Debug.Log("something collide:"+collider.tag);
 		if(collider.tag == "Weapon"){
 			Debug.Log("weapon touched");
 		}

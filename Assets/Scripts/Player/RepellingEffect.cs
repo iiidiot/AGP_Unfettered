@@ -20,15 +20,7 @@ public class RepellingEffect : MonoBehaviour {
 		myAnimator = GetComponent<Animator>();
 	}
 
-	// void OnCollisionEnter (Collision other){
-	// 	Debug.Log(other.gameObject.tag);
-	// 	foreach( string damageObjectTag in damageObjectArray){
-	// 		if(other.gameObject.tag == damageObjectTag){
-	// 			GetDamage(other.transform);
-	// 			return;
-	// 		}
-	// 	}
-	// }
+
 
 	void OnTriggerEnter (Collider other) {
 
@@ -42,15 +34,13 @@ public class RepellingEffect : MonoBehaviour {
 
 	private void GetDamage ( Collider damageoBject ){
 		// can not use position cos there is error by unity 
-		float direction = (damageoBject.GetComponent<Rigidbody>().velocity.x) > 0 ? 1 : -1;
-		myRigidbody.velocity = new Vector3(0, 0, 0);
-		myRigidbody.AddForce( direction * repellingforce,myRigidbody.velocity.y, 0);
-		PlayerTestController.instance.Flip(-1 * direction);
-
-		// EnemyMovementController enemyMovementController = damageoBject.gameObject.GetComponent<EnemyMovementController>();
-        // enemyMovementController.FacingRight = true;
-
-		//myAnimator.SetTrigger(damageTrigger);
+		if(!myAnimator.GetBool("isDied"))
+		{
+			float direction = (damageoBject.GetComponent<Rigidbody>().velocity.x) > 0 ? 1 : -1;
+			myRigidbody.velocity = new Vector3(0, 0, 0);
+			myRigidbody.AddForce( direction * repellingforce,myRigidbody.velocity.y, 0);
+			PlayerTestController.instance.Flip(-1 * direction);
+		}
 	}
 
 }
