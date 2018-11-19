@@ -77,6 +77,7 @@ public class PlayerTestController : MonoBehaviour
     void FixedUpdate()
     {
         MyGravity();//模拟重力
+        Debug.Log("health:"+PlayerStatus.Health);
     }
 
     //
@@ -139,12 +140,6 @@ public class PlayerTestController : MonoBehaviour
         {
             SaveAndLoadUtil.LoadPlayerStatus();
         }
-
-        if (Input.GetKeyDown(KeyCode.F3))
-        {
-            GetDamage();
-        }
-
     }
 
     //
@@ -171,11 +166,6 @@ public class PlayerTestController : MonoBehaviour
         if(playerAttack){
             SoundController.PlaySound(1);
         }
-    }
-    private void GetDamage()
-    {
-        // play some animation maybe
-        PlayerStatus.Health -= 1; // record some damage 
     }
 
     void OnCollisionEnter(Collision collision)
@@ -236,11 +226,11 @@ public class PlayerTestController : MonoBehaviour
 
     private void OnTriggerEnter(Collider collider)
     {
-        if (collider.tag == "Lava")
-        {
-            GetDamage();
+        // if (collider.tag == "Lava")
+        // {
+        //     GetDamage();
        
-        }
+        // }
     }
 
     //
