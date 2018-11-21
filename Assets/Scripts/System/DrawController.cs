@@ -23,6 +23,12 @@ public class DrawController : MonoBehaviour {
 
     Material alphaDissolve;
     Material spriteDiffuse;
+
+    private GameObject characterParticleEffect;
+    private GameObject inkParticleEffect;
+    private GameObject fog;
+
+
     // Use this for initialization
     void Start () {
 
@@ -142,18 +148,31 @@ public class DrawController : MonoBehaviour {
 
         Time.timeScale = time_scale;
 
+        ParticleSystem[] fogs = inkParticleEffect.GetComponentsInChildren<ParticleSystem>();
+        foreach (ParticleSystem ps in fogs)
+        {
+           
+            var main = ps.main;
+            main.simulationSpeed = 1/time_scale;
+        }
+        ParticleSystem ps2 = fog.GetComponent<ParticleSystem>();
+        var main2 = ps2.main;
+        main2.simulationSpeed = 1/time_scale;
+
         isDrawing = true;
     }
 
-    private GameObject characterParticleEffectBlack;
-    //private GameObject characterParticleEffectWhite;
+   
 
     private void AddEffectParticles()
     {
-        if(!characterParticleEffectBlack)
-            characterParticleEffectBlack = Instantiate(Resources.Load("Prefabs/Effects/CharacterParticleEffects"), playerTransform.position, playerTransform.rotation) as GameObject;
-        ///if (!characterParticleEffectWhite)
-            //characterParticleEffectWhite = Instantiate(Resources.Load("Prefabs/Effects/CharacterParticleEffectWhite"), playerTransform.position, playerTransform.rotation) as GameObject;
+        if(!characterParticleEffect)
+            characterParticleEffect = Instantiate(Resources.Load("Prefabs/Effects/CharacterParticleEffects"), playerTransform.position, playerTransform.rotation) as GameObject;
+        if (!inkParticleEffect)
+            inkParticleEffect = Instantiate(Resources.Load("Prefabs/Effects/InkParticle"), playerTransform.position, playerTransform.rotation) as GameObject;
+
+        if (!fog)
+            fog = Instantiate(Resources.Load("Prefabs/Effects/Fog"), playerTransform.position, playerTransform.rotation) as GameObject;
     }
 
     static float t = 0f;
@@ -204,11 +223,14 @@ public class DrawController : MonoBehaviour {
 
     private void DestoryEffectParticles()
     {
-        if (characterParticleEffectBlack)
-            Destroy(characterParticleEffectBlack);
+        if (characterParticleEffect)
+            Destroy(characterParticleEffect);
 
-        //if (characterParticleEffectWhite)
-        //    Destroy(characterParticleEffectWhite);
+        if (inkParticleEffect)
+            Destroy(inkParticleEffect);
+            
+        if (fog)
+            Destroy(fog);
 
         System.GC.Collect();
     }
