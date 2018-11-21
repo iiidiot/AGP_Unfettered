@@ -19,6 +19,8 @@ public class InventoryObject : MonoBehaviour {
 	public List<ItemObject> items= new List<ItemObject>();
 	public List<GameObject> slots = new List<GameObject>();
 
+	private List<string> inventoryTypes = new List<string>(new string[] { "Equipment Inventory Panel", "Consumable Inventory Panel", "Quest Inventory Panel", "Others Inventory Panel", "Overall Inventory Panel" });
+
 
 
 	// 4 means this slot can allow any type of items to put; 0 means weapen , 1 means ......
@@ -29,16 +31,16 @@ public class InventoryObject : MonoBehaviour {
 		//SaveAndLoadUtil.LoadPlayerStatus();
 		InitAccessoryPanel();
 		AddAccessoryItem(0);
-
+		InitInvPanel();
 		
 		
 		
-		InitAccessoryInvPanel();
-		InitFuInvPanel();
-		InitMedicationInvPanel();
-		InitMissionItemInvPanel();
+		//InitEquipmentInvPanel();
+		//InitConsumableInvPanel();
+		//InitQuestItemInvPanel();
+		//InitOthersInvPanel();
 		
-		InitFuAccessoryInvPanel();
+		InitShortcutInvPanel();
 
 		AddAccessoryInvItem(0);
 		AddAccessoryInvItem(0);
@@ -81,7 +83,23 @@ public class InventoryObject : MonoBehaviour {
 		}
 	}
 
-	public void InitFuAccessoryInvPanel () 
+	public void InitInvPanel ()
+	{
+		foreach(string inventoryType in inventoryTypes)
+		{
+			slotPanel = GameObject.Find(inventoryType).transform.GetChild(1).gameObject;
+			int startIndex = slotIndex;
+			for(; slotIndex < slotAmount+startIndex; slotIndex++)
+			{
+				items.Add(new ItemObject());
+				slots.Add(Instantiate(inventoryGeneralSlot));
+				slots[slotIndex].GetComponent<SlotObject>().id = slotIndex;
+				slots[slotIndex].GetComponent<SlotObject>().itemType = inventoryTypes.IndexOf(inventoryType);
+				slots[slotIndex].transform.SetParent(slotPanel.transform);
+			}
+		}
+	}
+	public void InitShortcutInvPanel () 
 	{
 		slotPanel = GameObject.Find("Shortcut Panel");
 		int startIndex = slotIndex;
@@ -95,67 +113,69 @@ public class InventoryObject : MonoBehaviour {
 		}
 	}
 
-	public void InitAccessoryInvPanel () 
-	{
-		inventoryPanel = GameObject.Find("Inventory Panel");
-		slotPanel = inventoryPanel.transform.GetChild(0).GetChild(1).gameObject;
-		int startIndex = slotIndex;
-		for(; slotIndex < slotAmount+startIndex; slotIndex++)
-		{
-			items.Add(new ItemObject());
-			slots.Add(Instantiate(inventoryGeneralSlot));
-			slots[slotIndex].GetComponent<SlotObject>().id = slotIndex;
-			slots[slotIndex].GetComponent<SlotObject>().itemType = generalType;
-			slots[slotIndex].transform.SetParent(slotPanel.transform);
-		}
-		
-	}
+	//TODO delete those init function when all slot is inited perfectly
 
-	public void InitFuInvPanel () 
-	{
-		inventoryPanel = GameObject.Find("Inventory Panel");
-		slotPanel = inventoryPanel.transform.GetChild(1).GetChild(1).gameObject;
-		int startIndex = slotIndex;
-		for(; slotIndex < slotAmount+startIndex; slotIndex++)
-		{
-			items.Add(new ItemObject());
-			slots.Add(Instantiate(inventoryGeneralSlot));
-			slots[slotIndex].GetComponent<SlotObject>().id = slotIndex;
-			slots[slotIndex].GetComponent<SlotObject>().itemType = generalType;
-			slots[slotIndex].transform.SetParent(slotPanel.transform);
-		}
-	}
+	// public void InitEquipmentInvPanel () 
+	// {
+	// 	inventoryPanel = GameObject.Find("Inventory Panel");
+	// 	slotPanel = inventoryPanel.transform.GetChild(0).GetChild(1).gameObject;
+	// 	int startIndex = slotIndex;
+	// 	for(; slotIndex < slotAmount+startIndex; slotIndex++)
+	// 	{
+	// 		items.Add(new ItemObject());
+	// 		slots.Add(Instantiate(inventoryGeneralSlot));
+	// 		slots[slotIndex].GetComponent<SlotObject>().id = slotIndex;
+	// 		slots[slotIndex].GetComponent<SlotObject>().itemType = generalType;
+	// 		slots[slotIndex].transform.SetParent(slotPanel.transform);
+	// 	}
+		
+	// }
 
-	public void InitMedicationInvPanel () 
-	{
-		inventoryPanel = GameObject.Find("Inventory Panel");
-		slotPanel = inventoryPanel.transform.GetChild(2).GetChild(1).gameObject;
-		int startIndex = slotIndex;
-		for(; slotIndex < slotAmount+startIndex; slotIndex++)
-		{
-			items.Add(new ItemObject());
-			slots.Add(Instantiate(inventoryGeneralSlot));
-			slots[slotIndex].GetComponent<SlotObject>().id = slotIndex;
-			slots[slotIndex].GetComponent<SlotObject>().itemType = generalType;
-			slots[slotIndex].transform.SetParent(slotPanel.transform);
-		}
+	// public void InitConsumableInvPanel () 
+	// {
+	// 	inventoryPanel = GameObject.Find("Inventory Panel");
+	// 	slotPanel = inventoryPanel.transform.GetChild(1).GetChild(1).gameObject;
+	// 	int startIndex = slotIndex;
+	// 	for(; slotIndex < slotAmount+startIndex; slotIndex++)
+	// 	{
+	// 		items.Add(new ItemObject());
+	// 		slots.Add(Instantiate(inventoryGeneralSlot));
+	// 		slots[slotIndex].GetComponent<SlotObject>().id = slotIndex;
+	// 		slots[slotIndex].GetComponent<SlotObject>().itemType = generalType;
+	// 		slots[slotIndex].transform.SetParent(slotPanel.transform);
+	// 	}
+	// }
+
+	// public void InitQuestItemInvPanel () 
+	// {
+	// 	inventoryPanel = GameObject.Find("Inventory Panel");
+	// 	slotPanel = inventoryPanel.transform.GetChild(2).GetChild(1).gameObject;
+	// 	int startIndex = slotIndex;
+	// 	for(; slotIndex < slotAmount+startIndex; slotIndex++)
+	// 	{
+	// 		items.Add(new ItemObject());
+	// 		slots.Add(Instantiate(inventoryGeneralSlot));
+	// 		slots[slotIndex].GetComponent<SlotObject>().id = slotIndex;
+	// 		slots[slotIndex].GetComponent<SlotObject>().itemType = generalType;
+	// 		slots[slotIndex].transform.SetParent(slotPanel.transform);
+	// 	}
 		
-	}
-	public void InitMissionItemInvPanel () 
-	{
-		inventoryPanel = GameObject.Find("Inventory Panel");
-		slotPanel = inventoryPanel.transform.GetChild(3).GetChild(1).gameObject;
-		int startIndex = slotIndex;
-		for(; slotIndex < slotAmount+startIndex; slotIndex++)
-		{
-			items.Add(new ItemObject());
-			slots.Add(Instantiate(inventoryGeneralSlot));
-			slots[slotIndex].GetComponent<SlotObject>().id = slotIndex;
-			slots[slotIndex].GetComponent<SlotObject>().itemType = generalType;
-			slots[slotIndex].transform.SetParent(slotPanel.transform);
-		}
+	// }
+	// public void InitOthersInvPanel () 
+	// {
+	// 	inventoryPanel = GameObject.Find("Inventory Panel");
+	// 	slotPanel = inventoryPanel.transform.GetChild(3).GetChild(1).gameObject;
+	// 	int startIndex = slotIndex;
+	// 	for(; slotIndex < slotAmount+startIndex; slotIndex++)
+	// 	{
+	// 		items.Add(new ItemObject());
+	// 		slots.Add(Instantiate(inventoryGeneralSlot));
+	// 		slots[slotIndex].GetComponent<SlotObject>().id = slotIndex;
+	// 		slots[slotIndex].GetComponent<SlotObject>().itemType = generalType;
+	// 		slots[slotIndex].transform.SetParent(slotPanel.transform);
+	// 	}
 		
-	}
+	// }
 	public void AddAccessoryInvItem(int id)
 	{
 		ItemObject itemToAdd = database.FetchItemByID(id);

@@ -28,8 +28,6 @@ public class DamageController : MonoBehaviour {
 	}
 
 	void OnTriggerEnter (Collider collider) {
-		Debug.Log("!attack:"+!PlayerTestController.instance.playerAttack);
-		Debug.Log("CheckEnemy(collider.tag):"+CheckEnemy(collider.tag));
 		if(CheckEnemy(collider.tag) && !PlayerTestController.instance.playerAttack ){
 			GetDamage();
 		}
@@ -37,8 +35,8 @@ public class DamageController : MonoBehaviour {
 
     private void GetDamage()
     {
-		Debug.Log("Health:"+PlayerStatus.Health);
 		PlayerStatus.Health -= power;
+		Debug.Log("Health:"+PlayerStatus.Health);
 		if(PlayerStatus.Health <= 0)
 		{
 			 myAnimator.SetTrigger("isDying");

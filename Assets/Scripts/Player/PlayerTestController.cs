@@ -77,7 +77,6 @@ public class PlayerTestController : MonoBehaviour
     void FixedUpdate()
     {
         MyGravity();//模拟重力
-        Debug.Log("health:"+PlayerStatus.Health);
     }
 
     //

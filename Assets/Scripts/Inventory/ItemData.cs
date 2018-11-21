@@ -24,7 +24,8 @@ public class ItemData : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     {
         if(item != null)
 		{
-			this.transform.SetParent(this.transform.parent.parent);
+			GameObject inventoryCanvas = GameObject.Find("Inventory Canvas");
+			this.transform.SetParent(inventoryCanvas.transform);
 			this.transform.position = eventData.position - offset;
 			GetComponent<CanvasGroup>().blocksRaycasts = false;
 		}
@@ -57,6 +58,8 @@ public class ItemData : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
     public void OnPointerEnter(PointerEventData eventData)
     {
+		GameObject inventoryCanvas = GameObject.Find("Inventory Canvas");
+		tooltip.transform.SetParent(inventoryCanvas.transform);
         tooltip.Activate(item);
     }
 
