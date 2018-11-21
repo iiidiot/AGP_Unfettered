@@ -4,23 +4,41 @@ using UnityEngine;
 using UnityEngine.PostProcessing;
 using DG.Tweening;
 
+
 public class DrawController : MonoBehaviour {
 
     public float time_scale = 0;
     public float turningTime = 1f;
-    public bool isDrawing = false;
     public GameObject FuDrawPanel;
 
+    public GameObject[] ToHide;
+    public GameObject[] ToChangeMaterial;
+
+    //private bool[] initialIsActive; // to hide objects
+
+    private bool isDrawing = false;
     private Transform playerTransform;
 
+    private GameObject middleGround;
+
+    Material alphaDissolve;
+    Material spriteDiffuse;
     // Use this for initialization
     void Start () {
+
+        middleGround = GameObject.Find("Level/middleGround");
+
         InitPostProcessingColor();
 
         playerTransform = PlayerTestController.instance.transform;
 
         Camera.main.GetComponent<Painting>().enabled = false;
         isDrawing = false;
+
+        ///initialIsActive = new bool[ToHide.Length];
+
+        alphaDissolve = Resources.Load("Materials/AlphaDissolve") as Material;
+        spriteDiffuse = Resources.Load("Materials/SpriteDiffuse") as Material;
 
         
     }
@@ -43,10 +61,11 @@ public class DrawController : MonoBehaviour {
             t = 0f;
             isTurning = true;
         }
-        
+
         if (isTurning && !isDrawing)
         {
-            AddEffectParticles();
+            DrawModeVisualEffects();
+          
             TurnBlackAndWhite();
         }
 
@@ -54,13 +73,65 @@ public class DrawController : MonoBehaviour {
         {
             ReleaseSkill();
             DisableDraw();
-            
+            RemoveDrawModeVisualEffects();
             TurnColored();
+        }
+
+
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            DrawModeVisualEffects();
+        }
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            RemoveDrawModeVisualEffects();
         }
     }
 
 
+    private void DrawModeVisualEffects()
+    {
+        // hide objects
+        for (int i = 0; i < ToHide.Length; i++)
+        {
+            ToHide[i].SetActive(false);
+        }
 
+        // change bg shader
+        middleGround.GetComponent<SpriteRenderer>().material = alphaDissolve;
+
+        // change player/monster shader
+        foreach (GameObject go in ToChangeMaterial)
+        {
+            go.GetComponent<MaterialManager>().DrawingMode();
+        }
+
+        // particle
+        AddEffectParticles();
+
+        // postprocessing
+        Camera.main.GetComponent<PostProcessingProfileManager>().ChangeToDrawMode();
+    }
+
+    private void RemoveDrawModeVisualEffects()
+    {
+        for (int i = 0; i < ToHide.Length; i++)
+        {
+            ToHide[i].SetActive(true);
+        }
+        middleGround.GetComponent<SpriteRenderer>().material = spriteDiffuse;
+
+        // change player/monster shader
+        foreach (GameObject go in ToChangeMaterial)
+        {
+            go.GetComponent<MaterialManager>().OrdinaryMode();
+        }
+
+
+        DestoryEffectParticles();
+
+        Camera.main.GetComponent<PostProcessingProfileManager>().ChangeToOrdinaryMode();
+    }
 
     void EnableDraw()
     {
