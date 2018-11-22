@@ -13,11 +13,11 @@ public class recognizer : MonoBehaviour
     private TFSession session;
     public Dictionary<int, string> characters = new Dictionary<int, string>
     {
-        {0, "一"},
-{1, "丁"},
-{2, "七"},
-{3, "万"},
-{4, "丈"},
+        {0, "火"},
+{1, "土"},
+{2, "金"},
+{3, "木"},
+{4, "水"},
 {5, "三"},
 {6, "上"},
 {7, "下"},
@@ -3813,28 +3813,35 @@ public class recognizer : MonoBehaviour
         var characterIndex = tensors[1].GetValue() as int[,];
 
         string skillname = "";
-        for(int i=0; i < 3; i++)
+        for(int i=0; i < 5; i++)
         {
+            print(characters[characterIndex[0, i]] + " possibility:" + prob[0, i].ToString());
             if(characters[characterIndex[0, i]].Equals("火"))
             {
-                print("火球术！");
+                
                 //sr.releaseSkill("FireBall");
                 skillname = "FireBall";
+                print("========================================");
+                return skillname;
             }
             else if (characters[characterIndex[0, i]].Equals("水"))
             {
-                print("水弹术！");
+
                 //sr.releaseSkill("FrostBall");
                 skillname = "FrostBall";
+                print("========================================");
+                return skillname;
             }
         }
+        print("========================================");
         return skillname;
+
         //Debug.Log(characters[characterIndex[0, 0]] + prob[0, 0].ToString());
         //Debug.Log(characters[characterIndex[0, 1]] + prob[0, 1].ToString());
         //Debug.Log(characters[characterIndex[0, 2]] + prob[0, 2].ToString());
 
         // frees up resources - very important if you are running graph > 400 or so times
-      
+
     }
 
     // Update is called once per frame
