@@ -1,0 +1,323 @@
+fileFormatVersion: 2
+guid: eceeda7f73fecbd46a4e48352294c5fe
+ModelImporter:
+  serializedVersion: 23
+  fileIDToRecycleName:
+    100000: bone_BL_leg01
+    100002: bone_BL_leg02
+    100004: bone_BL_leg03
+    100006: bone_BL_leg04
+    100008: bone_BR_leg01
+    100010: bone_BR_leg02
+    100012: bone_BR_leg03
+    100014: bone_BR_leg04
+    100016: bone_FL_leg01
+    100018: bone_FL_leg02
+    100020: bone_FL_leg03
+    100022: bone_FL_leg04
+    100024: bone_FR_leg01
+    100026: bone_FR_leg02
+    100028: bone_FR_leg03
+    100030: bone_FR_leg04
+    100032: bone_head
+    100034: bone_jaw
+    100036: bone_pelvis
+    100038: bone_tail
+    100040: dummy_chest
+    100042: eyes
+    100044: head
+    100046: ik_BL_leg
+    100048: ik_BR_leg
+    100050: ik_FL_leg
+    100052: ik_FR_leg
+    100054: leg
+    100056: pv_BL_leg
+    100058: pv_BR_leg
+    100060: pv_FL_leg
+    100062: pv_FR_leg
+    100064: root
+    100066: //RootNode
+    100068: torso
+    100070: UnityChan
+    400000: bone_BL_leg01
+    400002: bone_BL_leg02
+    400004: bone_BL_leg03
+    400006: bone_BL_leg04
+    400008: bone_BR_leg01
+    400010: bone_BR_leg02
+    400012: bone_BR_leg03
+    400014: bone_BR_leg04
+    400016: bone_FL_leg01
+    400018: bone_FL_leg02
+    400020: bone_FL_leg03
+    400022: bone_FL_leg04
+    400024: bone_FR_leg01
+    400026: bone_FR_leg02
+    400028: bone_FR_leg03
+    400030: bone_FR_leg04
+    400032: bone_head
+    400034: bone_jaw
+    400036: bone_pelvis
+    400038: bone_tail
+    400040: dummy_chest
+    400042: eyes
+    400044: head
+    400046: ik_BL_leg
+    400048: ik_BR_leg
+    400050: ik_FL_leg
+    400052: ik_FR_leg
+    400054: leg
+    400056: pv_BL_leg
+    400058: pv_BR_leg
+    400060: pv_FL_leg
+    400062: pv_FR_leg
+    400064: root
+    400066: //RootNode
+    400068: torso
+    400070: UnityChan
+    2100000: 15___Default
+    2100002: weapon_metal
+    2100004: mob_spider01_head_mat
+    2100006: mob_spider01_body_mat
+    2100008: mob_spider01_leg_mat
+    2100010: mob_spider01_eye_mat
+    2300000: UnityChan
+    3300000: UnityChan
+    4300000: UnityChan
+    4300002: head
+    4300004: torso
+    4300006: leg
+    4300008: eyes
+    7400000: walk
+    7400002: attack
+    7400004: hurt
+    7400006: stand
+    7400008: death
+    9500000: //RootNode
+    13700000: eyes
+    13700002: head
+    13700004: leg
+    13700006: torso
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: walk
+      takeName: Take 001
+      firstFrame: 40
+      lastFrame: 80
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: attack
+      takeName: Take 001
+      firstFrame: 85
+      lastFrame: 100
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: hurt
+      takeName: Take 001
+      firstFrame: 110
+      lastFrame: 115
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: stand
+      takeName: Take 001
+      firstFrame: 0
+      lastFrame: 35
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: death
+      takeName: Take 001
+      firstFrame: 120
+      lastFrame: 150
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    previousCalculatedGlobalScale: 1
+    hasPreviousCalculatedGlobalScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
