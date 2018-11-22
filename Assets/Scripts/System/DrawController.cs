@@ -165,11 +165,11 @@ public class DrawController : MonoBehaviour {
         {
            
             var main = ps.main;
-            main.simulationSpeed = 1/time_scale;
+            //main.simulationSpeed = 1/time_scale;
         }
         ParticleSystem ps2 = fog.GetComponent<ParticleSystem>();
         var main2 = ps2.main;
-        main2.simulationSpeed = 1/time_scale;
+        //main2.simulationSpeed = 1/time_scale;
 
         isDrawing = true;
     }
