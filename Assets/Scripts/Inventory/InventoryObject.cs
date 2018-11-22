@@ -94,7 +94,7 @@ public class InventoryObject : MonoBehaviour {
 				items.Add(new ItemObject());
 				slots.Add(Instantiate(inventoryGeneralSlot));
 				slots[slotIndex].GetComponent<SlotObject>().id = slotIndex;
-				slots[slotIndex].GetComponent<SlotObject>().itemType = inventoryTypes.IndexOf(inventoryType);
+				slots[slotIndex].GetComponent<SlotObject>().itemType = generalType + inventoryTypes.IndexOf(inventoryType);
 				slots[slotIndex].transform.SetParent(slotPanel.transform);
 			}
 		}

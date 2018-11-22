@@ -20,14 +20,6 @@ public class ItemDatabase : MonoBehaviour {
 	{
 		for(int i = 0; i < itemData.Count; i++)
 		{
-			// database.Add(new ItemObject((int)itemData[i]["id"], itemData[i]["title"].ToString(), (int)itemData[i]["type"],
-			// 				(int)itemData[i]["price"], (double)(int)itemData[i]["stats"]["property"]["health"], (double)(int)itemData[i]["stats"]["property"]["mana"], 
-			// 				(double)(int)itemData[i]["stats"]["property"]["power"], (double)(int)itemData[i]["stats"]["property"]["defence"], (double)(int)itemData[i]["stats"]["property"]["critical_chance"],
-			// 				(double)(int)itemData[i]["stats"]["property"]["speed"], (double)(int)itemData[i]["stats"]["property"]["luck"], (double)(int)itemData[i]["stats"]["property"]["intelligence"],
-			// 				(double)(int)itemData[i]["stats"]["property"]["metal"], (double)(int)itemData[i]["stats"]["property"]["wood"], (double)(int)itemData[i]["stats"]["property"]["water"],
-			// 				(double)(int)itemData[i]["stats"]["property"]["fire"], (double)(int)itemData[i]["stats"]["property"]["earth"], (double)(int)itemData[i]["stats"]["durability"], 
-			// 				itemData[i]["description"].ToString(), (int)itemData[i]["stackable_quantity"], (int)itemData[i]["rarity"], itemData[i]["sprite_path"].ToString(),
-			// 				itemData[i]["model_path"].ToString()));
 			database.Add(new ItemObject((int)itemData[i]["id"], itemData[i]["title"].ToString(), (int)itemData[i]["type"],
 				(double)(int)itemData[i]["price"], (double)(int)itemData[i]["health"], (double)(int)itemData[i]["health_regeneration"], 
 				(double)(int)itemData[i]["attack"], (double)(int)itemData[i]["defense"], (double)(int)itemData[i]["critical_chance"],
