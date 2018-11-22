@@ -79,13 +79,14 @@ public class SkillReleaser : MonoBehaviour {
         }
     }
 
-    public void releaseSkill(string FuName)
+    public void ReleaseSkill(string FuName)
     {
         Transform player = PlayerTestController.instance.transform;
         float h_direction = player.rotation.y > 179 ? 1 : -1;
 
         if (FuName == "FireBall")
         {
+            Debug.Log("火火火火火火火火火火火");
             ReleaseFireBallEffect();
             //obj = Instantiate(obj, player.position, player.rotation) as GameObject;
             //Rigidbody r = obj.GetComponent<Rigidbody>();

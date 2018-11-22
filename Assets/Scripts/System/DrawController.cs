@@ -27,6 +27,7 @@ public class DrawController : MonoBehaviour {
     private GameObject characterParticleEffect;
     private GameObject inkParticleEffect;
     private GameObject fog;
+    private GameObject distortion;
 
 
     // Use this for initialization
@@ -185,6 +186,8 @@ public class DrawController : MonoBehaviour {
 
         if (!fog)
             fog = Instantiate(Resources.Load("Prefabs/Effects/Fog"), playerTransform.position, playerTransform.rotation) as GameObject;
+        if (!distortion)
+            distortion = Instantiate(Resources.Load("Prefabs/Effects/DistortionFuDraw"), playerTransform.position, playerTransform.rotation) as GameObject;
     }
 
     static float t = 0f;
@@ -244,6 +247,9 @@ public class DrawController : MonoBehaviour {
         if (fog)
             Destroy(fog);
 
+        if (distortion)
+            Destroy(distortion);
+
         System.GC.Collect();
     }
 
@@ -258,7 +264,7 @@ public class DrawController : MonoBehaviour {
     {
         if (skillName.Length > 0)
         {
-            playerTransform.GetComponent<SkillReleaser>().releaseSkill(skillName);
+            playerTransform.GetComponent<SkillReleaser>().ReleaseSkill(skillName);
         }
     }
 
