@@ -98,9 +98,12 @@ public class DrawController : MonoBehaviour {
     private void DrawModeVisualEffects()
     {
         // hide objects
-        for (int i = 0; i < ToHide.Length; i++)
+        foreach (GameObject go in ToHide)
         {
-            ToHide[i].SetActive(false);
+            if (go)
+            {
+                go.SetActive(false);
+            }
         }
 
         // change bg shader
@@ -109,7 +112,10 @@ public class DrawController : MonoBehaviour {
         // change player/monster shader
         foreach (GameObject go in ToChangeMaterial)
         {
-            go.GetComponent<MaterialManager>().DrawingMode();
+            if (go)
+            {
+                go.GetComponent<MaterialManager>().DrawingMode();
+            }
         }
 
         // particle
@@ -121,16 +127,22 @@ public class DrawController : MonoBehaviour {
 
     private void RemoveDrawModeVisualEffects()
     {
-        for (int i = 0; i < ToHide.Length; i++)
+        foreach (GameObject go in ToHide)
         {
-            ToHide[i].SetActive(true);
+            if (go)
+            {
+                go.SetActive(true);
+            }
         }
         middleGround.GetComponent<SpriteRenderer>().material = spriteDiffuse;
 
         // change player/monster shader
         foreach (GameObject go in ToChangeMaterial)
         {
-            go.GetComponent<MaterialManager>().OrdinaryMode();
+            if (go)
+            {
+                go.GetComponent<MaterialManager>().OrdinaryMode();
+            }
         }
 
 
