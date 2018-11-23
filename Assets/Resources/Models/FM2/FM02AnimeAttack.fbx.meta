@@ -1,0 +1,324 @@
+fileFormatVersion: 2
+guid: 77546fd6ffbce314f8b24d19d6876b8c
+ModelImporter:
+  serializedVersion: 23
+  fileIDToRecycleName:
+    100000: Cloth
+    100002: Coat
+    100004: //RootNode
+    100006: Hair1
+    100008: Head
+    100010: Hips
+    100012: ikLeftLeg
+    100014: ikRightLeg
+    100016: LeftArm
+    100018: LeftFoot
+    100020: LeftForeArm
+    100022: LeftHand
+    100024: LeftIndex1
+    100026: LeftIndex2
+    100028: LeftIndex3
+    100030: LeftLeg
+    100032: LeftMiddle1
+    100034: LeftMiddle2
+    100036: LeftMiddle3
+    100038: LeftPinky1
+    100040: LeftPinky2
+    100042: LeftPinky3
+    100044: LeftRing1
+    100046: LeftRing2
+    100048: LeftRing3
+    100050: LeftShoulder
+    100052: LeftThumb1
+    100054: LeftThumb2
+    100056: LeftThumb3
+    100058: LeftToe
+    100060: LeftUpLeg
+    100062: Neck
+    100064: RightArm
+    100066: RightFoot
+    100068: RightForeArm
+    100070: RightHand
+    100072: RightIndex1
+    100074: RightIndex2
+    100076: RightIndex3
+    100078: RightLeg
+    100080: RightMiddle1
+    100082: RightMiddle2
+    100084: RightMiddle3
+    100086: RightPinky1
+    100088: RightPinky2
+    100090: RightPinky3
+    100092: RightRing1
+    100094: RightRing2
+    100096: RightRing3
+    100098: RightShoulder
+    100100: RightThumb1
+    100102: RightThumb2
+    100104: RightThumb3
+    100106: RightToe
+    100108: RightUpLeg
+    100110: root1
+    100112: root_still
+    100114: Skin1
+    100116: Spine
+    100118: Spine1
+    100120: Spine2
+    100122: Sword1
+    100124: SwordMove
+    100126: SwordStill1
+    100128: SwordStillCase
+    100130: SwordStillSword
+    400000: Cloth
+    400002: Coat
+    400004: //RootNode
+    400006: Hair1
+    400008: Head
+    400010: Hips
+    400012: ikLeftLeg
+    400014: ikRightLeg
+    400016: LeftArm
+    400018: LeftFoot
+    400020: LeftForeArm
+    400022: LeftHand
+    400024: LeftIndex1
+    400026: LeftIndex2
+    400028: LeftIndex3
+    400030: LeftLeg
+    400032: LeftMiddle1
+    400034: LeftMiddle2
+    400036: LeftMiddle3
+    400038: LeftPinky1
+    400040: LeftPinky2
+    400042: LeftPinky3
+    400044: LeftRing1
+    400046: LeftRing2
+    400048: LeftRing3
+    400050: LeftShoulder
+    400052: LeftThumb1
+    400054: LeftThumb2
+    400056: LeftThumb3
+    400058: LeftToe
+    400060: LeftUpLeg
+    400062: Neck
+    400064: RightArm
+    400066: RightFoot
+    400068: RightForeArm
+    400070: RightHand
+    400072: RightIndex1
+    400074: RightIndex2
+    400076: RightIndex3
+    400078: RightLeg
+    400080: RightMiddle1
+    400082: RightMiddle2
+    400084: RightMiddle3
+    400086: RightPinky1
+    400088: RightPinky2
+    400090: RightPinky3
+    400092: RightRing1
+    400094: RightRing2
+    400096: RightRing3
+    400098: RightShoulder
+    400100: RightThumb1
+    400102: RightThumb2
+    400104: RightThumb3
+    400106: RightToe
+    400108: RightUpLeg
+    400110: root1
+    400112: root_still
+    400114: Skin1
+    400116: Spine
+    400118: Spine1
+    400120: Spine2
+    400122: Sword1
+    400124: SwordMove
+    400126: SwordStill1
+    400128: SwordStillCase
+    400130: SwordStillSword
+    2100000: lambert1
+    2100002: Default_Material
+    4300000: Hair1
+    4300002: Coat
+    4300004: Cloth
+    4300006: Skin1
+    4300008: SwordMove
+    4300010: SwordStillSword
+    4300012: SwordStillCase
+    7400000: Attack_Loop
+    7400002: Run_Battle
+    7400004: Idle_Battle
+    9500000: //RootNode
+    13700000: Cloth
+    13700002: Coat
+    13700004: Hair1
+    13700006: Skin1
+    13700008: SwordMove
+    13700010: SwordStillCase
+    13700012: SwordStillSword
+  externalObjects: {}
+  materials:
+    importMaterials: 0
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Attack_Loop
+      takeName: Take 001
+      firstFrame: 160
+      lastFrame: 190
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Run_Battle
+      takeName: Take 001
+      firstFrame: 125
+      lastFrame: 152
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Idle_Battle
+      takeName: Take 001
+      firstFrame: 101
+      lastFrame: 120
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 1
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 101
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    previousCalculatedGlobalScale: 0.01
+    hasPreviousCalculatedGlobalScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
