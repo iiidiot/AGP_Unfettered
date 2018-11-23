@@ -83,6 +83,7 @@
 				float4 tex2 = tex2D(_LavaTex, IN.uv_MainTex - distort / 7 * _Scale - _Speed * _Time.xx * 1.4 + float2(0.4, 0.6));
 				tex.rgba *= tex2.rgba;
 				o.Emission = _TintColor * tex;
+				//o.Emission =   tex;
 				o.Albedo = o.Emission;
 			}
 			ENDCG
