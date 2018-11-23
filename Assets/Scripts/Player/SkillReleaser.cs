@@ -32,20 +32,23 @@ public class SkillReleaser : MonoBehaviour {
             ReleaseFireBallEffect();
         }
 
+        Transform player = PlayerTestController.instance.transform;
+        float h_direction = player.rotation.eulerAngles.y > 179 ? 1 : -1;
+
     }
 
 
     private void ReleaseFireBallEffect()
     {
         Transform player = PlayerTestController.instance.transform;
-        bool isPlayerFaceLeft = player.rotation.y > 179;
+        bool isPlayerFaceLeft = player.rotation.eulerAngles.y > 90;
         if (isPlayerFaceLeft)
         {
-            fireBall.transform.SetPositionAndRotation(skillSpellingPoint.position, Quaternion.Euler(0, 90, 0));
+            fireBall.transform.SetPositionAndRotation(skillSpellingPoint.position, Quaternion.Euler(0, -90, 0));
         }
         else
         {
-            fireBall.transform.SetPositionAndRotation(skillSpellingPoint.position, Quaternion.Euler(0, -90, 0));
+            fireBall.transform.SetPositionAndRotation(skillSpellingPoint.position, Quaternion.Euler(0, 90, 0));
         }
         fireBall.SetActive(true);
     }
@@ -82,9 +85,6 @@ public class SkillReleaser : MonoBehaviour {
 
     public void ReleaseSkill(string FuName)
     {
-        Transform player = PlayerTestController.instance.transform;
-        float h_direction = player.rotation.y > 179 ? 1 : -1;
-
         if (FuName == "FireBall")
         {
             Debug.Log("火火火火火火火火火火火");
@@ -93,9 +93,25 @@ public class SkillReleaser : MonoBehaviour {
         if(FuName == "FrostBall")
         {
             Debug.Log("水水水水水水水水水水水水");
-            waterBall = Instantiate(Resources.Load("Prefabs/Effects/FrostMissile/OBJ"), player.position, player.rotation) as GameObject;
-            Rigidbody r = waterBall.GetComponent<Rigidbody>();
-            r.velocity = new Vector2(h_direction * 15f, r.velocity.y);
+            ReleaseWaterBallEffect();
+        }
+    }
+
+
+    private void ReleaseWaterBallEffect()
+    { 
+        Transform player = PlayerTestController.instance.transform;
+        bool isPlayerFaceLeft = player.rotation.eulerAngles.y > 90;
+        waterBall = Instantiate(Resources.Load("Prefabs/Effects/FrostMissile/OBJ"), player.position, player.rotation) as GameObject;
+        Rigidbody r = waterBall.GetComponent<Rigidbody>();
+
+        if (isPlayerFaceLeft)
+        {
+            r.velocity = new Vector2(-15f, r.velocity.y);
+        }
+        else
+        {
+            r.velocity = new Vector2(15f, r.velocity.y);
         }
     }
 }
