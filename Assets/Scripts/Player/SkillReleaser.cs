@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class SkillReleaser : MonoBehaviour {
 
-    public GameObject obj;
-    public GameObject obj2;
+    //public GameObject obj;
+    //public GameObject obj2;
 
     private GameObject fireBall;
+    private GameObject waterBall;
 
     public Transform skillSpellingPoint;
 
@@ -88,14 +89,12 @@ public class SkillReleaser : MonoBehaviour {
         {
             Debug.Log("火火火火火火火火火火火");
             ReleaseFireBallEffect();
-            //obj = Instantiate(obj, player.position, player.rotation) as GameObject;
-            //Rigidbody r = obj.GetComponent<Rigidbody>();
-            //r.velocity = new Vector2(h_direction * 15f, r.velocity.y);
         }
         if(FuName == "FrostBall")
         {
-            obj2 = Instantiate(obj2, player.position, player.rotation) as GameObject;
-            Rigidbody r = obj2.GetComponent<Rigidbody>();
+            Debug.Log("水水水水水水水水水水水水");
+            waterBall = Instantiate(Resources.Load("Prefabs/Effects/FrostMissile/OBJ"), player.position, player.rotation) as GameObject;
+            Rigidbody r = waterBall.GetComponent<Rigidbody>();
             r.velocity = new Vector2(h_direction * 15f, r.velocity.y);
         }
     }
