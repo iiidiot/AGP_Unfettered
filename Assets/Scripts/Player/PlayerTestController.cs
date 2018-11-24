@@ -68,7 +68,7 @@ public class PlayerTestController : MonoBehaviour
         HandleInput();
         MoveController();
         StatusController();
-        SoundEffectController();
+        //SoundEffectController();
         AnimeController();
         BlockStatementUpdate();
     }
