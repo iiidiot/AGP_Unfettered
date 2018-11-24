@@ -8,6 +8,9 @@
 		[HDR]_TintColor("Tint Color", Color) = (0.5,0.5,0.5,0.5)
 		_LavaTex("Lava Texture", 2D) = "white" {}
 		_DistortTex("Distort Texture", 2D) = "white" {}
+
+		_EmissionTex("Emission Texture", 2D) = "white" {}
+
 		_Speed("Distort Speed", Float) = 1
 		_Scale("Distort Scale", Float) = 1
 
@@ -38,6 +41,7 @@
 			float2 uv_LavaTex;
 			float2 uv_DistortTex;
 			float2 uv_BumpMap;
+			float2 uv_EmissionTex;
 		};
 
 		half _Glossiness;
@@ -45,6 +49,7 @@
 		fixed4 _Color;
 		float _Threshold;
 		sampler2D _BumpMap;
+		sampler2D _EmissionTex;
 
 		// Add instancing support for this shader. You need to check 'Enable Instancing' on materials that use the shader.
 		// See https://docs.unity3d.com/Manual/GPUInstancing.html for more information about instancing.
@@ -56,9 +61,10 @@
 		void surf (Input IN, inout SurfaceOutputStandard o) {
 			// Albedo comes from a texture tinted by color
 			fixed4 c = tex2D (_MainTex, IN.uv_MainTex) * _Color;
+			fixed4 e = tex2D(_EmissionTex, IN.uv_EmissionTex) * _Color;
 			fixed3 diff = c.rgb - fixed3(82.0/256.0, 16.0/256.0, 41.0/256.0);
-			
-			if (abs(diff.x) + abs(diff.y) + abs(diff.z) < _Threshold)
+		
+			if (e.a > 0 || abs(diff.r) + abs(diff.g) + abs(diff.b) < _Threshold)
 			{
 				float4 distort = tex2D(_DistortTex, IN.uv_DistortTex) * 2 - 1;
 				float4 tex = tex2D(_LavaTex, IN.uv_LavaTex + distort / 10 * _Scale + _Speed * _Time.xx);
@@ -70,8 +76,8 @@
 			else {
 				o.Albedo = c.rgb;
 				// Metallic and smoothness come from slider variables
-				o.Metallic = _Metallic;
-				o.Smoothness = _Glossiness;
+				//o.Metallic = _Metallic;
+				//o.Smoothness = _Glossiness;
 				o.Alpha = c.a;
 			}
 			
