@@ -17,7 +17,7 @@ public class EnemyMovementController : MonoBehaviour
 
     private Animator m_animator;
     private bool m_canFlip = true;
-    private bool m_facingRight = false;
+    private bool m_facingRight = true;
     private bool m_isTriggered = false;
 
     private float m_rayLength = 2.0f;
