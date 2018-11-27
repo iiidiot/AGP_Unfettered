@@ -91,6 +91,7 @@ public class PlayerTestController : MonoBehaviour
         {
             if(Input.GetMouseButtonDown(0))
             {
+                m_animator.SetTrigger("attack");
                 playerAttack = true;
             }
         }
@@ -277,7 +278,7 @@ public class PlayerTestController : MonoBehaviour
         m_animator.SetBool("isOnGround", isOnGround);
         if(playerAttack)
         {
-            m_animator.SetTrigger("attack");
+            //m_animator.SetTrigger("attack");
         }
         m_animator.SetBool("isPushing", playerPush);
     }
