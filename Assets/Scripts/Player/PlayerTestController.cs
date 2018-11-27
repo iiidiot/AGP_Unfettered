@@ -23,6 +23,8 @@ public class PlayerTestController : MonoBehaviour
     public float zero_threshold = 0.003f;
     public bool isOnGround = false;
     public float maxClimbSpeed = 2f;
+    public GameObject in_sword;
+    public GameObject scabbard;
 
     public Transform[] startPlace;
     // index for birth place location in the up-front places
@@ -273,7 +275,10 @@ public class PlayerTestController : MonoBehaviour
         m_animator.SetFloat("verticalSpeed", m_rigidbody.velocity.y);
         m_animator.SetFloat("absVerticalSpeed", Mathf.Abs(m_rigidbody.velocity.y));
         m_animator.SetBool("isOnGround", isOnGround);
-        m_animator.SetBool("attack", playerAttack);
+        if(playerAttack)
+        {
+            m_animator.SetTrigger("attack");
+        }
         m_animator.SetBool("isPushing", playerPush);
     }
 
