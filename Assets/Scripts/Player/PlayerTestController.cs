@@ -397,11 +397,11 @@ public class PlayerTestController : MonoBehaviour
     // Summary:
     //     set player birthPlace according to the startPlaceNumber setting in the inspector 
     private void SetBirthPlace () {
-        if (startPlace.Length != 0)
-        {
-            transform.parent.position = startPlaceNumber < startPlace.Length 
-                ? startPlace[startPlaceNumber].transform.position : startPlace[0].transform.position;
-        }
+        //if (startPlace.Length != 0)
+        //{
+        //    transform.parent.position = startPlaceNumber < startPlace.Length
+        //        ? startPlace[startPlaceNumber].transform.position : startPlace[0].transform.position;
+        //}
     }
 
     //
