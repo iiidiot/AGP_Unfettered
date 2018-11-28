@@ -8,8 +8,6 @@ public class DamageController : MonoBehaviour {
 	public GameObject player;
 	private Animator myAnimator;
 
-	private Rigidbody myRigidbody;
-
 	[SerializeField]
 	private int Health = 10;
 	[SerializeField]
@@ -19,21 +17,17 @@ public class DamageController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		
-		myRigidbody = gameObject.GetComponentInParent(typeof(Rigidbody)) as Rigidbody;
-		myAnimator = gameObject.GetComponentInParent(typeof(Animator)) as Animator;
-		
-		
+
 	}
 	
 	// Update is called once per frame
 	void Update () {
-
+		transform.localPosition = Vector3.zero;
 	}
 
 	void OnTriggerEnter (Collider collider) {
 		Debug.Log(collider.tag);
-		if(CheckEnemy(collider.tag) && !PlayerTestController.instance.playerAttack ){
+		if(CheckEnemy(collider.tag)){
 			
 			GetDamage();
 		}
@@ -41,6 +35,7 @@ public class DamageController : MonoBehaviour {
 
     private void GetDamage()
     {
+		myAnimator = gameObject.GetComponentInParent(typeof(Animator)) as Animator;
 		PlayerStatus.Health -= power;
 		Debug.Log("Health:"+PlayerStatus.Health);
 		if(PlayerStatus.Health <= 0)
@@ -48,6 +43,7 @@ public class DamageController : MonoBehaviour {
 			myAnimator.SetTrigger("isDying");
 		}
 		else{
+			Debug.Log(myAnimator == null);
 			myAnimator.SetTrigger("isDamaged");
 		}
         

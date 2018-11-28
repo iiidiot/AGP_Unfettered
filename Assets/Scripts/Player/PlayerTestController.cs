@@ -254,16 +254,19 @@ public class PlayerTestController : MonoBehaviour
         for(int layer=0; layer < m_animator.layerCount; layer++){
             m_animator.SetLayerWeight(layer,0);
         }
+        if(!m_animator.GetBool("isDied"))
+        {
+            // swtich layer
+            if (!isOnGround && !isOnLadder) 
+            {
+                m_animator.SetLayerWeight(1,1);
+            } 
+            else if (isOnLadder) 
+            {
+                m_animator.SetLayerWeight(2,1);
+            } 
+        }
 
-        // swtich layer
-        if (!isOnGround && !isOnLadder) 
-        {
-            m_animator.SetLayerWeight(1,1);
-        } 
-        else if (isOnLadder) 
-        {
-            m_animator.SetLayerWeight(2,1);
-        } 
     }
 
     //
