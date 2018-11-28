@@ -67,6 +67,7 @@ public class PlayerTestController : MonoBehaviour
 
     void Update()
     {
+        playerJump = false; // 大哥别跳了
         HandleInput();
         MoveController();
         StatusController();
@@ -228,11 +229,23 @@ public class PlayerTestController : MonoBehaviour
 
     private void OnTriggerEnter(Collider collider)
     {
-        // if (collider.tag == "Lava")
-        // {
-        //     GetDamage();
-       
-        // }
+        if (collider.tag == "Lava")
+        {
+            GetDamage();
+
+        }
+    }
+
+
+    public void GetDamage()
+    {
+        // play some animation maybe
+        PlayerStatus.Health -= 1; // record some damage 
+    }
+    public void GetDamage(double damage)
+    {
+        // play some animation maybe
+        PlayerStatus.Health -= damage; // record some damage 
     }
 
     //

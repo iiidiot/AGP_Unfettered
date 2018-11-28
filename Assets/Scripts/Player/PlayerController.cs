@@ -209,6 +209,11 @@ public class PlayerController : MonoBehaviour {
         // play some animation maybe
         PlayerStatus.Health -= 1; // record some damage 
     }
+    private void GetDamage(float damage)
+    {
+        // play some animation maybe
+        PlayerStatus.Health -= damage; // record some damage 
+    }
 
     // change to air layer when player jump
     private void HandleLayer()

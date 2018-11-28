@@ -87,12 +87,12 @@ public class SkillReleaser : MonoBehaviour {
     {
         if (FuName == "FireBall")
         {
-            Debug.Log("火火火火火火火火火火火");
+            //Debug.Log("火火火火火火火火火火火");
             ReleaseFireBallEffect();
         }
         if(FuName == "FrostBall")
         {
-            Debug.Log("水水水水水水水水水水水水");
+            //Debug.Log("水水水水水水水水水水水水");
             ReleaseWaterBallEffect();
         }
     }
