@@ -165,7 +165,7 @@ ModelImporter:
     7400008: Idle_Peace
     7400010: Idle_Battle
     7400012: Idle_WithHuman
-    7400014: DrawingFu
+    7400014: FinishThrowing
     7400016: Damaged
     7400018: DrawingFu_Jump
     7400020: StartMenu
@@ -177,6 +177,7 @@ ModelImporter:
     7400032: JumpForwardUp
     7400034: JumpForwardDown
     7400036: JumpForwardLand
+    7400038: IsThrowing
     9500000: //RootNode
     13700000: Cloak
     13700002: cloth
@@ -410,9 +411,9 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: DrawingFu
+      name: FinishThrowing
       takeName: Take 001
-      firstFrame: 320
+      firstFrame: 321
       lastFrame: 333
       wrapMode: 0
       orientationOffsetY: 0
@@ -722,6 +723,34 @@ ModelImporter:
       takeName: Take 001
       firstFrame: 650
       lastFrame: 670
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: IsThrowing
+      takeName: Take 001
+      firstFrame: 320
+      lastFrame: 321
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
