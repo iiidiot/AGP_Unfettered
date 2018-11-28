@@ -69,5 +69,9 @@ public static class CharactersConfigManager
         }
     }
 
+    public static GameObject GetPlayerGameObject()
+    {
+        return GameObject.Find(GetCharacterGameObjectPath(k_PlayerID));
+    }
 
 }
