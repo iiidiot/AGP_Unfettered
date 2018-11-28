@@ -2,16 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class IdleBehaviour : StateMachineBehaviour {
+public class airDefaultBehaviour : StateMachineBehaviour {
 
 	 // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
 	override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-		animator.SetBool("isAttacking", false);
-		// show the sword
-		PlayerTestController.instance.in_sword.SetActive(true);
-		PlayerTestController.instance.scabbard.SetActive(true);
-
-		GameObject.Find("Sword1").GetComponent<BoxCollider>().enabled = false;
+		if(PlayerTestController.instance.isOnGround)
+		{
+			animator.SetBool("isAttacking", false);
+		}
 	}
 
 	// OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

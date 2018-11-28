@@ -403,7 +403,7 @@ ModelImporter:
       name: attack00_cushion
       takeName: Take 001
       firstFrame: 99
-      lastFrame: 100
+      lastFrame: 120
       wrapMode: 0
       orientationOffsetY: 0
       level: 0

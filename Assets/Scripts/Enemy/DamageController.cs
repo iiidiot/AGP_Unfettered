@@ -28,7 +28,9 @@ public class DamageController : MonoBehaviour {
 	}
 
 	void OnTriggerEnter (Collider collider) {
+		Debug.Log(collider.tag);
 		if(CheckEnemy(collider.tag) && !PlayerTestController.instance.playerAttack ){
+			
 			GetDamage();
 		}
 	}
