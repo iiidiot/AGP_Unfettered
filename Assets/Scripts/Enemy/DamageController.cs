@@ -4,9 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class DamageController : MonoBehaviour {
-	[SerializeField]
-	private string[] enemyTagList;
-
+	public string[] enemyTagList;
+	public GameObject player;
 	private Animator myAnimator;
 
 	private Rigidbody myRigidbody;
@@ -16,10 +15,15 @@ public class DamageController : MonoBehaviour {
 	[SerializeField]
 	private int power = 1;
 
+
+
 	// Use this for initialization
 	void Start () {
-		myRigidbody = GetComponent<Rigidbody>();
-		myAnimator = GetComponent<Animator>();
+		
+		myRigidbody = gameObject.GetComponentInParent(typeof(Rigidbody)) as Rigidbody;
+		myAnimator = gameObject.GetComponentInParent(typeof(Animator)) as Animator;
+		
+		
 	}
 	
 	// Update is called once per frame
@@ -28,7 +32,9 @@ public class DamageController : MonoBehaviour {
 	}
 
 	void OnTriggerEnter (Collider collider) {
+		Debug.Log(collider.tag);
 		if(CheckEnemy(collider.tag) && !PlayerTestController.instance.playerAttack ){
+			
 			GetDamage();
 		}
 	}
@@ -39,7 +45,7 @@ public class DamageController : MonoBehaviour {
 		Debug.Log("Health:"+PlayerStatus.Health);
 		if(PlayerStatus.Health <= 0)
 		{
-			 myAnimator.SetTrigger("isDying");
+			myAnimator.SetTrigger("isDying");
 		}
 		else{
 			myAnimator.SetTrigger("isDamaged");

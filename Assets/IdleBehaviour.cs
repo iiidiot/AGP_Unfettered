@@ -10,6 +10,8 @@ public class IdleBehaviour : StateMachineBehaviour {
 		// show the sword
 		PlayerTestController.instance.in_sword.SetActive(true);
 		PlayerTestController.instance.scabbard.SetActive(true);
+
+		GameObject.Find("Sword1").GetComponent<BoxCollider>().enabled = false;
 	}
 
 	// OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

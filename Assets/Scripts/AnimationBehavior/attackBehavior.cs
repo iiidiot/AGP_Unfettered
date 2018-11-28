@@ -14,6 +14,7 @@ public class attackBehavior : StateMachineBehaviour {
 		// hide the sword
 		PlayerTestController.instance.in_sword.SetActive(false);
 		PlayerTestController.instance.scabbard.SetActive(false);
+		GameObject.Find("Sword1").GetComponent<BoxCollider>().enabled = true;
 		
 	}
 
