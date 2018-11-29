@@ -68,7 +68,6 @@ public class PlayerTestController : MonoBehaviour
 
     void Update()
     {
-        playerJump = false; // 大哥别跳了
         HandleInput();
         MoveController();
         StatusController();

@@ -62,7 +62,6 @@ public class DrawController : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-        Debug.Log("IsDrawing: " + PlayerStatus.IsDrawing);
         if (Input.GetKeyDown(KeyCode.C))
         {
             if (!PlayerStatus.IsDrawing)
