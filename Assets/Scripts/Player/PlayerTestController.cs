@@ -36,6 +36,7 @@ public class PlayerTestController : MonoBehaviour
     public bool playerPush { get; set; }
     public bool playerAttack{get; set; }
     public bool playerJump{get; set; }
+    public Animator m_animator;
 
     // Obj collided with the player 
     public List<int> grounds;
@@ -45,7 +46,7 @@ public class PlayerTestController : MonoBehaviour
     // player direction input
     private Vector2 m_directionInput;
     private Rigidbody m_rigidbody;
-    private Animator m_animator;
+    
     private float m_gravity;//重力加速度，每秒
     private float m_jumpSpeed;//起跳速度
 
@@ -336,6 +337,10 @@ public class PlayerTestController : MonoBehaviour
         if (!isOnGround && !isOnLadder)
         {
             m_rigidbody.velocity = new Vector3(m_rigidbody.velocity.x, m_rigidbody.velocity.y + m_gravity * Time.fixedDeltaTime, 0);
+        }
+        if(PlayerStatus.IsDrawing)
+        {
+            m_rigidbody.velocity = Vector3.zero;
         }
     }
 
