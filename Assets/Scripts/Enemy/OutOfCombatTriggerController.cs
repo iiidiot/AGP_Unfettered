@@ -20,7 +20,7 @@ public class OutOfCombatTriggerController : MonoBehaviour
     {
         if (collider.name == monster.name)
         {
-            m_monsterAIController.isInCombatRange = false;
+            m_monsterAIController.SetIsInCombatRange(false);
         }
     }
 
@@ -28,7 +28,7 @@ public class OutOfCombatTriggerController : MonoBehaviour
     {
         if (collider.name == monster.name)
         {
-            m_monsterAIController.isInCombatRange = true;
+            m_monsterAIController.SetIsInCombatRange(true);
         }
     }
 
