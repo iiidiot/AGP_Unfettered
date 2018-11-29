@@ -16,7 +16,7 @@ public class UICurveTransparent : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
-
+        text = GetComponent<Text>();
     }
     private void OnEnable()
     {
@@ -28,16 +28,39 @@ public class UICurveTransparent : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        //var time = Time.time - startTime;
-        //if (canUpdate)
-        //{
-        //    var eval = LightCurve.Evaluate(time);
-        //    transform.Rotate(0, eval * degree * factor * Time.deltaTime, 0, Space.World);
-        //}
-        //if (time >= 1)
-        //{
-        //    if (IsLoop) startTime = Time.time;
-        //    else canUpdate = false;
-        //}
+        if (GameRunTimeStatus.UIBlackShelterMoveIn)
+        {
+            DisappearText();
+        }
+        else
+        {
+           DisappearText();
+        }
     }
+
+    void AppearText()
+    {
+        if (canUpdate)
+        {
+            var time = Time.time - startTime;
+            var eval = LightCurve.Evaluate(time);
+            text.color = new Color( text.color.r, text.color.g, text.color.b, eval * degree);
+        }
+
+         canUpdate = text.color.a >= 1 ? false : true;
+    }
+
+    void DisappearText()
+    {
+        if (canUpdate)
+        {
+            var time = Time.time - startTime;
+            var eval = LightCurve.Evaluate(time);
+            text.color = new Color( text.color.r, text.color.g, text.color.b, 1 - eval * degree);
+        }
+        canUpdate = text.color.a <= 0 ? false : true;
+    }
+
+
+
 }

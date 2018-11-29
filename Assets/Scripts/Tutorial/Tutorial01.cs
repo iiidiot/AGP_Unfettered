@@ -8,8 +8,9 @@ public class Tutorial01 : MonoBehaviour {
     {
         if (collider.tag == "Player")
         {
-			if(Input.GetKeyDown(KeyCode.)){
-				
+			if(Input.anyKeyDown){
+                Debug.Log("ishere");
+				GameRunTimeStatus.UIBlackShelterMoveIn = true;
 			}
         }
     }
