@@ -27,7 +27,7 @@ public static class CharactersConfigManager
             k_SisterID, new Dictionary<string, string>()
             {
                 {k_Name, "Oenothera"},
-                {k_GameObjctPath, "NPC/Sister" },
+                {k_GameObjctPath, "NPC/FM02" },
                 {k_SpritePath, "Sprites/CharacterHead/sister" }
             }
          },

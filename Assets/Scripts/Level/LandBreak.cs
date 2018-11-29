@@ -8,12 +8,15 @@ public class LandBreak : MonoBehaviour
     public GameObject oldMG;
     public GameObject mapBreak;
     public CameraShake cs;
+    public GameObject caveShakeAudio;
 
 	public GameObject groundCollider;
 
     public float shakeTime = 1;
 
-    private float startTime;
+    public SisterController sister;
+
+    public float startTime;
     // Use this for initialization
     void Start()
     {
@@ -25,6 +28,7 @@ public class LandBreak : MonoBehaviour
     {
         if (cs.doShake)
         {
+            caveShakeAudio.SetActive(true);
             if (Time.time - startTime > shakeTime)
             {
                 cs.doShake = false;
@@ -35,6 +39,8 @@ public class LandBreak : MonoBehaviour
 				oldMG.SetActive(false);
 				mapBreak.SetActive(true);
 				groundCollider.transform.Translate(Vector3.up * -100, Space.World);;
+                cs.enabled=false;
+                caveShakeAudio.GetComponent<AudioSource>().Stop();
             }
         }
     }
@@ -43,8 +49,10 @@ public class LandBreak : MonoBehaviour
     {
         if (collider.tag == "Player")
         {
-            cs.doShake = true;
-            startTime = Time.time;
+            sister.m_animator.SetBool("isRun",true);
+            sister.direction = -1;
+            // cs.doShake = true;
+            // startTime = Time.time;
             List<int> blockstate = new List<int>();
             blockstate.Add(0);
             PlayerTestController.instance.BlockPlayerInput(blockstate);

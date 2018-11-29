@@ -341,6 +341,11 @@ public class MonsterAIController : MonoBehaviour
             GetAttack(PlayerStatus.Attack, m_playerTransform.gameObject);
         }
 
+        if (collider.tag == "Fu")
+        {
+            GetAttack(10, m_playerTransform.gameObject);
+        }
+
     }
 
     void OnTriggerExit(Collider collider)

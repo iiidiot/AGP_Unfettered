@@ -5,7 +5,7 @@ using LitJson;
 
 public class BubbleTrigger : MonoBehaviour
 {
-
+    public LandBreak landBreak;
     public string jsonPath;
     public bool canMoveHere = true;
 
@@ -70,7 +70,10 @@ public class BubbleTrigger : MonoBehaviour
                     List<int> blockstate = new List<int>();
                     blockstate.Add(0);
                     GameObject.Find(playerPath).GetComponent<PlayerTestController>().UnblockPlayerInput(blockstate);
+
                 }
+                landBreak.cs.doShake = true;
+                landBreak.startTime = Time.time;
                 return;
             }
 
@@ -152,7 +155,7 @@ public class BubbleTrigger : MonoBehaviour
     {
         if (collider.tag == "Player")
         {
-
+            
         }
     }
 

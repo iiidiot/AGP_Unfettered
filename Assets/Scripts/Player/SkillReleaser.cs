@@ -40,8 +40,7 @@ public class SkillReleaser : MonoBehaviour {
 
     private void ReleaseFireBallEffect()
     {
-        Transform player = PlayerTestController.instance.transform;
-        bool isPlayerFaceLeft = player.rotation.eulerAngles.y > 90;
+        bool isPlayerFaceLeft = !PlayerTestController.instance.facingRight;
         if (isPlayerFaceLeft)
         {
             fireBall.transform.SetPositionAndRotation(skillSpellingPoint.position, Quaternion.Euler(0, -90, 0));
