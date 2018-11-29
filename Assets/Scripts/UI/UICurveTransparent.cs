@@ -28,16 +28,16 @@ public class UICurveTransparent : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        var time = Time.time - startTime;
-        if (canUpdate)
-        {
-            var eval = LightCurve.Evaluate(time);
-            transform.Rotate(0, eval * degree * factor * Time.deltaTime, 0, Space.World);
-        }
-        if (time >= 1)
-        {
-            if (IsLoop) startTime = Time.time;
-            else canUpdate = false;
-        }
+        //var time = Time.time - startTime;
+        //if (canUpdate)
+        //{
+        //    var eval = LightCurve.Evaluate(time);
+        //    transform.Rotate(0, eval * degree * factor * Time.deltaTime, 0, Space.World);
+        //}
+        //if (time >= 1)
+        //{
+        //    if (IsLoop) startTime = Time.time;
+        //    else canUpdate = false;
+        //}
     }
 }

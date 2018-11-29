@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BlackShelterController : MonoBehaviour {
+public class BlackShelterMoveOut : MonoBehaviour {
 
 	public AnimationCurve LightCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
     public bool IsLoop;
-    public float degree;
+    public float degree = 1;
 
 	private GameObject topShelter;
 

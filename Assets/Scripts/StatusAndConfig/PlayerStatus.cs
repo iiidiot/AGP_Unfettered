@@ -41,6 +41,7 @@ public static class PlayerStatus {
 
     //player status in runtime
     public static bool IsDrawing = false;
+    public static int TutorialStatus = 0;
 
     public static Dictionary<string, string> item = new Dictionary<string, string>();
 
