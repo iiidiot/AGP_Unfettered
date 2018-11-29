@@ -31,8 +31,8 @@ public class attackBehavior : StateMachineBehaviour {
         blockstate.Add(1);
 		blockstate.Add(2);
 		PlayerTestController.instance.UnblockPlayerInput(blockstate);
-		
-	}
+        GameObject.Find("Sword1").GetComponent<BoxCollider>().enabled = false;
+    }
 
 	// OnStateMove is called right after Animator.OnAnimatorMove(). Code that processes and affects root motion should be implemented here
 	//override public void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {

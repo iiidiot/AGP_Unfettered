@@ -84,7 +84,7 @@ public class MonsterAIController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Debug.Log(hp);
+        //Debug.Log(m_state);
 
         if (hp <= 0)
         {
@@ -176,6 +176,14 @@ public class MonsterAIController : MonoBehaviour
 
                 AdjustFacingRotation();
                 targetPosition = m_playerTransform.position;
+
+                if (!m_isPlayerInAttackRange) // A不到player
+                {
+                    if (!m_isInCombatRange) // 出追人范围了
+                    {
+                        m_state = MonsterStates.IDLE;
+                    }
+                }
             }
 
             if (m_state == MonsterStates.ATTACK)
@@ -262,14 +270,19 @@ public class MonsterAIController : MonoBehaviour
 
     void AdjustFacingRotation()
     {
-        if (m_rigidbody.velocity.x >= 0) // going right -> face right
+        if (Mathf.Abs(targetPosition.x - this.transform.position.x) > 0.1)
         {
-            this.transform.rotation = Quaternion.Euler(0, 90, 0);
+
+            if (m_rigidbody.velocity.x >= 0) // going right -> face right
+            {
+                this.transform.rotation = Quaternion.Euler(0, 90, 0);
+            }
+            else
+            {
+                this.transform.rotation = Quaternion.Euler(0, -90, 0);
+            }
         }
-        else
-        {
-            this.transform.rotation = Quaternion.Euler(0, -90, 0);
-        }
+
     }
 
 
@@ -319,6 +332,12 @@ public class MonsterAIController : MonoBehaviour
             m_state = MonsterStates.ATTACK;
 
         }
+
+        if (collider.tag == "Sword")
+        {
+            GetAttack(PlayerStatus.Attack, m_playerTransform.gameObject);
+        }
+
     }
 
     void OnTriggerExit(Collider collider)
