@@ -15,6 +15,8 @@ public class attackBehavior : StateMachineBehaviour {
 		PlayerTestController.instance.in_sword.SetActive(false);
 		PlayerTestController.instance.scabbard.SetActive(false);
 		GameObject.Find("Sword1").GetComponent<BoxCollider>().enabled = true;
+
+		SoundController.PlaySound(3);
 		
 	}
 

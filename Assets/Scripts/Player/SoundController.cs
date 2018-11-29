@@ -31,7 +31,7 @@ public class SoundController : MonoBehaviour {
 	}
 
 	public static void PlaySound (int index) {
-
+		Debug.Log("inde:"+index);
 		if(audioSource.clip != audioClipsOutput[0] && audioSource.isPlaying == false){
 			audioSource.Stop();
 			audioSource.volume = Random.Range(0.8f, 1);

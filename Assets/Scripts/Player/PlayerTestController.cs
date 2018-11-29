@@ -159,11 +159,11 @@ public class PlayerTestController : MonoBehaviour
 		}
         if(playerAttack)
         {
-            SoundController.PlaySound(3);
+            
         }
         if(playerJump && isOnGround)
         {
-            SoundController.PlaySound(2);
+            //SoundController.PlaySound(2);
         }
 
         if(isOnLadder){
@@ -172,7 +172,7 @@ public class PlayerTestController : MonoBehaviour
         }
 
         if(playerAttack){
-            SoundController.PlaySound(1);
+            //SoundController.PlaySound(1);
         }
     }
 
