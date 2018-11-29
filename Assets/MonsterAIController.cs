@@ -84,7 +84,7 @@ public class MonsterAIController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Debug.Log(m_state);
+        Debug.Log(m_state);
 
         if (hp <= 0)
         {
