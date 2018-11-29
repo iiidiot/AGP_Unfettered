@@ -11,6 +11,7 @@ public class DrawFuBehavior : StateMachineBehaviour {
         blockstate.Add(0);
         PlayerTestController.instance.BlockPlayerInput(blockstate);
         Debug.Log("Blcok!");
+        SoundController.PlaySound(2);
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

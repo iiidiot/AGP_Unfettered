@@ -153,27 +153,28 @@ public class PlayerTestController : MonoBehaviour
     private void SoundEffectController()
     {
         if( Mathf.Abs(m_directionInput.x) > 2 * zero_threshold && isOnGround){
+            Debug.Log("herecall");
 			SoundController.PlaySound(0);
 		}else{
 			SoundController.StopPlayingSound();
 		}
-        if(playerAttack)
-        {
+        // if(playerAttack)
+        // {
             
-        }
-        if(playerJump && isOnGround)
-        {
-            //SoundController.PlaySound(2);
-        }
+        // }
+        // if(playerJump && isOnGround)
+        // {
+        //     //SoundController.PlaySound(2);
+        // }
 
-        if(isOnLadder){
-            // play climbing sound effect;
-           //
-        }
+        // if(isOnLadder){
+        //     // play climbing sound effect;
+        //    //
+        // }
 
-        if(playerAttack){
-            //SoundController.PlaySound(1);
-        }
+        // if(playerAttack){
+        //     //SoundController.PlaySound(1);
+        // }
     }
 
     void OnCollisionEnter(Collision collision)

@@ -21,6 +21,7 @@ public class FinishDrawFuBehavior : StateMachineBehaviour {
         blockstate.Add(0);
         PlayerTestController.instance.UnblockPlayerInput(blockstate);
         Debug.Log("Unblcok!");
+        SoundController.PlaySound(3);
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove(). Code that processes and affects root motion should be implemented here
