@@ -6,6 +6,7 @@ public class Tutorial04 : MonoBehaviour
 {
 	public TextTransparentController t1;
 	public TextTransparentController t2;
+	public ImgTransparentController i1;
     bool inTutorial = false;
     void OnTriggerEnter(Collider collider)
     {
@@ -33,6 +34,8 @@ public class Tutorial04 : MonoBehaviour
 				inTutorial = true;
 				t1.appear.enabled = false;
 				t1.disappear.enabled = true;
+				i1.gameObject.SetActive(true);
+				i1.appear.enabled = true;
             }
 			if (Input.GetKeyUp(KeyCode.Mouse0) && PlayerStatus.TutorialStatus == 9)
             {
@@ -50,6 +53,7 @@ public class Tutorial04 : MonoBehaviour
 				List<int> blockstate = new List<int>();
                 blockstate.Add(0);
                 PlayerTestController.instance.UnblockPlayerInput(blockstate);
+				i1.gameObject.SetActive(false);
             }
         }
     }
