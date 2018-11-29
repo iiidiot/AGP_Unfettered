@@ -157,8 +157,12 @@ public class PlayerTestController : MonoBehaviour
 		}else{
 			SoundController.StopPlayingSound();
 		}
-
-        if(playerJump && isOnGround){
+        if(playerAttack)
+        {
+            SoundController.PlaySound(3);
+        }
+        if(playerJump && isOnGround)
+        {
             SoundController.PlaySound(2);
         }
 
