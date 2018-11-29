@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 public class Tutorial01 : MonoBehaviour {
     
-    public GameObject movement;
+    public GameObject blackRect;
     bool isInTutorial = true;
 
 	void Update()
@@ -16,6 +16,7 @@ public class Tutorial01 : MonoBehaviour {
                 blockstate.Add(0);
                 blockstate.Add(3);
                 PlayerTestController.instance.BlockPlayerInput(blockstate);
+                blackRect.SetActive(true);
 			}
             
             if(Input.GetAxisRaw("Horizontal")!=0 && PlayerStatus.TutorialStatus == 1){
