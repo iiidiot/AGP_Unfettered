@@ -1,21 +1,23 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class LightRotate : MonoBehaviour {
-
+public class UICurveTransparent : MonoBehaviour {
     public AnimationCurve LightCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
     public bool IsLoop;
     public float degree;
 
     [HideInInspector] public bool canUpdate;
     private float startTime;
-    
+    private Text text;
+
 
     // Use this for initialization
-    void Start () {
-		
-	}
+    void Start()
+    {
+
+    }
     private void OnEnable()
     {
         startTime = Time.time;
@@ -24,12 +26,8 @@ public class LightRotate : MonoBehaviour {
 
 
     // Update is called once per frame
-    void Update () {
-        var factor = 1.0f;
-        if(Mathf.Abs(transform.localEulerAngles.y) > 50)
-        {
-            factor = 3.2f;
-        }
+    void Update()
+    {
         var time = Time.time - startTime;
         if (canUpdate)
         {

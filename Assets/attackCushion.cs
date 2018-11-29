@@ -7,8 +7,8 @@ public class attackCushion : StateMachineBehaviour {
 	 // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
 	override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
 		List<int> blockstate = new List<int>();
-        blockstate.Add(1);
-		blockstate.Add(2);
+  //      blockstate.Add(1);
+		//blockstate.Add(2);
 		PlayerTestController.instance.BlockPlayerInput(blockstate);
 	}
 
@@ -20,8 +20,8 @@ public class attackCushion : StateMachineBehaviour {
 	// OnStateExit is called when a transition ends and the state machine finishes evaluating this state
 	override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
 		List<int> blockstate = new List<int>();
-        blockstate.Add(1);
-		blockstate.Add(2);
+  //      blockstate.Add(1);
+		//blockstate.Add(2);
 		PlayerTestController.instance.UnblockPlayerInput(blockstate);
 	}
 

@@ -16,7 +16,6 @@ public class DrawController : MonoBehaviour {
 
     //private bool[] initialIsActive; // to hide objects
 
-    private bool isDrawing = false;
     private Transform playerTransform;
 
     private GameObject middleGround;
@@ -40,7 +39,7 @@ public class DrawController : MonoBehaviour {
         playerTransform = PlayerTestController.instance.transform;
 
         Camera.main.GetComponent<Painting>().enabled = false;
-        isDrawing = false;
+        PlayerStatus.IsDrawing = false;
 
         ///initialIsActive = new bool[ToHide.Length];
 
@@ -63,23 +62,29 @@ public class DrawController : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-        if (Input.GetKeyDown(KeyCode.Mouse1))
+        Debug.Log("IsDrawing: " + PlayerStatus.IsDrawing);
+        if (Input.GetKeyDown(KeyCode.C))
         {
+            if (!PlayerStatus.IsDrawing)
+            {
+                PlayerTestController.instance.m_animator.SetTrigger("isThrowing");
+            }
             t = 0f;
             isTurning = true;
         }
 
-        if (isTurning && !isDrawing)
+        if (isTurning && !PlayerStatus.IsDrawing)
         {
             DrawModeVisualEffects();
           
             TurnBlackAndWhite();
         }
 
-        if (isTurning && isDrawing)
+        if (isTurning && PlayerStatus.IsDrawing)
         {
             ReleaseSkill();
             DisableDraw();
+            PlayerTestController.instance.m_animator.SetTrigger("finishThrowing");
             RemoveDrawModeVisualEffects();
             TurnColored();
         }
@@ -172,7 +177,7 @@ public class DrawController : MonoBehaviour {
         var main2 = ps2.main;
         //main2.simulationSpeed = 1/time_scale;
 
-        isDrawing = true;
+        PlayerStatus.IsDrawing = true;
     }
 
    
@@ -227,7 +232,7 @@ public class DrawController : MonoBehaviour {
         //{
             
             isTurning = false;
-            isDrawing = false;
+            PlayerStatus.IsDrawing = false;
             DestoryEffectParticles();
 
             ReleaseSkill();
