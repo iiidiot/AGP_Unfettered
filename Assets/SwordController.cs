@@ -23,7 +23,7 @@ public class SwordController : MonoBehaviour {
             // when player touches the spider, it must immediately cast damage, even if its damage skill is in CD 
             if (collider.tag == "Enemy")
             {
-                collider.gameObject.GetComponent<MonsterAIController>().GetAttack(PlayerStatus.Attack);
+                collider.gameObject.GetComponent<MonsterAIController>().GetAttack(PlayerStatus.Attack, m_player);
             }
         }
     }

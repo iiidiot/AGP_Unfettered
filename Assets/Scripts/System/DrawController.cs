@@ -36,7 +36,7 @@ public class DrawController : MonoBehaviour {
 
         InitPostProcessingColor();
 
-        playerTransform = PlayerTestController.instance.transform;
+        playerTransform = CharactersConfigManager.GetPlayerGameObject().transform;
 
         Camera.main.GetComponent<Painting>().enabled = false;
         PlayerStatus.IsDrawing = false;
