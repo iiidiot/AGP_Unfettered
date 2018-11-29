@@ -39,6 +39,9 @@ public static class PlayerStatus {
 	public static double FireDefense = 0;
 	public static double EarthDefense = 0;
 
+    //player status in runtime
+    public static bool IsDrawing = false;
+    public static int TutorialStatus = 0;
 
     public static Dictionary<string, string> item = new Dictionary<string, string>();
 

@@ -35,8 +35,6 @@ public class LightRotate : MonoBehaviour {
         {
             var eval = LightCurve.Evaluate(time);
             transform.Rotate(0, eval * degree * factor * Time.deltaTime, 0, Space.World);
-
-
         }
         if (time >= 1)
         {
