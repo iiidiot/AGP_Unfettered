@@ -143,7 +143,10 @@ public class MonsterAIController : MonoBehaviour
                     if (objectRoot.activeInHierarchy)
                     {
                         objectRoot.SetActive(false);
+                        GameObject g = Instantiate(Resources.Load("Prefabs/Effects/Particles/SpiderDeathParticle"), this.transform.position+new Vector3(0,1,0), Quaternion.identity) as GameObject;
+                        Destroy(g, 5);
                     }
+
                 }
             }
 

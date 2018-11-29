@@ -8,7 +8,7 @@ public class TextTransparentController : MonoBehaviour {
 	public TextTransprentAppear appear;
 	public TextTransparentDisappear disappear;
 
-	public int tutorialNum = -1;
+	public int tutorialNum = 0;
 
 	void Update() {
 		if(GameRunTimeStatus.MovieMode && PlayerStatus.TutorialStatus == tutorialNum){

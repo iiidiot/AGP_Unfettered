@@ -19,6 +19,7 @@ public class DrawController : MonoBehaviour {
     private Transform playerTransform;
 
     private GameObject middleGround;
+    public GameObject[] platforms;
 
     Material alphaDissolve;
     Material spriteDiffuse;
@@ -113,6 +114,10 @@ public class DrawController : MonoBehaviour {
 
         // change bg shader
         middleGround.GetComponent<SpriteRenderer>().material = alphaDissolve;
+        foreach(GameObject g in platforms)
+        {
+            g.GetComponent<SpriteRenderer>().material = alphaDissolve;
+        }
 
         // change player/monster shader
         foreach (GameObject go in ToChangeMaterial)
@@ -140,6 +145,10 @@ public class DrawController : MonoBehaviour {
             }
         }
         middleGround.GetComponent<SpriteRenderer>().material = spriteDiffuse;
+        foreach(GameObject g in platforms)
+        {
+            g.GetComponent<SpriteRenderer>().material = spriteDiffuse;
+        }
 
         // change player/monster shader
         foreach (GameObject go in ToChangeMaterial)

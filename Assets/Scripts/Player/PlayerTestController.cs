@@ -43,6 +43,7 @@ public class PlayerTestController : MonoBehaviour
 
     [Tooltip("The player melee attack area")]
     public Collider knifeAttack;
+    public GameObject diePanel;
     // player direction input
     private Vector2 m_directionInput;
     private Rigidbody m_rigidbody;
@@ -51,7 +52,7 @@ public class PlayerTestController : MonoBehaviour
     private float m_jumpSpeed;//起跳速度
 
     // the 0-6 means: [0]isBlockAllManipulation, [1]isBlockLeftMovement, [2]isBlocRightkMovement, [3]isBlockJumpMovement, [4]isBlockMeleeAttack, [5]isBlockFuAttack, [6]isBlockItemUsage
-    private static int[] m_blockStatements = new int[7];
+    public int[] m_blockStatements = new int[7];
     void Awake()
     {
         SetBirthPlace();
@@ -231,21 +232,24 @@ public class PlayerTestController : MonoBehaviour
     {
         if (collider.tag == "Lava")
         {
-            GetDamage();
+            GetDamage(1);
 
         }
     }
 
-
-    public void GetDamage()
-    {
-        // play some animation maybe
-        PlayerStatus.Health -= 1; // record some damage 
-    }
     public void GetDamage(double damage)
     {
         // play some animation maybe
         PlayerStatus.Health -= damage; // record some damage 
+
+		if(PlayerStatus.Health <= 0)
+		{
+			m_animator.SetTrigger("isDying");
+            diePanel.SetActive(true);
+		}
+		else{
+			m_animator.SetBool("isDamagedBool",true);
+		}
     }
 
     //
