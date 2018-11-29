@@ -31,16 +31,16 @@ public class SkillReleaser : MonoBehaviour {
         {
             ReleaseFireBallEffect();
         }
-
-        Transform player = PlayerTestController.instance.transform;
-        float h_direction = player.rotation.eulerAngles.y > 179 ? 1 : -1;
+     
 
     }
 
 
     private void ReleaseFireBallEffect()
     {
+        
         bool isPlayerFaceLeft = !PlayerTestController.instance.facingRight;
+           Debug.Log("isPlayerFaceLeft: "+isPlayerFaceLeft);
         if (isPlayerFaceLeft)
         {
             fireBall.transform.SetPositionAndRotation(skillSpellingPoint.position, Quaternion.Euler(0, -90, 0));
@@ -54,7 +54,7 @@ public class SkillReleaser : MonoBehaviour {
 
     private void InitFireBall()
     {
-        fireBall = Instantiate(Resources.Load("Prefabs/Effects/FireBall"), skillSpellingPoint.position, Quaternion.Euler(0, -90, 0)) as GameObject;
+        fireBall = Instantiate(Resources.Load("Prefabs/Effects/FireBall"), skillSpellingPoint.position, Quaternion.Euler(0, !PlayerTestController.instance.facingRight?-90:90, 0)) as GameObject;
         var tm = fireBall.GetComponentInChildren<RFX4_TransformMotion>(true);
         if (tm != null) tm.CollisionEnter += Tm_CollisionEnter;
 
@@ -100,7 +100,7 @@ public class SkillReleaser : MonoBehaviour {
     private void ReleaseWaterBallEffect()
     { 
         Transform player = PlayerTestController.instance.transform;
-        bool isPlayerFaceLeft = player.rotation.eulerAngles.y > 90;
+        bool isPlayerFaceLeft = !PlayerTestController.instance.facingRight;;
         waterBall = Instantiate(Resources.Load("Prefabs/Effects/FrostMissile/OBJ"), player.position, player.rotation) as GameObject;
         Rigidbody r = waterBall.GetComponent<Rigidbody>();
 

@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class BtnOnClick : MonoBehaviour {
 
 	public void LoadScene(string name){
+		Time.timeScale = 1;
 		GameRunTimeStatus.MovieMode = false;
 		PlayerStatus.TutorialStatus = 0;
 		PlayerStatus.Health = 10;
@@ -17,6 +18,7 @@ public class BtnOnClick : MonoBehaviour {
 	}
 
 	public void ReTry(string name){
+		Time.timeScale = 1;
 		GameRunTimeStatus.MovieMode = false;
 		PlayerStatus.TutorialStatus = 10;
 		PlayerStatus.Health = 10;
