@@ -306,6 +306,9 @@ public class PlayerTestController : MonoBehaviour
             //m_animator.SetTrigger("attack");
         }
         m_animator.SetBool("isPushing", playerPush);
+        m_animator.SetBool("isOnLadder", isOnLadder);
+
+        
     }
 
     //
