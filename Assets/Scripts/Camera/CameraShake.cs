@@ -10,6 +10,8 @@ public class CameraShake : MonoBehaviour {
     public float shakeTime = 0.1f; //shake time
     private float shakeTimeLeft = 0f;
     public float shakePrequencyFactor = 0.5f;
+
+    public bool doShake = false;
     
 
     //public float shakeAmount = 0.7f;       //抖动幅度（振幅）
@@ -35,7 +37,7 @@ public class CameraShake : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        if (Input.GetKey(KeyCode.S)) // camera shake
+        if (doShake) // camera shake
         {
             DoCameraShake();
             Debug.Log("shake input get");
