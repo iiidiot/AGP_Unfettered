@@ -1,12 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 using TensorFlow;
 
 
 public class recognizer : MonoBehaviour
 {
+    public Text text;
     public SkillReleaser sr;
     public TextAsset graphModel;
     private TFGraph graph;
@@ -3778,6 +3779,7 @@ public class recognizer : MonoBehaviour
         graph.Import(graphModel.bytes);
         session = new TFSession(graph);
         Recognize(new double[64 * 64]);
+        text.text = "";
     }
 
     public string Recognize(double[] arr)
@@ -3813,8 +3815,10 @@ public class recognizer : MonoBehaviour
         var characterIndex = tensors[1].GetValue() as int[,];
 
         string skillname = "";
+        text.text = "";
         for(int i=0; i < 5; i++)
         {
+            text.text +=  characters[characterIndex[0, i]] + " possibility:" + prob[0, i].ToString() + "\n";
             print(characters[characterIndex[0, i]] + " possibility:" + prob[0, i].ToString());
             if(characters[characterIndex[0, i]].Equals("火"))
             {
@@ -3847,6 +3851,5 @@ public class recognizer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
     }
 }
