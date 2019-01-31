@@ -1,0 +1,226 @@
+fileFormatVersion: 2
+guid: a5caca559bbb557408491fc299c86559
+timeCreated: 1515665801
+licenseType: Store
+ModelImporter:
+  serializedVersion: 21
+  fileIDToRecycleName:
+    100000: Rig
+    100002: RigHub
+    100004: RigSmallLB1
+    100006: RigSmallLB2
+    100008: RigSmallLB3
+    100010: RigSmallLB4
+    100012: RigSmallLF1
+    100014: RigSmallLF2
+    100016: RigSmallLF3
+    100018: RigSmallLF4
+    100020: RigSmallRB1
+    100022: RigSmallRB2
+    100024: RigSmallRB3
+    100026: RigSmallRB4
+    100028: RigSmallRF1
+    100030: RigSmallRF2
+    100032: RigSmallRF3
+    100034: RigSmallRF4
+    100036: RigTailLB1
+    100038: RigTailLB2
+    100040: RigTailLB3
+    100042: RigTailLB4
+    100044: RigTailLB5
+    100046: RigTailLB6
+    100048: RigTailLB7
+    100050: RigTailLB8
+    100052: RigTailLB9
+    100054: RigTailLF1
+    100056: RigTailLF2
+    100058: RigTailLF3
+    100060: RigTailLF4
+    100062: RigTailLF5
+    100064: RigTailLF6
+    100066: RigTailLF7
+    100068: RigTailLF8
+    100070: RigTailLF9
+    100072: RigTailRB1
+    100074: RigTailRB2
+    100076: RigTailRB3
+    100078: RigTailRB4
+    100080: RigTailRB5
+    100082: RigTailRB6
+    100084: RigTailRB7
+    100086: RigTailRB8
+    100088: RigTailRB9
+    100090: RigTailRF1
+    100092: RigTailRF2
+    100094: RigTailRF3
+    100096: RigTailRF4
+    100098: RigTailRF5
+    100100: RigTailRF6
+    100102: RigTailRF7
+    100104: RigTailRF8
+    100106: RigTailRF9
+    100108: Tentacles
+    100110: //RootNode
+    400000: Rig
+    400002: RigHub
+    400004: RigSmallLB1
+    400006: RigSmallLB2
+    400008: RigSmallLB3
+    400010: RigSmallLB4
+    400012: RigSmallLF1
+    400014: RigSmallLF2
+    400016: RigSmallLF3
+    400018: RigSmallLF4
+    400020: RigSmallRB1
+    400022: RigSmallRB2
+    400024: RigSmallRB3
+    400026: RigSmallRB4
+    400028: RigSmallRF1
+    400030: RigSmallRF2
+    400032: RigSmallRF3
+    400034: RigSmallRF4
+    400036: RigTailLB1
+    400038: RigTailLB2
+    400040: RigTailLB3
+    400042: RigTailLB4
+    400044: RigTailLB5
+    400046: RigTailLB6
+    400048: RigTailLB7
+    400050: RigTailLB8
+    400052: RigTailLB9
+    400054: RigTailLF1
+    400056: RigTailLF2
+    400058: RigTailLF3
+    400060: RigTailLF4
+    400062: RigTailLF5
+    400064: RigTailLF6
+    400066: RigTailLF7
+    400068: RigTailLF8
+    400070: RigTailLF9
+    400072: RigTailRB1
+    400074: RigTailRB2
+    400076: RigTailRB3
+    400078: RigTailRB4
+    400080: RigTailRB5
+    400082: RigTailRB6
+    400084: RigTailRB7
+    400086: RigTailRB8
+    400088: RigTailRB9
+    400090: RigTailRF1
+    400092: RigTailRF2
+    400094: RigTailRF3
+    400096: RigTailRF4
+    400098: RigTailRF5
+    400100: RigTailRF6
+    400102: RigTailRF7
+    400104: RigTailRF8
+    400106: RigTailRF9
+    400108: Tentacles
+    400110: //RootNode
+    4300000: Tentacles
+    7400000: Idle
+    9500000: //RootNode
+    13700000: Tentacles
+  materials:
+    importMaterials: 0
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Idle
+      takeName: Take 001
+      firstFrame: 0
+      lastFrame: 80
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
