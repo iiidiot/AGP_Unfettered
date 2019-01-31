@@ -37,7 +37,7 @@ public class MonsterAIController : MonoBehaviour
     private Collider m_outCombatCollider;
 
     private Transform m_playerTransform;
-    private Vector3 targetPosition;
+    private Vector3 m_targetPosition;
 
 
 
@@ -49,7 +49,7 @@ public class MonsterAIController : MonoBehaviour
 
     private Animator m_animator;
 
-    private GameObject currentAttacker;
+    private GameObject m_currentAttacker;
 
 
     // animator parameter names
@@ -72,7 +72,7 @@ public class MonsterAIController : MonoBehaviour
         m_isAttackLocked = false;
 
         this.transform.position = startPosition.transform.position;
-        targetPosition = endPosition.transform.position;
+        m_targetPosition = endPosition.transform.position;
         m_rigidbody.velocity = new Vector3(speed, 0, 0);
 
         repellT = 0;
@@ -84,7 +84,7 @@ public class MonsterAIController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(m_state);
+
 
         if (hp <= 0)
         {
@@ -98,16 +98,16 @@ public class MonsterAIController : MonoBehaviour
             m_animator.SetBool(k_isHurt, true);
             AnimatorStateInfo animatorInfo;
             animatorInfo = m_animator.GetCurrentAnimatorStateInfo(0);
-            Debug.Log("0");
+
             //if ((animatorInfo.normalizedTime < 1.0f) && (animatorInfo.IsName("Hurt"))) //  animation playing
             //{
               
-                if (currentAttacker)
+                if (m_currentAttacker)
                 {
-                Debug.Log("1");
-                    Vector3 dir = (this.transform.position - currentAttacker.transform.position).normalized  ;
+  
+                    Vector3 dir = (this.transform.position - m_currentAttacker.transform.position).normalized  ;
                     //m_rigidbody.AddForce(dir * repellFacter);
-                    Debug.Log("reppeeeeellllllllllll");
+
                     m_rigidbody.velocity = Vector3.Lerp(dir * speed * 20f, new Vector3(0, 0, 0), repellT);
                     repellT += Time.deltaTime/ 0.1f;
 
@@ -117,7 +117,7 @@ public class MonsterAIController : MonoBehaviour
             if (repellT > 1f) //  animation ends
             {
                 repellT = 0.0f;
-                currentAttacker = null;
+                m_currentAttacker = null;
                 m_animator.SetBool(k_isHurt, false);
                 m_state = MonsterStates.IDLE;
             }
@@ -128,7 +128,7 @@ public class MonsterAIController : MonoBehaviour
 
             if (m_state == MonsterStates.DEAD)
             {
-                targetPosition = this.transform.position; // stay still
+                m_targetPosition = this.transform.position; // stay still
                 m_rigidbody.velocity = new Vector3(0, 0, 0);
 
                 m_animator.SetBool(k_isAttack, false);
@@ -161,12 +161,12 @@ public class MonsterAIController : MonoBehaviour
 
                 if (transform.position.x >= endPosition.transform.position.x)
                 {
-                    targetPosition = startPosition.transform.position;
+                    m_targetPosition = startPosition.transform.position;
                 }
 
                 if (transform.position.x <= startPosition.transform.position.x)
                 {
-                    targetPosition = endPosition.transform.position;
+                    m_targetPosition = endPosition.transform.position;
                 }
 
 
@@ -178,7 +178,7 @@ public class MonsterAIController : MonoBehaviour
                 m_animator.SetBool(k_isDead, false);
 
                 AdjustFacingRotation();
-                targetPosition = m_playerTransform.position;
+                m_targetPosition = m_playerTransform.position;
 
                 if (!m_isPlayerInAttackRange) // A不到player
                 {
@@ -201,7 +201,7 @@ public class MonsterAIController : MonoBehaviour
                 {
                     this.transform.rotation = Quaternion.Euler(0, -90, 0);
                 }
-                targetPosition = this.transform.position;
+                m_targetPosition = this.transform.position;
 
 
                 //m_animator.SetBool(k_isIdle, false);
@@ -259,12 +259,12 @@ public class MonsterAIController : MonoBehaviour
 
     void GoTowardTarget()
     {
-        if (transform.position.x < targetPosition.x) // go right
+        if (transform.position.x < m_targetPosition.x) // go right
         {
             m_rigidbody.velocity = new Vector3(speed, 0, 0);
         }
 
-        if (transform.position.x > targetPosition.x) // go left
+        if (transform.position.x > m_targetPosition.x) // go left
         {
             m_rigidbody.velocity = new Vector3(-speed, 0, 0);
         }
@@ -273,7 +273,7 @@ public class MonsterAIController : MonoBehaviour
 
     void AdjustFacingRotation()
     {
-        if (Mathf.Abs(targetPosition.x - this.transform.position.x) > 0.1)
+        if (Mathf.Abs(m_targetPosition.x - this.transform.position.x) > 0.1)
         {
 
             if (m_rigidbody.velocity.x >= 0) // going right -> face right
@@ -310,7 +310,7 @@ public class MonsterAIController : MonoBehaviour
     {
         hp -= damage;
         m_state = MonsterStates.HURT;
-        currentAttacker = attacker;
+        m_currentAttacker = attacker;
     }
 
 

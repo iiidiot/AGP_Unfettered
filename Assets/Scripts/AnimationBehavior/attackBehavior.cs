@@ -14,9 +14,10 @@ public class attackBehavior : StateMachineBehaviour {
 		// hide the sword
 		PlayerTestController.instance.in_sword.SetActive(false);
 		PlayerTestController.instance.scabbard.SetActive(false);
-		GameObject.Find("Sword1").GetComponent<BoxCollider>().enabled = true;
-
-		SoundController.PlaySound(1);
+        GameObject sword1 = GameObject.Find("Sword1");
+        sword1.GetComponent<BoxCollider>().enabled = true;
+        GameObject swordEffect = Instantiate(Resources.Load("Prefabs/Effects/slash-2"), sword1.transform.position, sword1.transform.rotation) as GameObject;
+        SoundController.PlaySound(1);
 		
 	}
 
