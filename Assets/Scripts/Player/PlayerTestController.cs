@@ -53,6 +53,18 @@ public class PlayerTestController : MonoBehaviour
 
     // the 0-6 means: [0]isBlockAllManipulation, [1]isBlockLeftMovement, [2]isBlocRightkMovement, [3]isBlockJumpMovement, [4]isBlockMeleeAttack, [5]isBlockFuAttack, [6]isBlockItemUsage
     public int[] m_blockStatements = new int[7];
+
+    private Transform m_Cam;                  // A reference to the main camera in the scenes transform
+    private Vector3 m_CamForward;             // The current forward direction of the camera
+    private Vector3 m_Move;
+
+    public bool is3DMode;
+
+
+  
+
+    CapsuleCollider m_Capsule;
+
     void Awake()
     {
         SetBirthPlace();
@@ -65,14 +77,28 @@ public class PlayerTestController : MonoBehaviour
         m_gravity = -2f * jump_height / (jump_duration * jump_duration * 0.25f);
         m_jumpSpeed = -m_gravity * jump_duration * 0.5f;
         grounds = new List<int>();
+
+        if (Camera.main != null)
+        {
+            m_Cam = Camera.main.transform;
+        }
+
+        if (is3DMode)
+        {
+            m_rigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
+        }
+
+        m_Capsule = GetComponent<CapsuleCollider>();
+
     }
 
     void Update()
     {
         HandleInput();
         MoveController();
+        playerJump = false;
         StatusController();
-        SoundEffectController();
+        //SoundEffectController();
         AnimeController();
         BlockStatementUpdate();
     }
@@ -108,21 +134,45 @@ public class PlayerTestController : MonoBehaviour
         if(m_blockStatements[0] == 0)
         {
             float horizontalInput = 0f;
-            if( (m_blockStatements[1] == 0) && Input.GetAxisRaw("Horizontal") < 0)
+            if( (m_blockStatements[1] == 0) && Input.GetAxisRaw("Horizontal") < 0) // not block left
             {
                 horizontalInput = Input.GetAxisRaw("Horizontal");
             }
-            else if( (m_blockStatements[2] == 0) && Input.GetAxisRaw("Horizontal") > 0 )
+            else if( (m_blockStatements[2] == 0) && Input.GetAxisRaw("Horizontal") > 0 ) // not block right
             {
                  horizontalInput = Input.GetAxisRaw("Horizontal");
             }
 
             m_directionInput = new Vector2(horizontalInput, Input.GetAxis("Vertical"));
 
-            if(Input.GetKeyDown(KeyCode.Space) && (m_blockStatements[3] == 0) )
+            if (is3DMode)
+            {
+                float v = Input.GetAxis("Vertical");
+                // calculate move direction to pass to character
+                if (m_Cam != null)
+                {
+                    // calculate camera relative direction to move:
+                    m_CamForward = Vector3.Scale(m_Cam.forward, new Vector3(1, 0, 1)).normalized;
+                    m_Move = v * m_CamForward + horizontalInput * m_Cam.right;
+                }
+                else
+                {
+                    // we use world-relative directions in the case of no main camera
+                    m_Move = v * Vector3.forward + horizontalInput * Vector3.right;
+                }
+
+#if !MOBILE_INPUT
+                // walk speed multiplier
+                if (Input.GetKey(KeyCode.LeftShift)) m_Move *= 1.5f;
+#endif
+            }
+
+
+            if (Input.GetKeyDown(KeyCode.Space) && (m_blockStatements[3] == 0) )
             {
                 playerJump = true;
             }
+
             if(Input.GetKeyDown(KeyCode.F))
             {
                 canMoveStone = true;
@@ -153,7 +203,7 @@ public class PlayerTestController : MonoBehaviour
     private void SoundEffectController()
     {
         if( Mathf.Abs(m_directionInput.x) > 2 * zero_threshold && isOnGround){
-            Debug.Log("herecall");
+            //Debug.Log("herecall");
 			SoundController.PlaySound(0);
 		}else{
 			SoundController.StopPlayingSound();
@@ -201,7 +251,7 @@ public class PlayerTestController : MonoBehaviour
         //如果不是斜坡
         else
         {
-            if (collision.collider.GetType() == typeof(BoxCollider))
+            if (collision.collider.GetType() == typeof(BoxCollider) || collision.collider.GetType() == typeof(MeshCollider))
             {
                
                 ContactPoint contact = collision.contacts[0];
@@ -209,11 +259,12 @@ public class PlayerTestController : MonoBehaviour
                 Vector3 c_Min = collision.collider.bounds.min;
                 Vector3 c_Max = collision.collider.bounds.max;
 
-                //如果碰到物体上方，那么就在地面上
+                ////如果碰到物体上方，那么就在地面上
                 if (FloatEqualsZero(contact.point.y - c_Max.y))
-                {
-                    grounds.Add(collision.gameObject.GetInstanceID());
+                { 
+                        grounds.Add(collision.gameObject.GetInstanceID());
                 }
+
             }
             else if (collision.collider.GetType() == typeof(SphereCollider))
             {
@@ -224,9 +275,23 @@ public class PlayerTestController : MonoBehaviour
                 }
             }
 
-            
+            if (collision.collider.tag == "Ground")
+            {
+                ContactPoint contact = collision.contacts[0];
+                //得到碰撞物体的上下左右边界值
+                Vector3 c_Min = collision.collider.bounds.min;
+                Vector3 c_Max = collision.collider.bounds.max;
+
+                if (contact.point.y > collision.collider.bounds.center.y) // on top of it
+                {
+                    grounds.Add(collision.gameObject.GetInstanceID());
+                }
+            }
+
         }
     }
+
+
 
     void OnCollisionExit(Collision collision)
     {
@@ -297,7 +362,14 @@ public class PlayerTestController : MonoBehaviour
     void AnimeController()
     {
         //set anime trigger
-        m_animator.SetFloat("horizontalSpeed", Mathf.Abs(m_directionInput.x));
+        if (is3DMode)
+        {
+            m_animator.SetFloat("horizontalSpeed", Mathf.Abs(m_Move.x + m_Move.z));
+        }
+        else
+        {
+            m_animator.SetFloat("horizontalSpeed", Mathf.Abs(m_directionInput.x));
+        }
         m_animator.SetFloat("verticalSpeed", m_rigidbody.velocity.y);
         m_animator.SetFloat("absVerticalSpeed", Mathf.Abs(m_rigidbody.velocity.y));
         m_animator.SetBool("isOnGround", isOnGround);
@@ -311,19 +383,65 @@ public class PlayerTestController : MonoBehaviour
         
     }
 
+
+    float m_TurnAmount;
+    float m_ForwardAmount;
+
+    [SerializeField] float m_MovingTurnSpeed = 360;
+    [SerializeField] float m_StationaryTurnSpeed = 180;
+    void ApplyExtraTurnRotation()
+    {
+        // help the character turn faster (this is in addition to root rotation in the animation)
+        float turnSpeed = Mathf.Lerp(m_StationaryTurnSpeed, m_MovingTurnSpeed, m_ForwardAmount);
+        transform.Rotate(0, m_TurnAmount * turnSpeed * Time.deltaTime, 0);
+    }
+
     //
     // Summary:
     //     control the horizontal, vertical and climb behavior of the player
     void MoveController()
     {
-        Flip(m_directionInput.x);
-        if (FloatEqualsZero(m_directionInput.x))
+
+        if (is3DMode)
         {
-            m_rigidbody.velocity = new Vector3(0, m_rigidbody.velocity.y, 0);
+            Vector3 localMove = m_Move;
+            // convert the world relative moveInput vector into a local-relative
+            // turn amount and forward amount required to head in the desired
+            // direction.
+            if (localMove.magnitude > 1f) localMove.Normalize();
+            localMove = transform.InverseTransformDirection(localMove);
+
+
+            m_TurnAmount = Mathf.Atan2(localMove.x, localMove.z);
+            m_ForwardAmount = localMove.z;
+
+            ApplyExtraTurnRotation();
+
+            
+            m_rigidbody.velocity = new Vector3(m_Move.x * speed, m_rigidbody.velocity.y, m_Move.z * speed);
+
+            // send input and other state parameters to the animator
+            // UpdateAnimator(move);
         }
         else
         {
-            m_rigidbody.velocity = new Vector3(m_directionInput.x * speed, m_rigidbody.velocity.y, 0);
+            Flip(m_directionInput.x);
+            if (FloatEqualsZero(m_directionInput.x))
+            {
+                m_rigidbody.velocity = new Vector3(0, m_rigidbody.velocity.y, 0);
+            }
+            else
+            {
+                m_rigidbody.velocity = new Vector3(m_directionInput.x * speed, m_rigidbody.velocity.y, 0);
+            }
+
+
+
+            if (isOnLadder)
+            {
+                isOnGround = true;
+                m_rigidbody.velocity = new Vector2(m_directionInput.x * maxClimbSpeed, m_directionInput.y * maxClimbSpeed);
+            }
         }
 
         //jump========================================================
@@ -331,12 +449,6 @@ public class PlayerTestController : MonoBehaviour
         {
             m_rigidbody.velocity = new Vector3(m_rigidbody.velocity.x, m_jumpSpeed, 0);
         }
-
-        if(isOnLadder)
-        {
-            isOnGround = true;
-			m_rigidbody.velocity = new Vector2(m_directionInput.x * maxClimbSpeed, m_directionInput.y * maxClimbSpeed);
-		}
 
     }
 

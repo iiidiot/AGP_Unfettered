@@ -33,7 +33,7 @@ public class SoundController : MonoBehaviour {
 	public static void PlaySound (int index) {
 		
 		if(audioSource.clip != audioClipsOutput[0] && audioSource.isPlaying == false){
-			Debug.Log("heresound");
+			//Debug.Log("heresound");
 			audioSource.Stop();
 			audioSource.volume = Random.Range(0.8f, 1);
 			audioSource.pitch = Random.Range(0.8f, 1);

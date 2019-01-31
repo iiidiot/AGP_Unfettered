@@ -17,7 +17,7 @@ public class Boss1AIController : MonoBehaviour {
     }
 
     public double maxHP = 10;
-    private double hp = 10;
+    public double hp = 10;
     public double attackAOE = 1;
     public double attackFire = 1;
     public double attackMelee = 1;
@@ -26,7 +26,9 @@ public class Boss1AIController : MonoBehaviour {
     public float rushSpeed = 10f;
 
     public GameObject idlePosition;
+    public GameObject objectRoot;
 
+    public Transform firePosition; // tongue01
 
     private Boss1States m_state = Boss1States.IDLE;
     private Rigidbody m_rigidbody;
@@ -61,6 +63,13 @@ public class Boss1AIController : MonoBehaviour {
     const string k_isDead = "isDead";
     const string k_isHurt = "isHurt";
 
+    private Vector3 m_targetPosition;
+    private Vector3 m_idlePosition;
+
+    private GameObject m_currentAttacker;
+
+
+    private GameObject m_FireEffect;
 
     // Use this for initialization
     void Start () {
@@ -69,8 +78,10 @@ public class Boss1AIController : MonoBehaviour {
         m_state = Boss1States.IDLE;
         m_animator = GetComponent<Animator>();
 
-        this.transform.position = idlePosition.transform.position;
-        m_rigidbody.velocity = new Vector3(speed, 0, 0);
+        m_idlePosition = idlePosition.transform.position;
+        //this.transform.position = m_idlePosition;
+        m_targetPosition = m_idlePosition;
+        m_rigidbody.velocity = new Vector3(0, 0, 0);
 
         m_nextSkill = RandomSkillRoller();
 
@@ -80,13 +91,21 @@ public class Boss1AIController : MonoBehaviour {
         m_isAttackAOELocked = false;
         m_isPlayerInAlertRange = false;
 
+
+        m_isPlayerInAOERange = false;
+        m_isPlayerInFireRange = false;
+        m_isPlayerInMeleeRange = false;
+
         rushTimer = 0;
         fireChaseTimer = 0;
         idleTimer = 0;
+
+        m_FireEffect = null;
     }
 
     Boss1Skills RandomSkillRoller()
     {
+        return Boss1Skills.FIRE;
         float randomNumber = Random.Range(0,2);
         if (randomNumber < 1)
         {
@@ -114,57 +133,65 @@ public class Boss1AIController : MonoBehaviour {
             m_nextSkill = Boss1Skills.AOE;
         }
 
+        if (m_state == Boss1States.DEAD)
+        {
+            m_targetPosition = this.transform.position; // stay still
+            m_rigidbody.velocity = new Vector3(0, 0, 0);
+
+            m_animator.SetBool(k_isDead, true);
+
+            // after death animation
+            AnimatorStateInfo animatorInfo;
+            animatorInfo = m_animator.GetCurrentAnimatorStateInfo(0);
+
+            if ((animatorInfo.normalizedTime > 1.0f) && (animatorInfo.IsName("Dead"))) // attack animation ends
+            {
+
+                if (objectRoot.activeInHierarchy)
+                {
+                    objectRoot.SetActive(false);
+                    GameObject g = Instantiate(Resources.Load("Prefabs/Effects/Particles/SpiderDeathParticle"), this.transform.position + new Vector3(0, 1, 0), Quaternion.identity) as GameObject;
+                    Destroy(g, 5);
+                }
+
+            }
+        }
+
         if (m_state == Boss1States.IDLE)
         {
+
+            //if (m_FireEffect)
+            //    Destroy(m_FireEffect);
 
             m_animator.SetBool(k_isAttackMelee, false);
             m_animator.SetBool(k_isAttackAOE, false);
             m_animator.SetBool(k_isAttackFire, false);
-            m_animator.SetBool(k_isWalking, false);
-
+            m_animator.SetBool(k_isHurt, false);
 
             if (idleTimer > 0)
             {
                 // 僵直时间
                 idleTimer -= Time.deltaTime;
+                m_targetPosition = this.transform.position;
+                m_animator.SetBool(k_isWalking, false);
             }
             else
             {
+                m_targetPosition = m_idlePosition;
                 idleTimer = 0;
+                GoTowardTarget(speed);// ordinary speed
                 if (m_isPlayerInAlertRange)
                 {
-                    m_animator.SetBool(k_isWalking, true);
                     m_state = Boss1States.CHASE_PLAYER;
-                }
-                else
-                {
-                    if (Mathf.Abs(transform.position.x - idlePosition.transform.position.x) < 0.001f)
-                    {
-                        // do nothing, stay idle
-                    }
-                    else
-                    {
-                        m_animator.SetBool(k_isWalking, true);
-                        AdjustFacingRotation();
-                        // walk back to to start point
-                        if (transform.position.x < idlePosition.transform.position.x) // go right
-                        {
-                            m_rigidbody.velocity = new Vector3(speed, 0, 0);
-                            
-                        }
-                        else if (transform.position.x > idlePosition.transform.position.x) // go left
-                        {
-                            m_rigidbody.velocity = new Vector3(-speed, 0, 0);
-
-                        }
-                    }
                 }
             }
         }
 
+
+
         if (m_state == Boss1States.CHASE_PLAYER)
         {
-
+            m_animator.SetBool(k_isWalking, true);
             Debug.Log(m_nextSkill);
 
             
@@ -189,13 +216,16 @@ public class Boss1AIController : MonoBehaviour {
 
             if (m_nextSkill == Boss1Skills.FIRE)
             {
-                
-                GoTowardPlayer(speed); // 和玩家一个速度跑
+
+                m_targetPosition = m_playerTransform.position;
+                GoTowardTarget(fastSpeed);
 
                 if (m_isPlayerInFireRange || fireChaseTimer > 3f) //  追到 放技能 没追到 接着追 或者如果追超过3秒了 就直接放了
                 {
+                    m_targetPosition = this.transform.position; // stay still
+                    m_rigidbody.velocity = new Vector3(0, 0, 0);
                     m_isAttackFireLocked = false;
-                    m_animator.SetBool(k_isAttackFire, true);
+
                     m_state = Boss1States.ATTACK_FIRE;
                     fireChaseTimer = 0;
                 }
@@ -258,58 +288,85 @@ public class Boss1AIController : MonoBehaviour {
             // play melee animation
             AnimatorStateInfo animatorInfo;
             animatorInfo = m_animator.GetCurrentAnimatorStateInfo(0);
-            Debug.Log(animatorInfo.normalizedTime);
-            if ((animatorInfo.normalizedTime > 0.9f) && (animatorInfo.IsName("AttackMelee"))) // attack animation ends
+            //Debug.Log(animatorInfo.normalizedTime);
+            if ((animatorInfo.normalizedTime >= 1f) && (animatorInfo.IsName("AttackMelee"))) // attack animation ends
             {
 
                 if (m_isPlayerInMeleeRange && !m_isAttackMeleeLocked)
                 {
                     m_playerTransform.GetComponent<PlayerTestController>().GetDamage(attackMelee);
                     m_isAttackMeleeLocked = true;
-                    idleTimer = 1f;
+                    idleTimer = 0.5f;
                 }
-                else
-                {
+                
                     m_nextSkill = Boss1Skills.FIRE;
                     m_state = Boss1States.IDLE;
                     
                     
-                }
+                
             }
             
         }
+
         if (m_state == Boss1States.ATTACK_FIRE)
         {
-            
-            // play melee animation
+            m_targetPosition = this.transform.position; // stay still
+            m_rigidbody.velocity = new Vector3(0, 0, 0);
+            m_animator.SetBool(k_isAttackFire, true);
+
+           
+
             AnimatorStateInfo animatorInfo;
             animatorInfo = m_animator.GetCurrentAnimatorStateInfo(0);
 
-            if ((animatorInfo.normalizedTime > 0.9f) && (animatorInfo.IsName("AttackFire"))) // attack animation ends
+            //Debug.Log(animatorInfo.normalizedTime);
+
+
+           
+
+            
+
+
+            if ((animatorInfo.normalizedTime >= 1f) ) // attack animation ends
             {
 
                 if (m_isPlayerInFireRange && !m_isAttackFireLocked)
                 {
                     m_playerTransform.GetComponent<PlayerTestController>().GetDamage(attackFire);
                     m_isAttackFireLocked = true;
-                    idleTimer = 1f;
+                    idleTimer = 0.5f;
                 }
-                else
-                {
-                    m_nextSkill = Boss1Skills.MELEE;
-                        m_state = Boss1States.IDLE;
-                   
-                }
+                
+                
+                    m_nextSkill = RandomSkillRoller();
+                    m_state = Boss1States.IDLE;
+                
             }
 
         }
+
+
+        if (m_state == Boss1States.HURT)
+        {
+            m_animator.SetBool(k_isHurt, true);
+
+            AnimatorStateInfo animatorInfo;
+            animatorInfo = m_animator.GetCurrentAnimatorStateInfo(0);
+
+            if ((animatorInfo.normalizedTime >= 1.0f) && (animatorInfo.IsName("Hurt"))) 
+            {
+                m_state = Boss1States.IDLE;
+         
+            }
+        }
+
+
     }
 
     void AdjustFacingRotation()
     {
-        if (Mathf.Abs(m_playerTransform.position.x - this.transform.position.x) > 0.1)
+        if (Mathf.Abs(m_targetPosition.x - this.transform.position.x) > 0.2) // 防抖
         {
-
             if (m_rigidbody.velocity.x >= 0) // going right -> face right
             {
                 this.transform.rotation = Quaternion.Euler(0, 90, 0);
@@ -354,5 +411,58 @@ public class Boss1AIController : MonoBehaviour {
         m_isPlayerInMeleeRange = yesOrNO;
     }
 
+    public void GetAttack(double damage, GameObject attacker)
+    {
+        hp -= damage;
+        m_state = Boss1States.HURT;
+        m_currentAttacker = attacker;
+    }
 
+    void GoTowardTarget(float speed)
+    {
+        if (Mathf.Abs(transform.position.x - m_targetPosition.x) < 0.2f)
+        {
+            // do nothing, stay idle
+            m_animator.SetBool(k_isWalking, false); // possibly animation go from walking to idle
+            m_targetPosition = transform.position;
+            m_rigidbody.velocity = new Vector3(0, 0, 0);
+        }
+        else
+        {
+            m_animator.SetBool(k_isWalking, true); // animation go from idle to walking 
+            AdjustFacingRotation();
+            // walk back to to start point
+            Debug.Log("my pos:" + transform.position.x + "target:" + m_targetPosition.x);
+            if (transform.position.x < m_targetPosition.x) // go right
+            {
+                m_rigidbody.velocity = new Vector3(speed, 0, 0);
+
+            }
+            else if (transform.position.x > m_targetPosition.x) // go left
+            {
+                m_rigidbody.velocity = new Vector3(-speed, 0, 0);
+
+            }
+        }
+    }
+
+    void OnStartFireEvent()
+    {
+       
+        if (!m_FireEffect)
+        { 
+            Debug.Log("ffffffffffffffffffffffffffffffffffffffire");
+            bool facingLeft = (this.transform.rotation == Quaternion.Euler(0, -90, 0));
+            m_FireEffect = Instantiate(Resources.Load("Prefabs/Effects/PivotFire"), firePosition) as GameObject;
+        }
+    }
+
+
+
+    void OnEndFireEvent()
+    {
+
+        if (m_FireEffect)
+            Destroy(m_FireEffect);
+    }
 }
