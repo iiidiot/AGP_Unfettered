@@ -230,30 +230,32 @@ public class PlayerTestController : MonoBehaviour
     void OnCollisionEnter(Collision collision)
     {
 
-        //如果是斜坡
-        if (Mathf.Abs(collision.transform.rotation.eulerAngles.z) > zero_threshold)
-        {
-            //计算斜坡的边界方程===========
-            //计算斜率k
-            float k = Mathf.Tan(Mathf.Deg2Rad * collision.transform.rotation.eulerAngles.z);//转为弧度
-            //带入中央点求b
-            Vector3 center = collision.collider.bounds.center;
-            float b = center.y - k * center.x;
+        ////如果是斜坡
+        //if (Mathf.Abs(collision.transform.rotation.eulerAngles.z) > zero_threshold)
+        //{
+        //    //计算斜坡的边界方程===========
+        //    //计算斜率k
+        //    float k = Mathf.Tan(Mathf.Deg2Rad * collision.transform.rotation.eulerAngles.z);//转为弧度
+        //    //带入中央点求b
+        //    Vector3 center = collision.collider.bounds.center;
+        //    float b = center.y - k * center.x;
 
-            //带入碰撞点，如果位于直线上方，则碰撞在上部，位于地面，否则碰撞在下部，位于空中
-            Vector3 p = collision.contacts[0].point;
-            if (p.y > k * p.x + b)//上方
-            {
-                grounds.Add(collision.gameObject.GetInstanceID());
-            }
-        }
-      
-        //如果不是斜坡
-        else
+        //    //带入碰撞点，如果位于直线上方，则碰撞在上部，位于地面，否则碰撞在下部，位于空中
+        //    Vector3 p = collision.contacts[0].point;
+        //    if (p.y > k * p.x + b)//上方
+        //    {
+        //        grounds.Add(collision.gameObject.GetInstanceID());
+        //    }
+        //}
+
+        ////如果不是斜坡
+        //else
+        //{
+        if (!is3DMode)
         {
             if (collision.collider.GetType() == typeof(BoxCollider) || collision.collider.GetType() == typeof(MeshCollider))
             {
-               
+
                 ContactPoint contact = collision.contacts[0];
                 //得到碰撞物体的上下左右边界值
                 Vector3 c_Min = collision.collider.bounds.min;
@@ -261,8 +263,8 @@ public class PlayerTestController : MonoBehaviour
 
                 ////如果碰到物体上方，那么就在地面上
                 if (FloatEqualsZero(contact.point.y - c_Max.y))
-                { 
-                        grounds.Add(collision.gameObject.GetInstanceID());
+                {
+                    grounds.Add(collision.gameObject.GetInstanceID());
                 }
 
             }
@@ -274,7 +276,9 @@ public class PlayerTestController : MonoBehaviour
                     grounds.Add(collision.gameObject.GetInstanceID());
                 }
             }
-
+        }
+        else
+        {
             if (collision.collider.tag == "Ground")
             {
                 ContactPoint contact = collision.contacts[0];
@@ -287,8 +291,9 @@ public class PlayerTestController : MonoBehaviour
                     grounds.Add(collision.gameObject.GetInstanceID());
                 }
             }
-
         }
+
+        //}
     }
 
 
