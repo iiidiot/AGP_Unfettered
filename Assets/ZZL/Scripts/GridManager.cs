@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class GridManager : MonoBehaviour
 {
+    public FarmItemsSO farmItemsSO;
+
     [SerializeField]
     private int m_rows;
 
@@ -29,6 +31,16 @@ public class GridManager : MonoBehaviour
 
     private bool[,] m_visited;
 
+    // It's used to update current farm items' prefab based on the days.
+    // Stores number of days on each cell
+    private int[,] m_days;
+
+    private GameObject[,] m_field;
+
+    private Vector3 m_mousePos;
+
+    private int m_currentDay;
+
     // Getters
     public Vector3 StartPos
     {
@@ -51,26 +63,34 @@ public class GridManager : MonoBehaviour
             return m_height;
         }
     }
-
+    
     private void Awake()
     {
         m_startPos = transform.position;
         m_width = m_cols * m_cellWidth;
         m_height = m_rows * m_cellHeight;
+
+        m_visited = new bool[m_rows, m_cols];
+
+        m_days = new int[m_rows, m_cols];
+
+        m_field = new GameObject[m_rows, m_cols];
+
+        for (int r = 0; r < m_rows; r++)
+        {
+            for (int c = 0; c < m_cols; c++)
+            {
+                m_visited[r, c] = false;
+                m_days[r, c] = -1;
+                m_field[r, c] = null;
+            }
+        }
     }
 
     // Use this for initialization
     void Start ()
     {
-        m_visited = new bool[m_rows, m_cols];
-
-        for(int r = 0; r < m_rows; r++)
-        {
-            for(int c = 0; c < m_cols; c++)
-            {
-                m_visited[r, c] = false;
-            }
-        }
+        m_currentDay = TimeManager.s_days;
     }
 
     // Update is called once per frame
@@ -79,7 +99,103 @@ public class GridManager : MonoBehaviour
         // Allow designers to move around the grid and display on the scene view when the game is running
         m_startPos = transform.position;
         m_width = m_cols * m_cellWidth;
-        m_height = m_rows * m_cellHeight;      
+        m_height = m_rows * m_cellHeight;
+
+        AddItem();
+
+        if(m_currentDay != TimeManager.s_days)
+        {
+            UpdateDays();
+            UpdateField();
+
+            m_currentDay = TimeManager.s_days;
+        } 
+    }
+
+    private void AddItem()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            RaycastHit hitInfo;
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+            if (Physics.Raycast(ray, out hitInfo))
+            {
+                m_mousePos = hitInfo.point;
+
+                if (IsValidPosition(m_mousePos))
+                {
+                    PlaceObject();
+                }
+            }
+        }
+    }
+
+    private void PlaceObject()
+    {
+        SetVisited(m_mousePos);
+    }
+
+    // Add new item to the field, everything is initialized.
+    public void SetVisited(Vector3 mousePos)
+    {
+        Vector3 pos = GetCenterPosition(m_mousePos);
+
+        GameObject item = Instantiate(farmItemsSO.AppleItems[0], pos, Quaternion.identity);
+
+        int row = 0;
+        int col = 0;
+
+        Vector3 topLeft = GetTopLeftPosition(mousePos, out row, out col);
+
+        m_visited[row, col] = true;
+        m_field[row, col] = item;
+        m_days[row, col] = 0;
+
+       // Debug.Log("Mouse Position = " + topLeft.x + " , " + topLeft.z);
+       // Debug.Log(row + " , " + col);
+    }
+
+    private void UpdateDays()
+    {
+        for(int r = 0; r < m_rows; r++)
+        {
+            for(int c =0; c < m_cols; c++)
+            {
+                if(m_days[r, c] >=0)
+                {
+                    // 假设游戏时间设定为写死，P5的时间系统
+                    if (m_days[r,c] < farmItemsSO.AppleItems.Count -1)
+                    {
+                        m_days[r, c]++;
+                    }
+                    
+                }
+            }
+        }
+    }
+
+    private void UpdateField()
+    {
+        for (int r = 0; r < m_rows; r++)
+        {
+            for (int c = 0; c < m_cols; c++)
+            {
+                // The current cell has something
+                if (m_days[r, c] >= 0)
+                {
+                    // This should be the center position of the current cell.
+                    Vector3 pos = m_field[r, c].transform.position;
+
+                    Destroy(m_field[r, c]);
+
+                    GameObject item = Instantiate(farmItemsSO.AppleItems[m_days[r, c]], pos, Quaternion.identity);
+                    item.transform.localScale += new Vector3(10, 10, 10);
+
+                    m_field[r, c] = item;
+                }
+            }
+        }
     }
 
     private Vector3 GetTopLeftPosition(Vector3 mousePos)
@@ -126,19 +242,6 @@ public class GridManager : MonoBehaviour
         return new Vector3(x, m_startPos.y, z);
     }
 
-    public void SetVisited(Vector3 mousePos)
-    {
-        int row = 0;
-        int col = 0;
-
-        Vector3 topLeft = GetTopLeftPosition(mousePos, out row, out col);
-
-        m_visited[row, col] = true;
-        
-        Debug.Log("Mouse Position = " + topLeft.x + " , " + topLeft.z);
-        Debug.Log(row + " , " + col);
-    }
-
     public bool IsValidPosition(Vector3 mousePos)
     {
         int row = 0;
@@ -163,25 +266,7 @@ public class GridManager : MonoBehaviour
                             topLeft.y, 
                             topLeft.z + (m_cellHeight / 2));
     }
-
-    public Vector3 GetNearestPointOnGrid(Vector3 pos)
-    {
-        pos -= transform.position;
-
-        int xOffset = Mathf.RoundToInt(pos.x / m_cellWidth);
-        int yOffset = Mathf.RoundToInt(pos.y / m_cellWidth);
-        int zOffset = Mathf.RoundToInt(pos.z / m_cellHeight);
-
-        Vector3 result = new Vector3(xOffset * m_cellWidth,
-                                     yOffset * m_cellWidth,
-                                     zOffset * m_cellHeight);
-
-        result += transform.position;
-
-        return result;
-
-    }
-   
+    
     // This is to draw the grid on the scene view, but it got glitches, and only draw the full grid when starts the game.
     void OnDrawGizmos()
     {
