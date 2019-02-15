@@ -123,37 +123,39 @@ public class GridManager : MonoBehaviour
             {
                 m_mousePos = hitInfo.point;
 
-                if (IsValidPosition(m_mousePos))
+                int row = 0;
+                int col = 0;
+
+                Vector3 topLeft = Vector3.zero;
+
+                if (IsValidPosition(m_mousePos, out row, out col, out topLeft))
                 {
-                    PlaceObject();
+                    PlaceObject(row, col, topLeft);
                 }
             }
         }
     }
 
-    private void PlaceObject()
+    private void PlaceObject(int row, int col, Vector3 topLeft)
     {
-        SetVisited(m_mousePos);
+        SetVisited(m_mousePos, row, col, topLeft);
     }
 
     // Add new item to the field, everything is initialized.
-    public void SetVisited(Vector3 mousePos)
+    private void SetVisited(Vector3 mousePos, int row, int col, Vector3 topLeft)
     {
-        Vector3 pos = GetCenterPosition(m_mousePos);
+        Vector3 pos = GetCenterPosition(topLeft);
 
         GameObject item = Instantiate(farmItemsSO.AppleItems[0], pos, Quaternion.identity);
 
-        int row = 0;
-        int col = 0;
-
-        Vector3 topLeft = GetTopLeftPosition(mousePos, out row, out col);
+        //Vector3 topLeft = GetTopLeftPosition(mousePos, out row, out col);
 
         m_visited[row, col] = true;
         m_field[row, col] = item;
         m_days[row, col] = 0;
 
-       // Debug.Log("Mouse Position = " + topLeft.x + " , " + topLeft.z);
-       // Debug.Log(row + " , " + col);
+        Debug.Log("Mouse Position = " + topLeft.x + " , " + topLeft.z);
+        Debug.Log(row + " , " + col);
     }
 
     private void UpdateDays()
@@ -224,15 +226,17 @@ public class GridManager : MonoBehaviour
         int r = 0;
         int c = 0;
 
-        while (x + m_cellWidth < mousePos.x)
+        // z = width
+        while (z + m_cellWidth < mousePos.z)
         {
-            x += m_cellHeight;
+            z += m_cellWidth;
             r++;
         }
 
-        while (z + m_cellHeight < mousePos.z)
+        // x = height
+        while (x + m_cellHeight < mousePos.x)
         {
-            z += m_cellHeight;
+            x += m_cellHeight;
             c++;
         }
 
@@ -242,29 +246,33 @@ public class GridManager : MonoBehaviour
         return new Vector3(x, m_startPos.y, z);
     }
 
-    public bool IsValidPosition(Vector3 mousePos)
+    public bool IsValidPosition(Vector3 mousePos, 
+                                out int row, out int col,
+                                out Vector3 topLeft)
     {
-        int row = 0;
-        int col = 0;
+        topLeft = GetTopLeftPosition(mousePos, out row, out col);
 
-        Vector3 topLeft = GetTopLeftPosition(mousePos, out row, out col);
-
-        return (mousePos.x >= m_startPos.x && mousePos.x < (m_startPos.x + m_height) &&
+        return (row < m_rows && row >= 0 && col < m_cols && col >= 0 &&
+                mousePos.x >= m_startPos.x && mousePos.x < (m_startPos.x + m_height) &&
                 mousePos.z >= m_startPos.z && mousePos.z < (m_startPos.z + m_width) &&
                 !m_visited[row, col]);
     }
 
-    public Vector3 GetCenterPosition(Vector3 mousePos)
+    public Vector3 GetCenterPosition(Vector3 topLeft)
     {
-        Vector3 topLeft = GetTopLeftPosition(mousePos);
+        //Vector3 topLeft = GetTopLeftPosition(mousePos);
 
         //Vector3 topRight = new Vector3(topLeft.x, topLeft.y, topLeft.z + m_cellWidth);
         //Vector3 bottomLeft = new Vector3(topLeft.x + m_cellHeight, topLeft.y, topLeft.z);
         //Vector3 bottomRight = new Vector3(topLeft.x + m_cellHeight, topLeft.y, topLeft.z);
 
-        return new Vector3( topLeft.x + (m_cellWidth / 2), 
-                            topLeft.y, 
-                            topLeft.z + (m_cellHeight / 2));
+        //return new Vector3( topLeft.x + (m_cellWidth / 2), 
+        //                    topLeft.y, 
+        //                    topLeft.z + (m_cellHeight / 2));
+
+        return new Vector3( topLeft.x + (m_cellHeight / 2),
+                            topLeft.y,
+                            topLeft.z + (m_cellWidth / 2));
     }
     
     // This is to draw the grid on the scene view, but it got glitches, and only draw the full grid when starts the game.
