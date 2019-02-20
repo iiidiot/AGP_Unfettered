@@ -156,7 +156,6 @@ public class GridManager : MonoBehaviour
 
                     // reset the tile 
                     Destroy(m_tilePrefab);
-                    
                 }
 
                 // If it doesn't exist, create one. 
@@ -164,9 +163,6 @@ public class GridManager : MonoBehaviour
                 {
                     InitTile(m_validColor);
                 }
-                
-
-                //DrawTile(m_validColor, topLeft);
 
                 // If mouse button has pressed at this point, add the item.
                 if (Input.GetMouseButtonDown(0))
@@ -185,7 +181,6 @@ public class GridManager : MonoBehaviour
 
                     // reset the tile 
                     Destroy(m_tilePrefab);
-
                 }
 
                 // If it doesn't exist, create one. 
@@ -231,30 +226,6 @@ public class GridManager : MonoBehaviour
         m_tilePrefab.GetComponent<Renderer>().material.color = color;
     }
 
-    //private void AddItem()
-    //{
-    //    if (Input.GetMouseButtonDown(0))
-    //    {
-    //        RaycastHit hitInfo;
-    //        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-    //        if (Physics.Raycast(ray, out hitInfo))
-    //        {
-    //            m_mousePos = hitInfo.point;
-
-    //            int row = 0;
-    //            int col = 0;
-
-    //            Vector3 topLeft = Vector3.zero;
-
-    //            if (IsValidPosition(m_mousePos, out row, out col, out topLeft))
-    //            {
-    //                PlaceObject(row, col, topLeft);
-    //            }
-    //        }
-    //    }
-    //}
-
     private void PlaceObject(int row, int col, Vector3 topLeft)
     {
         SetVisited(m_mousePos, row, col, topLeft);
@@ -289,8 +260,7 @@ public class GridManager : MonoBehaviour
                     if (m_days[r,c] < farmItemsSO.AppleItems.Count -1)
                     {
                         m_days[r, c]++;
-                    }
-                    
+                    }       
                 }
             }
         }
