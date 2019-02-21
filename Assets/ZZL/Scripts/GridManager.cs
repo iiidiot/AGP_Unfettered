@@ -1,23 +1,11 @@
-﻿#define DEBUG_ON
-
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class GridManager : MonoBehaviour
 {
-    public static GridManager s_instance = null;
-    
     public FarmItemsSO farmItemsSO;
-
-    public GameObject tilePrefab;
-
-    [SerializeField]
-    private Color m_validColor;
-
-    [SerializeField]
-    private Color m_invalidColor;
 
     [SerializeField]
     private int m_rows;
@@ -52,10 +40,6 @@ public class GridManager : MonoBehaviour
     private Vector3 m_mousePos;
 
     private int m_currentDay;
-    
-    private GameObject m_tilePrefab;
-
-    private Vector3 m_preCenterPos;
 
     // Getters
     public Vector3 StartPos
@@ -82,20 +66,6 @@ public class GridManager : MonoBehaviour
     
     private void Awake()
     {
-        if(!s_instance)
-        {
-            s_instance = this;
-        }
-        else if(s_instance)
-        {
-            Destroy(gameObject);
-        }
-
-        //Sets this to not be destroyed when reloading scene
-        DontDestroyOnLoad(gameObject);
-
-        m_preCenterPos = Vector3.zero;
-
         m_startPos = transform.position;
         m_width = m_cols * m_cellWidth;
         m_height = m_rows * m_cellHeight;
@@ -131,71 +101,7 @@ public class GridManager : MonoBehaviour
         m_width = m_cols * m_cellWidth;
         m_height = m_rows * m_cellHeight;
 
-        RaycastHit hitInfo;
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-        if (Physics.Raycast(ray, out hitInfo))
-        {
-            m_mousePos = hitInfo.point;
-
-            int row = 0;
-            int col = 0;
-
-            Vector3 topLeft = GetTopLeftPosition(m_mousePos, out row, out col);
-            
-            Vector3 centerPos = GetCenterPosition(topLeft);
-
-            // If it's an empty cell
-            if (IsValidPosition(m_mousePos, row, col, topLeft))
-            {
-                // if the tile doesn't exist, we create a new tile
-                if(m_preCenterPos != centerPos)
-                {
-                    // update the previous center position for record
-                    m_preCenterPos = centerPos;
-
-                    // reset the tile 
-                    Destroy(m_tilePrefab);
-                }
-
-                // If it doesn't exist, create one. 
-                if(!m_tilePrefab)
-                {
-                    InitTile(m_validColor);
-                }
-
-                // If mouse button has pressed at this point, add the item.
-                if (Input.GetMouseButtonDown(0))
-                {
-                    PlaceObject(row, col, topLeft);
-                }
-            }
-
-            // If it's not an empty cell, but within the range of the grid
-            else if(IsValidPosition(m_mousePos, row, col))
-            {
-                // if the tile doesn't exist, we create a new tile
-                if (m_preCenterPos != centerPos)
-                {
-                    m_preCenterPos = centerPos;
-
-                    // reset the tile 
-                    Destroy(m_tilePrefab);
-                }
-
-                // If it doesn't exist, create one. 
-                if (!m_tilePrefab)
-                {
-                    InitTile(m_invalidColor);
-                }
-            }
-
-            // mouse position is out of bound
-            else
-            {
-                Destroy(m_tilePrefab);
-            }
-        }
+        AddItem();
 
         if(m_currentDay != TimeManager.s_days)
         {
@@ -206,46 +112,48 @@ public class GridManager : MonoBehaviour
         } 
     }
 
-    void InitTile(Color color)
+    private void AddItem()
     {
-        m_tilePrefab = Instantiate(tilePrefab, m_preCenterPos, Quaternion.identity);
+        if (Input.GetMouseButtonDown(0))
+        {
+            RaycastHit hitInfo;
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-        float currentZ = m_tilePrefab.GetComponent<Renderer>().bounds.size.z;
-        float currentX = m_tilePrefab.GetComponent<Renderer>().bounds.size.x;
+            if (Physics.Raycast(ray, out hitInfo))
+            {
+                m_mousePos = hitInfo.point;
 
-        Vector3 scale = m_tilePrefab.transform.localScale;
-
-        // z = width, x = height
-        scale.z = m_cellWidth * scale.z / currentZ;
-        scale.x = m_cellHeight * scale.x / currentX;
-
-        // Set the scale of the tile to fit the cell size of the grid
-        m_tilePrefab.transform.localScale = scale;
-
-        // Set the color of the tile
-        m_tilePrefab.GetComponent<Renderer>().material.color = color;
+                if (IsValidPosition(m_mousePos))
+                {
+                    PlaceObject();
+                }
+            }
+        }
     }
 
-    private void PlaceObject(int row, int col, Vector3 topLeft)
+    private void PlaceObject()
     {
-        SetVisited(m_mousePos, row, col, topLeft);
+        SetVisited(m_mousePos);
     }
 
     // Add new item to the field, everything is initialized.
-    private void SetVisited(Vector3 mousePos, int row, int col, Vector3 topLeft)
+    public void SetVisited(Vector3 mousePos)
     {
-        Vector3 centerPos = GetCenterPosition(topLeft);
+        Vector3 pos = GetCenterPosition(m_mousePos);
 
-        GameObject item = Instantiate(farmItemsSO.AppleItems[0], centerPos, Quaternion.identity);
+        GameObject item = Instantiate(farmItemsSO.AppleItems[0], pos, Quaternion.identity);
+
+        int row = 0;
+        int col = 0;
+
+        Vector3 topLeft = GetTopLeftPosition(mousePos, out row, out col);
 
         m_visited[row, col] = true;
         m_field[row, col] = item;
         m_days[row, col] = 0;
 
-#if DEBUG_ON
-        Debug.Log("Mouse Position = " + topLeft.x + " , " + topLeft.z);
-        Debug.Log(row + " , " + col);
-#endif
+       // Debug.Log("Mouse Position = " + topLeft.x + " , " + topLeft.z);
+       // Debug.Log(row + " , " + col);
     }
 
     private void UpdateDays()
@@ -260,7 +168,8 @@ public class GridManager : MonoBehaviour
                     if (m_days[r,c] < farmItemsSO.AppleItems.Count -1)
                     {
                         m_days[r, c]++;
-                    }       
+                    }
+                    
                 }
             }
         }
@@ -289,23 +198,23 @@ public class GridManager : MonoBehaviour
         }
     }
 
-    //private Vector3 GetTopLeftPosition(Vector3 mousePos)
-    //{
-    //    float x = m_startPos.x;
-    //    float z = m_startPos.z;
+    private Vector3 GetTopLeftPosition(Vector3 mousePos)
+    {
+        float x = m_startPos.x;
+        float z = m_startPos.z;
 
-    //    while (x + m_cellWidth < mousePos.x)
-    //    {
-    //        x += m_cellHeight;
-    //    }
+        while (x + m_cellWidth < mousePos.x)
+        {
+            x += m_cellHeight;
+        }
 
-    //    while (z + m_cellHeight < mousePos.z)
-    //    {
-    //        z += m_cellHeight;
-    //    }
+        while (z + m_cellHeight < mousePos.z)
+        {
+            z += m_cellHeight;
+        }
 
-    //    return new Vector3(x, m_startPos.y, z);
-    //}
+        return new Vector3(x, m_startPos.y, z);
+    }
 
     private Vector3 GetTopLeftPosition(Vector3 mousePos, out int row, out int col)
     {
@@ -315,17 +224,15 @@ public class GridManager : MonoBehaviour
         int r = 0;
         int c = 0;
 
-        // z = width
-        while (z + m_cellWidth < mousePos.z)
+        while (x + m_cellWidth < mousePos.x)
         {
-            z += m_cellWidth;
+            x += m_cellHeight;
             r++;
         }
 
-        // x = height
-        while (x + m_cellHeight < mousePos.x)
+        while (z + m_cellHeight < mousePos.z)
         {
-            x += m_cellHeight;
+            z += m_cellHeight;
             c++;
         }
 
@@ -335,35 +242,29 @@ public class GridManager : MonoBehaviour
         return new Vector3(x, m_startPos.y, z);
     }
 
-    private bool IsValidPosition(Vector3 mousePos,
-                                int row, int col,
-                                Vector3 topLeft)
+    public bool IsValidPosition(Vector3 mousePos)
     {
-        return (IsValidPosition(mousePos, row, col) && !m_visited[row, col]);
+        int row = 0;
+        int col = 0;
+
+        Vector3 topLeft = GetTopLeftPosition(mousePos, out row, out col);
+
+        return (mousePos.x >= m_startPos.x && mousePos.x < (m_startPos.x + m_height) &&
+                mousePos.z >= m_startPos.z && mousePos.z < (m_startPos.z + m_width) &&
+                !m_visited[row, col]);
     }
 
-    private bool IsValidPosition(Vector3 mousePos, int row, int col)
+    public Vector3 GetCenterPosition(Vector3 mousePos)
     {
-        return (row < m_rows && row >= 0 && col < m_cols && col >= 0 &&
-                mousePos.x >= m_startPos.x && mousePos.x < (m_startPos.x + m_height) &&
-                mousePos.z >= m_startPos.z && mousePos.z < (m_startPos.z + m_width));
-    }
-    
-    public Vector3 GetCenterPosition(Vector3 topLeft)
-    {
-        //Vector3 topLeft = GetTopLeftPosition(mousePos);
+        Vector3 topLeft = GetTopLeftPosition(mousePos);
 
         //Vector3 topRight = new Vector3(topLeft.x, topLeft.y, topLeft.z + m_cellWidth);
         //Vector3 bottomLeft = new Vector3(topLeft.x + m_cellHeight, topLeft.y, topLeft.z);
         //Vector3 bottomRight = new Vector3(topLeft.x + m_cellHeight, topLeft.y, topLeft.z);
 
-        //return new Vector3( topLeft.x + (m_cellWidth / 2), 
-        //                    topLeft.y, 
-        //                    topLeft.z + (m_cellHeight / 2));
-
-        return new Vector3( topLeft.x + (m_cellHeight / 2),
-                            topLeft.y,
-                            topLeft.z + (m_cellWidth / 2));
+        return new Vector3( topLeft.x + (m_cellWidth / 2), 
+                            topLeft.y, 
+                            topLeft.z + (m_cellHeight / 2));
     }
     
     // This is to draw the grid on the scene view, but it got glitches, and only draw the full grid when starts the game.
