@@ -2,22 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AlertTriggerController_BT : MonoBehaviour
+public class PlayerInTriggerController_BT : MonoBehaviour
 { 
-    public GameObject monster;
+
     
-    private bool m_PlayerIsInAlertRange;
+    public bool m_PlayerIsInRange;
 
     void Start()
     {
-        m_PlayerIsInAlertRange = false;
+        m_PlayerIsInRange = false;
     }
 
     void OnTriggerEnter(Collider collider)
     {
         if (collider.tag == "Player")
         {
-            m_PlayerIsInAlertRange = true;
+            m_PlayerIsInRange = true;
         }
     }
 
@@ -25,12 +25,12 @@ public class AlertTriggerController_BT : MonoBehaviour
     {
         if (collider.tag == "Player")
         {
-            m_PlayerIsInAlertRange = false;
+            m_PlayerIsInRange = false;
         }
     }
 
     public bool GetIsPlayerInAlertRange()
     {
-        return m_PlayerIsInAlertRange;
+        return m_PlayerIsInRange;
     }
 }

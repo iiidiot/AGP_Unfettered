@@ -4,7 +4,7 @@ using UnityEngine;
 using BehaviorDesigner;
 using BehaviorDesigner.Runtime.Tasks;
 
-public class IsPlayerInAlertRange : BehaviorDesigner.Runtime.Tasks.Conditional
+public class IsPlayerNotInAlertRange : BehaviorDesigner.Runtime.Tasks.Conditional
 {
  
     private PlayerInTriggerController_BT m_TriggerController;
@@ -18,12 +18,12 @@ public class IsPlayerInAlertRange : BehaviorDesigner.Runtime.Tasks.Conditional
     {
         if (m_TriggerController.GetIsPlayerInAlertRange())
         {
-            return TaskStatus.Success;
+            return TaskStatus.Running; 
 
         }
         else
         {
-            return TaskStatus.Running;  // 没找到player 下一帧继续执行此任务
+            return TaskStatus.Success;  // 没找到player 下一帧继续执行此任务
         }
     }
     
