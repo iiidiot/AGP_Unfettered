@@ -20,7 +20,7 @@ public class IsPlayerNotInRange : BehaviorDesigner.Runtime.Tasks.Conditional
     {
         if (m_TriggerController.GetIsPlayerInAlertRange())
         {
-            return TaskStatus.Running; // 找到player 下一帧继续执行此任务
+            return TaskStatus.Failure; // 找到player 下一帧继续执行此任务
         }
         else
         {
