@@ -8,6 +8,12 @@ using UnityEngine.UI;
 public class GridManager : MonoBehaviour
 {
     public static GridManager s_instance = null;
+
+    private static Vector3 s_targetTopLeft;
+    private static Vector3 s_targetCenterPos;
+    private static int s_targetRow;
+    private static int s_targetCol;
+   // private static int s_index;
     
     public FarmItemsSO farmItemsSO;
 
@@ -41,15 +47,16 @@ public class GridManager : MonoBehaviour
     [SerializeField]
     private Vector3 m_startPos;
 
-    private bool[,] m_visited;
+    private static bool[,] s_visited;
+
+    private static GameObject[,] s_field;
 
     // It's used to update current farm items' prefab based on the days.
     // Stores number of days on each cell
-    private int[,] m_days;
+    private static int[,] s_days;
 
-    private GameObject[,] m_field;
-
-    private Vector3 m_mousePos;
+    // Used to store indexes to grab the object from the Scriptable Object item list
+    private static int[,] s_scriptableObjectItemListIndexes;
 
     private int m_currentDay;
     
@@ -57,6 +64,9 @@ public class GridManager : MonoBehaviour
 
     private Vector3 m_preCenterPos;
 
+    private Vector3 m_mousePos;
+
+    
     // Getters
     public Vector3 StartPos
     {
@@ -94,25 +104,36 @@ public class GridManager : MonoBehaviour
         //Sets this to not be destroyed when reloading scene
         DontDestroyOnLoad(gameObject);
 
+        //s_index = -1;
+
+        // All for adding the item into the cell
+        s_targetCenterPos = Vector3.zero;
+        s_targetTopLeft = Vector3.zero;
+        s_targetRow = -1;
+        s_targetCol = -1;
+
         m_preCenterPos = Vector3.zero;
 
         m_startPos = transform.position;
         m_width = m_cols * m_cellWidth;
         m_height = m_rows * m_cellHeight;
 
-        m_visited = new bool[m_rows, m_cols];
+        s_visited = new bool[m_rows, m_cols];
 
-        m_days = new int[m_rows, m_cols];
+        s_days = new int[m_rows, m_cols];
 
-        m_field = new GameObject[m_rows, m_cols];
+        s_field = new GameObject[m_rows, m_cols];
+
+        s_scriptableObjectItemListIndexes = new int[m_rows, m_cols];
 
         for (int r = 0; r < m_rows; r++)
         {
             for (int c = 0; c < m_cols; c++)
             {
-                m_visited[r, c] = false;
-                m_days[r, c] = -1;
-                m_field[r, c] = null;
+                s_visited[r, c] = false;
+                s_days[r, c] = -1;
+                s_field[r, c] = null;
+                s_scriptableObjectItemListIndexes[r, c] = -1;
             }
         }
     }
@@ -131,73 +152,92 @@ public class GridManager : MonoBehaviour
         m_width = m_cols * m_cellWidth;
         m_height = m_rows * m_cellHeight;
 
-        RaycastHit hitInfo;
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-        if (Physics.Raycast(ray, out hitInfo))
+        if(s_targetCol == -1 && s_targetRow == -1)
         {
-            m_mousePos = hitInfo.point;
+            RaycastHit hitInfo;
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-            int row = 0;
-            int col = 0;
-
-            Vector3 topLeft = GetTopLeftPosition(m_mousePos, out row, out col);
-            
-            Vector3 centerPos = GetCenterPosition(topLeft);
-
-            // If it's an empty cell
-            if (IsValidPosition(m_mousePos, row, col, topLeft))
+            if (Physics.Raycast(ray, out hitInfo))
             {
-                // if the tile doesn't exist, we create a new tile
-                if(m_preCenterPos != centerPos)
-                {
-                    // update the previous center position for record
-                    m_preCenterPos = centerPos;
+                m_mousePos = hitInfo.point;
 
-                    // reset the tile 
+                int row = 0;
+                int col = 0;
+
+                Vector3 topLeft = GetTopLeftPosition(m_mousePos, out row, out col);
+
+                Vector3 centerPos = GetCenterPosition(topLeft);
+
+                // If it's an empty cell
+                if (IsValidPosition(m_mousePos, row, col, topLeft))
+                {
+                    // if the tile doesn't exist, we create a new tile
+                    if (m_preCenterPos != centerPos)
+                    {
+                        // update the previous center position for record
+                        m_preCenterPos = centerPos;
+
+                        // reset the tile 
+                        Destroy(m_tilePrefab);
+                    }
+
+                    // If it doesn't exist, create one. 
+                    if (!m_tilePrefab)
+                    {
+                        InitTile(m_validColor);
+                    }
+
+                    // If mouse button has pressed at this point, pop up the farm item inventory.
+                    if (Input.GetMouseButtonDown(0))
+                    {
+                        // Pop out the farm inventory
+                        UIFarmItemManager.DisplayUI();
+
+                        s_targetCol = col;
+                        s_targetRow = row;
+                        s_targetTopLeft = topLeft;
+                        s_targetCenterPos = centerPos;
+
+                        //PlaceObject(row, col, topLeft);
+                    }
+                }
+
+                // If it's not an empty cell, but within the range of the grid
+                else if (IsValidPosition(m_mousePos, row, col))
+                {
+                    // if the tile doesn't exist, we create a new tile
+                    if (m_preCenterPos != centerPos)
+                    {
+                        m_preCenterPos = centerPos;
+
+                        // reset the tile 
+                        Destroy(m_tilePrefab);
+                    }
+
+                    // If it doesn't exist, create one. 
+                    if (!m_tilePrefab)
+                    {
+                        InitTile(m_invalidColor);
+                    }
+                }
+
+                // mouse position is out of bound
+                else
+                {
                     Destroy(m_tilePrefab);
+
+                    //s_index = -1;
                 }
-
-                // If it doesn't exist, create one. 
-                if(!m_tilePrefab)
-                {
-                    InitTile(m_validColor);
-                }
-
-                // If mouse button has pressed at this point, add the item.
-                if (Input.GetMouseButtonDown(0))
-                {
-                    PlaceObject(row, col, topLeft);
-                }
-            }
-
-            // If it's not an empty cell, but within the range of the grid
-            else if(IsValidPosition(m_mousePos, row, col))
-            {
-                // if the tile doesn't exist, we create a new tile
-                if (m_preCenterPos != centerPos)
-                {
-                    m_preCenterPos = centerPos;
-
-                    // reset the tile 
-                    Destroy(m_tilePrefab);
-                }
-
-                // If it doesn't exist, create one. 
-                if (!m_tilePrefab)
-                {
-                    InitTile(m_invalidColor);
-                }
-            }
-
-            // mouse position is out of bound
-            else
-            {
-                Destroy(m_tilePrefab);
             }
         }
 
-        if(m_currentDay != TimeManager.s_days)
+        // Close the farm inventory UI when right mouse click is pressed
+        if (Input.GetMouseButtonDown(1))
+        {
+            CloseFarmInventory();
+        }
+
+        if (m_currentDay != TimeManager.s_days)
         {
             UpdateDays();
             UpdateField();
@@ -206,7 +246,17 @@ public class GridManager : MonoBehaviour
         } 
     }
 
-    void InitTile(Color color)
+    private static void CloseFarmInventory()
+    {
+        UIFarmItemManager.s_instance.GetComponentInParent<Canvas>().enabled = false;
+
+        s_targetCol = -1;
+        s_targetRow = -1;
+        s_targetTopLeft = Vector3.zero;
+        s_targetCenterPos = Vector3.zero;
+    }
+
+    private void InitTile(Color color)
     {
         m_tilePrefab = Instantiate(tilePrefab, m_preCenterPos, Quaternion.identity);
 
@@ -226,27 +276,45 @@ public class GridManager : MonoBehaviour
         m_tilePrefab.GetComponent<Renderer>().material.color = color;
     }
 
-    private void PlaceObject(int row, int col, Vector3 topLeft)
+    private void PlaceObject()
     {
-        SetVisited(m_mousePos, row, col, topLeft);
+//       if(s_index != -1 && !s_visited[s_targetRow, s_targetCol])
+//       {
+//            Vector3 centerPos = GetCenterPosition(s_targetTopLeft);
+
+//            // Debug
+//            GameObject item = Instantiate(farmItemsSO.InventoryItems[s_index].growthList[0], centerPos, Quaternion.identity);
+
+//            s_visited[s_targetRow, s_targetCol] = true;
+//            s_field[s_targetRow, s_targetCol] = item;
+//            s_days[s_targetRow, s_targetCol] = 0;
+
+//            // reset
+//            s_index = -1;
+//#if DEBUG_ON
+//            Debug.Log("Mouse Position = " + m_targetTopLeft.x + " , " + m_targetTopLeft.z);
+//            Debug.Log(m_targetRow + " , " + m_targetCol);
+//#endif
+//       }
     }
 
     // Add new item to the field, everything is initialized.
-    private void SetVisited(Vector3 mousePos, int row, int col, Vector3 topLeft)
-    {
-        Vector3 centerPos = GetCenterPosition(topLeft);
+//    private void SetVisited(Vector3 mousePos, int row, int col, Vector3 topLeft)
+//    {
+//        Vector3 centerPos = GetCenterPosition(m_targetTopLeft);
 
-        GameObject item = Instantiate(farmItemsSO.AppleItems[0], centerPos, Quaternion.identity);
+//        // Debug
+//        GameObject item = Instantiate(farmItemsSO.InventoryItems[s_index].growthList[0], centerPos, Quaternion.identity);
 
-        m_visited[row, col] = true;
-        m_field[row, col] = item;
-        m_days[row, col] = 0;
+//        s_visited[m_targetRow, m_targetCol] = true;
+//        s_field[m_targetRow, m_targetCol] = item;
+//        s_days[m_targetRow, m_targetCol] = 0;
 
-#if DEBUG_ON
-        Debug.Log("Mouse Position = " + topLeft.x + " , " + topLeft.z);
-        Debug.Log(row + " , " + col);
-#endif
-    }
+//#if DEBUG_ON
+//        Debug.Log("Mouse Position = " + m_targetTopLeft.x + " , " + m_targetTopLeft.z);
+//        Debug.Log(m_targetRow + " , " + m_targetCol);
+//#endif
+//    }
 
     private void UpdateDays()
     {
@@ -254,13 +322,16 @@ public class GridManager : MonoBehaviour
         {
             for(int c =0; c < m_cols; c++)
             {
-                if(m_days[r, c] >=0)
+                if(s_days[r, c] >=0)
                 {
+                    s_days[r, c]++;
+
+                    // Debug
                     // 假设游戏时间设定为写死，P5的时间系统
-                    if (m_days[r,c] < farmItemsSO.AppleItems.Count -1)
-                    {
-                        m_days[r, c]++;
-                    }       
+                    //if (s_days[r,c] < farmItemsSO.AppleGrowthList.Count -1)
+                    //{
+                    //    s_days[r, c]++;
+                    //}       
                 }
             }
         }
@@ -273,17 +344,20 @@ public class GridManager : MonoBehaviour
             for (int c = 0; c < m_cols; c++)
             {
                 // The current cell has something
-                if (m_days[r, c] >= 0)
+                if (s_days[r, c] >= 0)
                 {
                     // This should be the center position of the current cell.
-                    Vector3 pos = m_field[r, c].transform.position;
+                    Vector3 pos = s_field[r, c].transform.position;
 
-                    Destroy(m_field[r, c]);
+                    Destroy(s_field[r, c]);
 
-                    GameObject item = Instantiate(farmItemsSO.AppleItems[m_days[r, c]], pos, Quaternion.identity);
-                    item.transform.localScale += new Vector3(10, 10, 10);
-
-                    m_field[r, c] = item;
+                    // 假设游戏时间设定为写死，P5的时间系统
+                    if(s_days[r, c] < farmItemsSO.InventoryItems[s_scriptableObjectItemListIndexes[r, c]].growthList.Count)
+                    {
+                        GameObject item = Instantiate(farmItemsSO.InventoryItems[s_scriptableObjectItemListIndexes[r, c]].growthList[s_days[r, c]], pos, Quaternion.identity);
+                        item.transform.localScale += new Vector3(20, 20, 20);
+                        s_field[r, c] = item;
+                    }            
                 }
             }
         }
@@ -339,7 +413,7 @@ public class GridManager : MonoBehaviour
                                 int row, int col,
                                 Vector3 topLeft)
     {
-        return (IsValidPosition(mousePos, row, col) && !m_visited[row, col]);
+        return (IsValidPosition(mousePos, row, col) && !s_visited[row, col]);
     }
 
     private bool IsValidPosition(Vector3 mousePos, int row, int col)
@@ -349,7 +423,7 @@ public class GridManager : MonoBehaviour
                 mousePos.z >= m_startPos.z && mousePos.z < (m_startPos.z + m_width));
     }
     
-    public Vector3 GetCenterPosition(Vector3 topLeft)
+    private Vector3 GetCenterPosition(Vector3 topLeft)
     {
         //Vector3 topLeft = GetTopLeftPosition(mousePos);
 
@@ -399,6 +473,24 @@ public class GridManager : MonoBehaviour
         }
     }
 
-    
+    public static void PlaceObject(GameObject farmItem, int index)
+    {
+        if(!s_visited[s_targetRow, s_targetCol])
+        {
+            GameObject item = Instantiate(farmItem, s_targetCenterPos, Quaternion.identity);
+
+            s_visited[s_targetRow, s_targetCol] = true;
+            s_field[s_targetRow, s_targetCol] = item;
+            s_days[s_targetRow, s_targetCol] = 0;
+            s_scriptableObjectItemListIndexes[s_targetRow, s_targetCol] = index;
+
+            // reset
+            s_targetRow = -1;
+            s_targetCol = -1;
+
+            // Close the farm inventory UI 
+            CloseFarmInventory();
+        }
+    }
 
 }

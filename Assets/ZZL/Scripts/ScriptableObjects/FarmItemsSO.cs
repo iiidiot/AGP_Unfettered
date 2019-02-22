@@ -1,12 +1,23 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Experimental.UIElements;
+
+[System.Serializable]
+public class Item
+{
+    public int index;
+    public string name;
+    public GameObject itemPrefab;
+    public Sprite sprite;
+    public bool isFarmItem;
+    public List<GameObject> growthList;
+    
+}
 
 [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/FarmItemsOS", order = 1)]
 public class FarmItemsSO : ScriptableObject
 {
-    // Add different lists for different items' growths
-    public List<GameObject> AppleItems;
-
-	
+    public List<Item> InventoryItems;
 }
+
