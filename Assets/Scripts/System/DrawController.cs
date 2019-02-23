@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.PostProcessing;
 using DG.Tweening;
-
+using ThirdPersonCamera;
 
 public class DrawController : MonoBehaviour {
 
@@ -76,6 +76,8 @@ public class DrawController : MonoBehaviour {
         if (isTurning && !PlayerStatus.IsDrawing)
         {
             DrawModeVisualEffects();
+
+            TurnCameraFreeForm(false);
           
             TurnBlackAndWhite();
         }
@@ -83,6 +85,7 @@ public class DrawController : MonoBehaviour {
         if (isTurning && PlayerStatus.IsDrawing)
         {
             ReleaseSkill();
+            TurnCameraFreeForm(true);
             DisableDraw();
             PlayerTestController.instance.m_animator.SetTrigger("finishThrowing");
             RemoveDrawModeVisualEffects();
@@ -101,7 +104,14 @@ public class DrawController : MonoBehaviour {
     }
 
 
-    private void DrawModeVisualEffects()
+
+    private void TurnCameraFreeForm(bool value)
+    {
+        Camera.main.transform.GetComponent<FreeForm>().enabled = value;
+        //Camera.main.transform.GetComponent<ThirdPersonCamera.CameraController>().cameraNormalMode = value;
+    }
+
+        private void DrawModeVisualEffects()
     {
         // hide objects
         foreach (GameObject go in ToHide)
@@ -112,12 +122,12 @@ public class DrawController : MonoBehaviour {
             }
         }
 
-        // change bg shader
-        middleGround.GetComponent<SpriteRenderer>().material = alphaDissolve;
-        foreach(GameObject g in platforms)
-        {
-            g.GetComponent<SpriteRenderer>().material = alphaDissolve;
-        }
+        //// change bg shader
+        //middleGround.GetComponent<SpriteRenderer>().material = alphaDissolve;
+        //foreach(GameObject g in platforms)
+        //{
+        //    g.GetComponent<SpriteRenderer>().material = alphaDissolve;
+        //}
 
         // change player/monster shader
         foreach (GameObject go in ToChangeMaterial)
@@ -144,11 +154,11 @@ public class DrawController : MonoBehaviour {
                 go.SetActive(true);
             }
         }
-        middleGround.GetComponent<SpriteRenderer>().material = spriteDiffuse;
-        foreach(GameObject g in platforms)
-        {
-            g.GetComponent<SpriteRenderer>().material = spriteDiffuse;
-        }
+        //middleGround.GetComponent<SpriteRenderer>().material = spriteDiffuse;
+        //foreach(GameObject g in platforms)
+        //{
+        //    g.GetComponent<SpriteRenderer>().material = spriteDiffuse;
+        //}
 
         // change player/monster shader
         foreach (GameObject go in ToChangeMaterial)
