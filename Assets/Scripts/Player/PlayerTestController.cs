@@ -162,8 +162,8 @@ public class PlayerTestController : MonoBehaviour
                 }
 
 #if !MOBILE_INPUT
-                // walk speed multiplier
-                if (Input.GetKey(KeyCode.LeftShift)) m_Move *= 1.5f;
+            // walk speed multiplier
+            if (Input.GetKey(KeyCode.LeftShift)) m_Move *= 1.5f;
 #endif
             }
 
@@ -427,6 +427,12 @@ public class PlayerTestController : MonoBehaviour
 
             // send input and other state parameters to the animator
             // UpdateAnimator(move);
+            
+            //jump========================================================
+            if (playerJump && isOnGround)
+            {
+                m_rigidbody.velocity = new Vector3(m_rigidbody.velocity.x, m_jumpSpeed, m_rigidbody.velocity.z);
+            }
         }
         else
         {
@@ -447,13 +453,14 @@ public class PlayerTestController : MonoBehaviour
                 isOnGround = true;
                 m_rigidbody.velocity = new Vector2(m_directionInput.x * maxClimbSpeed, m_directionInput.y * maxClimbSpeed);
             }
+            //jump========================================================
+            if (playerJump && isOnGround)
+            {
+                m_rigidbody.velocity = new Vector3(m_rigidbody.velocity.x, m_jumpSpeed, 0);
+            }
         }
 
-        //jump========================================================
-        if (playerJump && isOnGround)
-        {
-            m_rigidbody.velocity = new Vector3(m_rigidbody.velocity.x, m_jumpSpeed, 0);
-        }
+  
 
     }
 
@@ -464,7 +471,15 @@ public class PlayerTestController : MonoBehaviour
     {
         if (!isOnGround && !isOnLadder)
         {
-            m_rigidbody.velocity = new Vector3(m_rigidbody.velocity.x, m_rigidbody.velocity.y + m_gravity * Time.fixedDeltaTime, 0);
+            
+            if (is3DMode)
+            {
+                m_rigidbody.velocity = new Vector3(m_rigidbody.velocity.x, m_rigidbody.velocity.y + m_gravity * Time.fixedDeltaTime, m_rigidbody.velocity.z);
+            }
+            else
+            {
+                m_rigidbody.velocity = new Vector3(m_rigidbody.velocity.x, m_rigidbody.velocity.y + m_gravity * Time.fixedDeltaTime, 0);
+            }
         }
         if(PlayerStatus.IsDrawing)
         {
