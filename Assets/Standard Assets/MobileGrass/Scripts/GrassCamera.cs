@@ -15,7 +15,7 @@ public class GrassCamera : MonoBehaviour {
         c.targetTexture = texture;
         matVP = GL.GetGPUProjectionMatrix(c.projectionMatrix, true) * c.worldToCameraMatrix;
         grassMat.SetMatrix("GrassMatrix", matVP);
-
+        c.cullingMask = (1 << LayerMask.NameToLayer("Units"));
     }
 	
 	// Update is called once per frame

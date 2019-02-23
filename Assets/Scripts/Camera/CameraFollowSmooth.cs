@@ -36,7 +36,7 @@ public class CameraFollowSmooth : MonoBehaviour {
     void LateUpdate()
     {
         //x 跟随
-        transform.position = new Vector3((followTarget.position + offset).x, transform.position.y, transform.position.z);
+        transform.position = new Vector3((followTarget.position + offset).x, transform.position.y, (followTarget.position + offset).z);
 
 
         //y 平滑跟上
