@@ -17,8 +17,6 @@ Shader "Custom/GrassShader" {
 		_GrassSeg("_GrassSeg", float) = 5
 		_GrassNum("_GrassNum", float) = 50
 		_GrassRange("_GrassRange", float) = 3
-			_HDR("_HDR", Range(1,30)) = 1
-			_Ramp("Ramp Texture", 2D) = "white" {}
 	}
 
 	Subshader{
@@ -41,7 +39,6 @@ Shader "Custom/GrassShader" {
 				float2 uv : TEXCOORD0;
 				float4 pos : SV_POSITION;
 				fixed4 diff : COLOR0;
-				float3 normal : TEXCOORD2;
 				SHADOW_COORDS(1) // put shadows data into TEXCOORD1
 			};
 
@@ -77,9 +74,6 @@ Shader "Custom/GrassShader" {
 			float _GrassSeg;
 			float _GrassNum;
 			float _GrassRange;
-			sampler2D _Ramp;
-			float _HDR;
-
 			v2f vert(appdata v, uint vid : SV_VertexID)
 			{
 				v2f o;
@@ -115,7 +109,6 @@ Shader "Custom/GrassShader" {
 				o.uv = v.uv;
 				half3 worldNormal = UnityObjectToWorldNormal(v.normal);
 				half nl = max(0, dot(worldNormal, _WorldSpaceLightPos0.xyz));
-
 				o.diff = nl * _LightColor0;
 				o.diff *= v.color;
 				o.diff.rgb += +ShadeSH9(half4(worldNormal, 1));
@@ -130,20 +123,10 @@ Shader "Custom/GrassShader" {
 			{
 				half2 uv = i.uv;
 				float4 texS = tex2D(_MainTex, uv);
-
-
-				float ndl = max(0, dot(normalize(i.normal), normalize(_WorldSpaceLightPos0.xyz)));
-				float diff = ndl * 0.5 + 0.5;
-				//Perform our toon light mapping 
-				diff = tex2D(_Ramp, float2(diff, 0.5));
-				//Update the colour
-				float3 lightColor = UNITY_LIGHTMODEL_AMBIENT.xyz;
-				float atten = LIGHT_ATTENUATION(i);
-				lightColor += _LightColor0.rgb * (diff * atten);
-
-				texS.rgb = lightColor * texS.rgb;
-
-				return texS * _Color * _HDR;
+				texS *= i.diff * 1.3;
+				fixed shadow = SHADOW_ATTENUATION(i);
+				texS *= shadow;
+				return texS * _Color * 1.2;
 			}
 			ENDCG
 		}

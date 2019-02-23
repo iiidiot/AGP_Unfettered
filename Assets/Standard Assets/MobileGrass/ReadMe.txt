@@ -1,3 +1,8 @@
+Update Version 1.1:
+Added the ability to automatically set the correct layer
+
+==================================================================================================================================
+
 MobileGrass1.0:
 
 Very early gpu gems series books have been introduced to the rendering of large-scale grass, 
