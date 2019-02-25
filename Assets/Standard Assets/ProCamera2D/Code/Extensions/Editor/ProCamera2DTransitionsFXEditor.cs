@@ -142,7 +142,7 @@ namespace Com.LuisPedroFonseca.ProCamera2D
             
             // Ignore delta time
             _tooltip = new GUIContent("Use Realtime", "If selected, the transitions will play independently of the current deltaTime.");
-            EditorGUILayout.PropertyField(serializedObject.FindProperty("UseRealtime"), _tooltip);
+            //EditorGUILayout.PropertyField(serializedObject.FindProperty("UseRealtime"), _tooltip);
 
 
             // Limit values
