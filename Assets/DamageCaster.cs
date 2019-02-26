@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class DamageCaster : MonoBehaviour {
 
-    private Transform m_playerTransform;
-    public int damage;
+    public MonsterController.DamageParts damageType = MonsterController.DamageParts.Tail;
+    public Transform monster;
+    private MonsterController m_monsterController;
 
     // Use this for initialization
     void Start () {
-        m_playerTransform = CharactersConfigManager.GetPlayerGameObject().transform;
+        m_monsterController = monster.GetComponent<MonsterController>();
     }
 	
 	// Update is called once per frame
@@ -21,7 +22,7 @@ public class DamageCaster : MonoBehaviour {
     {
         if (collider.tag == "Player")
         {
-            m_playerTransform.GetComponent<PlayerTestController>().GetDamage(damage);
+            m_monsterController.damageCounter.Add(damageType);
         }
     }
 }
