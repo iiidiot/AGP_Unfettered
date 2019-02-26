@@ -94,6 +94,7 @@ public class PlayerTestController : MonoBehaviour
 
     void Update()
     {
+        
         HandleInput();
         MoveController();
         playerJump = false;
@@ -469,7 +470,7 @@ public class PlayerTestController : MonoBehaviour
     //     update vertical speed (gravity) according to different condition.
     void MyGravity()
     {
-        if (!isOnGround && !isOnLadder)
+        if (!isOnGround/* && !isOnLadder*/)
         {
             
             if (is3DMode)
