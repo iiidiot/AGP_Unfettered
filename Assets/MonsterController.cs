@@ -13,6 +13,19 @@ public class MonsterController : MonoBehaviour {
     public double m_attackCDTimeCounter;
     private Transform m_playerTransform;
 
+    public enum DamageParts
+    {
+        Tail,
+    }
+
+    public static Dictionary<DamageParts, double> damageAmount = new Dictionary<DamageParts, double>()
+    {
+        {DamageParts.Tail, 1},
+    };
+
+    // right now we only do damage check-out to player
+    public HashSet<DamageParts> damageCounter = new HashSet<DamageParts>();
+
     // Use this for initialization
     void Start () {
         m_hp = maxHP;
@@ -50,6 +63,18 @@ public class MonsterController : MonoBehaviour {
     {
         m_hp -= damage;
        
+    }
+
+
+    public void DamageCheckout()
+    {
+
+        foreach (DamageParts dp in damageCounter)
+        {
+            m_playerTransform.GetComponent<PlayerTestController>().GetDamage(damageAmount[dp]);
+        }
+
+        damageCounter.Clear();
     }
 }
 

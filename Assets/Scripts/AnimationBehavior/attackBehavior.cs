@@ -17,7 +17,9 @@ public class attackBehavior : StateMachineBehaviour {
         GameObject sword1 = GameObject.Find("Sword1");
         sword1.GetComponent<BoxCollider>().enabled = true;
         sword1.transform.Find("Trail").gameObject.SetActive(true);
-        //GameObject swordEffect = Instantiate(Resources.Load("Prefabs/Effects/slash-2"), sword1.transform.position, sword1.transform.rotation) as GameObject;
+
+        Transform effectPos = sword1.transform.Find("SwordTipPlus").transform;
+        GameObject swordEffect = Instantiate(Resources.Load("Prefabs/Effects/SlashParticle"), effectPos.position, effectPos.rotation) as GameObject;
         SoundController.PlaySound(1);
 		
 	}
@@ -38,6 +40,7 @@ public class attackBehavior : StateMachineBehaviour {
         GameObject sword1 = GameObject.Find("Sword1");
         sword1.GetComponent<BoxCollider>().enabled = false;
         sword1.transform.Find("Trail").gameObject.SetActive(false);
+       
     }
 
 	// OnStateMove is called right after Animator.OnAnimatorMove(). Code that processes and affects root motion should be implemented here

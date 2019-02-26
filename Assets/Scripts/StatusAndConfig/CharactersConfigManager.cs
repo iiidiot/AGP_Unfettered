@@ -18,7 +18,7 @@ public static class CharactersConfigManager
             k_PlayerID, new Dictionary<string, string>()
             {
                 {k_Name, "Gentian"},
-                {k_GameObjctPath, "PlayerGroup/Player" },
+                {k_GameObjctPath, "Player" },
                 {k_SpritePath, "Sprites/CharacterHead/Gentian" }
             }
          },
