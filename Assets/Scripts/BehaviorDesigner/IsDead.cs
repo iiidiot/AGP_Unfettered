@@ -14,7 +14,7 @@ namespace BehaviorDesigner.Runtime.Tasks.Basic
 
         public override TaskStatus OnUpdate()
         {
-            if (m_Controller.m_hp < 0)
+            if (m_Controller.m_hp <= 0)
             {
                 return TaskStatus.Success;
             }

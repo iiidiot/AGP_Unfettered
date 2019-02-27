@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Guirao.UltimateTextDamage;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,7 +13,7 @@ public class MonsterController : MonoBehaviour {
     public double m_hp;
     public double m_attackCDTimeCounter;
     public SimpleHealthBar healthBar;
-
+    public UltimateTextDamageManager ultimateTextDamageManager;
 
     private Transform m_playerTransform;
 
@@ -54,6 +55,8 @@ public class MonsterController : MonoBehaviour {
 
         if (healthBar != null)
             healthBar.UpdateBar((float)m_hp,(float) maxHP);
+
+        ultimateTextDamageManager.Add(damage.ToString(), transform, "default");
     }
 
 
