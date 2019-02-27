@@ -2,20 +2,20 @@
 
 namespace BehaviorDesigner.Runtime.Tasks.Basic
 {
-    public class DisableGameObjectList : Action
+    public class EnableGameObjectList : Action
     {
         public SharedGameObjectList targetObjectList;
 
         public override TaskStatus OnUpdate()
         {
-            bool status = false;
+            bool status = true;
             foreach (var go in targetObjectList.Value)
             {
-                go.SetActive(false);
-                status |= go.active;
+                go.SetActive(true);
+                status &= go.active;
             }
 
-            return !status ? TaskStatus.Success : TaskStatus.Failure;
+            return status ? TaskStatus.Success : TaskStatus.Failure;
         }
 
     }
