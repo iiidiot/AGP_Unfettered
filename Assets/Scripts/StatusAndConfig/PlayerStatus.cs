@@ -4,9 +4,9 @@ using UnityEngine;
 
 public static class PlayerStatus {
 
-    public static double MaxHealth = 10;
+    public static double MaxHealth = 100;
     public static double HealthRegeneration = 10;
-    public static double Health = 10;
+    public static double Health = 100;
     public static double Attack = 1;
     public static double Defense = 0;
     public static double CriticalDamage = 1;
