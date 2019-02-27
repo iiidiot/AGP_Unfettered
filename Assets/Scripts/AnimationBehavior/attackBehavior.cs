@@ -18,8 +18,8 @@ public class attackBehavior : StateMachineBehaviour {
         sword1.GetComponent<BoxCollider>().enabled = true;
         sword1.transform.Find("Trail").gameObject.SetActive(true);
 
-        Transform effectPos = sword1.transform.Find("SwordTipPlus").transform;
-        GameObject swordEffect = Instantiate(Resources.Load("Prefabs/Effects/SlashParticle"), effectPos.position, effectPos.rotation) as GameObject;
+        //Transform effectPos = sword1.transform.Find("SwordTipPlus").transform;
+        //GameObject swordEffect = Instantiate(Resources.Load("Prefabs/Effects/SlashParticle"), effectPos.position, effectPos.rotation) as GameObject;
         SoundController.PlaySound(1);
 		
 	}

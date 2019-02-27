@@ -11,6 +11,9 @@ public class MonsterController : MonoBehaviour {
 
     public double m_hp;
     public double m_attackCDTimeCounter;
+    public SimpleHealthBar healthBar;
+
+
     private Transform m_playerTransform;
 
     public enum DamageParts
@@ -42,27 +45,15 @@ public class MonsterController : MonoBehaviour {
         }
     }
 
-    void OnTriggerEnter(Collider collider)
-    {
-       
-
-        if (collider.tag == "Sword")
-        {
-            GetAttack(PlayerStatus.Attack, m_playerTransform.gameObject);
-        }
-
-        if (collider.tag == "Fu")
-        {
-            GetAttack(10, m_playerTransform.gameObject);
-        }
-
-    }
+   
 
 
-    public void GetAttack(double damage, GameObject attacker)
+    public void GetAttack(double damage)
     {
         m_hp -= damage;
-       
+
+        if (healthBar != null)
+            healthBar.UpdateBar((float)m_hp,(float) maxHP);
     }
 
 
