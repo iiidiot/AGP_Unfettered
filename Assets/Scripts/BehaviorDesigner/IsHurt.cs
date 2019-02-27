@@ -4,13 +4,13 @@ namespace BehaviorDesigner.Runtime.Tasks.Basic
 {
     public class IsHurt : Conditional
     {
-        public Transform monsterTransform;
+        public SharedTransform monsterTransform;
         private MonsterController m_Controller;
         private double m_lastCheckHp;
 
         public override void OnAwake()
         {
-            m_Controller = monsterTransform.GetComponent<MonsterController>();
+            m_Controller = monsterTransform.Value.GetComponent<MonsterController>();
             m_lastCheckHp = m_Controller.maxHP;
         }
 

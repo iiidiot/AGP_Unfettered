@@ -8,12 +8,12 @@ using BehaviorDesigner.Runtime;
 public class IsPlayerNotInRange : BehaviorDesigner.Runtime.Tasks.Conditional
 {
 
-    public Transform rangeTransform;
+    public SharedTransform rangeTransform;
     private PlayerInTriggerController_BT m_TriggerController;
 
     public override void OnAwake()
     {
-        m_TriggerController = rangeTransform.GetComponent<PlayerInTriggerController_BT>();
+        m_TriggerController = rangeTransform.Value.GetComponent<PlayerInTriggerController_BT>();
     }
 
     public override TaskStatus OnUpdate()
