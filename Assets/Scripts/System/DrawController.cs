@@ -77,7 +77,7 @@ public class DrawController : MonoBehaviour {
         {
             DrawModeVisualEffects();
 
-            TurnCameraFreeForm(false);
+            
           
             TurnBlackAndWhite();
         }
@@ -85,7 +85,7 @@ public class DrawController : MonoBehaviour {
         if (isTurning && PlayerStatus.IsDrawing)
         {
             ReleaseSkill();
-            TurnCameraFreeForm(true);
+            
             DisableDraw();
             PlayerTestController.instance.m_animator.SetTrigger("finishThrowing");
             RemoveDrawModeVisualEffects();
