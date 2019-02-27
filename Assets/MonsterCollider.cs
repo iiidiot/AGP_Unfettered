@@ -46,11 +46,12 @@ public class MonsterCollider : MonoBehaviour {
     {
         if (this.transform.position.x > m_playerTransform.position.x)
         {
-            ProCamera2DShake.Instance.Shake("HitShakeLeft");
+            Camera.main.GetComponent<ProCamera2DShake>().Shake("HitShakeLeft");
+           
         }
         else
         {
-            ProCamera2DShake.Instance.Shake("HitShakeRight");
+            Camera.main.GetComponent<ProCamera2DShake>().Shake("HitShakeRight");
         }
     }
 
