@@ -67,7 +67,7 @@ public class Painting : MonoBehaviour
             int y = (int)Input.mousePosition.y;
             Vector3 cur_p = new Vector3(x, y, 0);
 
-            Debug.Log(cur_p);
+
 
             if (x > max_x)
             {

@@ -393,8 +393,8 @@ public class PlayerTestController : MonoBehaviour
     float m_TurnAmount;
     float m_ForwardAmount;
 
-    [SerializeField] float m_MovingTurnSpeed = 360;
-    [SerializeField] float m_StationaryTurnSpeed = 180;
+    [SerializeField] float m_MovingTurnSpeed = 1000;
+    [SerializeField] float m_StationaryTurnSpeed = 500;
     void ApplyExtraTurnRotation()
     {
         // help the character turn faster (this is in addition to root rotation in the animation)
@@ -577,6 +577,7 @@ public class PlayerTestController : MonoBehaviour
         // is dead;
         if(m_animator.GetBool("isDied"))
         {
+            Debug.Log("我觉得这里有蜜汁bug");
             m_blockStatements[0] += 1;
             m_rigidbody.mass = 10000;
         }

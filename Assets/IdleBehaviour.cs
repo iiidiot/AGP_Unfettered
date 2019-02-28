@@ -12,7 +12,14 @@ public class IdleBehaviour : StateMachineBehaviour {
 		PlayerTestController.instance.scabbard.SetActive(true);
 
 		GameObject.Find("Sword1").GetComponent<BoxCollider>().enabled = false;
-	}
+
+
+        List<int> blockstate = new List<int>();
+        blockstate.Add(0);
+        PlayerTestController.instance.UnblockPlayerInput(blockstate);
+        Debug.Log("Unblcok!");
+
+    }
 
 	// OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
 	//override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
