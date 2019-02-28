@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables;
+using UnityEngine.UI;
 
-
-public class TiggerIntoCG : MonoBehaviour {
+public class TriggerInteractionItem : MonoBehaviour {
 	public PlayableDirector pd;
-	public GameObject hintUI;
+	public Text hintUI;
 	public bool canPressF = false;
 
 	// Use this for initialization
@@ -18,6 +18,7 @@ public class TiggerIntoCG : MonoBehaviour {
 	void Update () {
 		if(canPressF && Input.GetKeyDown(KeyCode.F))
 		{
+			hintUI.enabled = false;
 			pd.Play();
 		}		
 	}
@@ -26,7 +27,7 @@ public class TiggerIntoCG : MonoBehaviour {
     {
         if (other.tag == "Player")
         {
-        	hintUI.SetActive(true);
+        	hintUI.enabled = true;
             canPressF = true;
         }
     }
@@ -35,7 +36,7 @@ public class TiggerIntoCG : MonoBehaviour {
     {
         if (other.tag == "Player")
         {
-        	hintUI.SetActive(false);
+        	hintUI.enabled = false;
             canPressF = false;
         }
     }
