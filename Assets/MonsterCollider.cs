@@ -37,17 +37,17 @@ public class MonsterCollider : MonoBehaviour {
         Debug.Log(collider.name);
         if (collider.tag == "Sword")
         {
-            bool critical = Random.Range(0, 1) < 0.5;
+            bool critical = Random.Range(0, 2) == 1;
             double damage = critical ? PlayerStatus.Attack * 2 : PlayerStatus.Attack;
 
             if (critical)
             {
-                m_monsterController.GetAttack(MonsterController.DamageType.Sword, damage);
+                m_monsterController.GetAttack(MonsterController.DamageType.SwordCritical, damage);
 
             }
             else
             {
-                m_monsterController.GetAttack(MonsterController.DamageType.SwordCritical, damage);
+                m_monsterController.GetAttack(MonsterController.DamageType.Sword, damage);
             }
 
             Vector3 contactPoint = this.GetComponent<CapsuleCollider>().ClosestPoint(m_playerTransform.position);

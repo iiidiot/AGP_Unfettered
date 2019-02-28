@@ -12,9 +12,7 @@ public class SkillReleaser : MonoBehaviour {
 
     public Transform skillSpellingPoint;
     private Transform m_playerTransform;
-
-    public double fireBallAttack = 100;
-
+    
     // Use this for initialization
     void Start () {
         InitFireBall();
@@ -30,7 +28,7 @@ public class SkillReleaser : MonoBehaviour {
         if (monsterCollider)
         {
             MonsterController monsterController = monsterCollider.GetMonsterController();
-            monsterController.GetAttack(MonsterController.DamageType.Fu, fireBallAttack);
+            monsterController.GetAttack(MonsterController.DamageType.Fu, PlayerStatus.FireBallAttack);
             //monsterCollider.GetMonsterController().GetAttack(fireBallAttack);
         }
 
