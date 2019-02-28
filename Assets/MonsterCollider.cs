@@ -10,6 +10,7 @@ public class MonsterCollider : MonoBehaviour {
     private MonsterController m_monsterController;
     private Transform m_playerTransform;
 
+  
 
     // Use this for initialization
     void Start () {
@@ -22,11 +23,32 @@ public class MonsterCollider : MonoBehaviour {
 		
 	}
 
+
+
+    public MonsterController GetMonsterController()
+    {
+        return m_monsterController;
+    }
+
+   
     void OnTriggerEnter(Collider collider)
     {
+        Debug.Log("trigger enter");
+        Debug.Log(collider.name);
         if (collider.tag == "Sword")
         {
-            m_monsterController.GetAttack(PlayerStatus.Attack);
+            bool critical = Random.Range(0, 1) < 0.5;
+            double damage = critical ? PlayerStatus.Attack * 2 : PlayerStatus.Attack;
+
+            if (critical)
+            {
+                m_monsterController.GetAttack(MonsterController.DamageType.Sword, damage);
+
+            }
+            else
+            {
+                m_monsterController.GetAttack(MonsterController.DamageType.SwordCritical, damage);
+            }
 
             Vector3 contactPoint = this.GetComponent<CapsuleCollider>().ClosestPoint(m_playerTransform.position);
             SpawnSwordAttackParticleEffects(contactPoint, Quaternion.identity);
@@ -35,12 +57,13 @@ public class MonsterCollider : MonoBehaviour {
 
         }
 
-        if (collider.tag == "Fu")
-        {
-            m_monsterController.GetAttack(10);
-        }
+        //if (collider.tag == "Fu")
+        //{
+        //    m_monsterController.GetAttack(10);
+        //}
 
     }
+    
 
     private void SwordAttackCameraShakeEffects()
     {

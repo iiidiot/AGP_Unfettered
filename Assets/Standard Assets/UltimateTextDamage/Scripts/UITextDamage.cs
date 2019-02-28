@@ -136,6 +136,7 @@ namespace Guirao.UltimateTextDamage
 
                 if( autoFaceCamera )
                 {
+                    Cam = Camera.main;
                     if( Cam != null )
                     {
                         transform.LookAt( Cam.transform , Vector3.up );

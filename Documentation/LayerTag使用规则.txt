@@ -1,0 +1,9 @@
+﻿Layer
+1. Enemy： 符碰到enemy layer会collide然后爆炸，因此所有敌人的受到伤害的碰撞盒的layer要设置为enemy，其它不要。
+
+
+
+Tag
+怪物受击通过Tag判断伤害值
+1. Sword
+2. Fu

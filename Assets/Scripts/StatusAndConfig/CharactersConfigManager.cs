@@ -71,7 +71,12 @@ public static class CharactersConfigManager
 
     public static GameObject GetPlayerGameObject()
     {
-        return GameObject.Find(GetCharacterGameObjectPath(k_PlayerID));
+        GameObject playerGameObject = PlayerTestController.instance.gameObject;
+        if (!playerGameObject)
+        {
+            playerGameObject = GameObject.Find(GetCharacterGameObjectPath(k_PlayerID));
+        }
+        return playerGameObject;
     }
 
 }

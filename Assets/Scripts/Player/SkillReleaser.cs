@@ -11,16 +11,29 @@ public class SkillReleaser : MonoBehaviour {
     private GameObject waterBall;
 
     public Transform skillSpellingPoint;
+    private Transform m_playerTransform;
+
+    public double fireBallAttack = 100;
 
     // Use this for initialization
     void Start () {
         InitFireBall();
         fireBall.SetActive(false);
+        m_playerTransform = CharactersConfigManager.GetPlayerGameObject().transform;
     }
 
     private void Tm_CollisionEnter(object sender, RFX4_TransformMotion.RFX4_CollisionInfo e)
     {
         Debug.Log(e.Hit.transform.name); //will print collided object name to the console.
+
+        MonsterCollider monsterCollider = e.Hit.transform.GetComponent<MonsterCollider>();
+        if (monsterCollider)
+        {
+            MonsterController monsterController = monsterCollider.GetMonsterController();
+            monsterController.GetAttack(MonsterController.DamageType.Fu, fireBallAttack);
+            //monsterCollider.GetMonsterController().GetAttack(fireBallAttack);
+        }
+
     }
 
     // Update is called once per frame
@@ -40,7 +53,10 @@ public class SkillReleaser : MonoBehaviour {
     {
         
         bool isPlayerFaceLeft = !PlayerTestController.instance.facingRight;
-           Debug.Log("isPlayerFaceLeft: "+isPlayerFaceLeft);
+           
+        isPlayerFaceLeft = (skillSpellingPoint.position.x - m_playerTransform.position.x < 0); // in 3d mode
+        Debug.Log("isPlayerFaceLeft: " + isPlayerFaceLeft);
+
         if (isPlayerFaceLeft)
         {
             fireBall.transform.SetPositionAndRotation(skillSpellingPoint.position, Quaternion.Euler(0, -90, 0));
@@ -100,7 +116,10 @@ public class SkillReleaser : MonoBehaviour {
     private void ReleaseWaterBallEffect()
     { 
         Transform player = PlayerTestController.instance.transform;
-        bool isPlayerFaceLeft = !PlayerTestController.instance.facingRight;;
+        bool isPlayerFaceLeft = !PlayerTestController.instance.facingRight;
+
+        isPlayerFaceLeft = (skillSpellingPoint.position.x - m_playerTransform.position.x < 0); // in 3d mode
+
         waterBall = Instantiate(Resources.Load("Prefabs/Effects/FrostMissile/OBJ"), player.position, player.rotation) as GameObject;
         Rigidbody r = waterBall.GetComponent<Rigidbody>();
 
