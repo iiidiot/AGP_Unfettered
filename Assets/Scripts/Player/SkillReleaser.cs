@@ -20,9 +20,14 @@ public class SkillReleaser : MonoBehaviour {
         m_playerTransform = CharactersConfigManager.GetPlayerGameObject().transform;
     }
 
-    private void Tm_CollisionEnter(object sender, RFX4_TransformMotion.RFX4_CollisionInfo e)
+    private void Tm_CollisionEnter_FireBall(object sender, RFX4_TransformMotion.RFX4_CollisionInfo e)
     {
         Debug.Log(e.Hit.transform.name); //will print collided object name to the console.
+        Transform hitTransform = e.Hit.transform;
+        if (hitTransform.tag == "Ice")
+        {
+            hitTransform.GetComponent<IceFragBurst>().Do();
+        }
 
         MonsterCollider monsterCollider = e.Hit.transform.GetComponent<MonsterCollider>();
         if (monsterCollider)
@@ -70,7 +75,7 @@ public class SkillReleaser : MonoBehaviour {
     {
         fireBall = Instantiate(Resources.Load("Prefabs/Effects/FireBall"), skillSpellingPoint.position, Quaternion.Euler(0, !PlayerTestController.instance.facingRight?-90:90, 0)) as GameObject;
         var tm = fireBall.GetComponentInChildren<RFX4_TransformMotion>(true);
-        if (tm != null) tm.CollisionEnter += Tm_CollisionEnter;
+        if (tm != null) tm.CollisionEnter += Tm_CollisionEnter_FireBall;
 
         // define color
         float colorHUE = 6f; // red fire color
