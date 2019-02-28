@@ -39,7 +39,7 @@
 				float2 texcoord : TEXCOORD0;
 				float4 area : TEXCOORD1;
 				float4 region : TEXCOORD2;
-				UNITY_FOG_COORDS(1)
+				UNITY_FOG_COORDS(3)
 				UNITY_VERTEX_OUTPUT_STEREO
 			};
 
