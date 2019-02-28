@@ -15,8 +15,12 @@ public class IceFragBurst : MonoBehaviour {
 		
 	}
 
+    private ParticleSystem ps;
+    private ParticleSystemRenderer psr;
+
     public void Do()
     {
+    
         iceFragBustParticle.SetActive(true);
         this.gameObject.SetActive(false);
     }
