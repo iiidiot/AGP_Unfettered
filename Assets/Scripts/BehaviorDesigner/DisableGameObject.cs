@@ -4,14 +4,14 @@ namespace BehaviorDesigner.Runtime.Tasks.Basic
 {
     public class DisableGameObject : Action
     {
-        public GameObject targetObject;
+        public SharedGameObject targetObject;
 
         public override TaskStatus OnUpdate()
         {
 
-            targetObject.SetActive(false);
+            targetObject.Value.SetActive(false);
 
-            return !targetObject.active ? TaskStatus.Success : TaskStatus.Failure;
+            return !targetObject.Value.active ? TaskStatus.Success : TaskStatus.Failure;
         }
 
     }
