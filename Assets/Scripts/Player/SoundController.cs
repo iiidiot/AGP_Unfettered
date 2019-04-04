@@ -7,8 +7,8 @@ public class SoundController : MonoBehaviour {
 	static AudioSource audioSource;
 	private static AudioClip[] audioClipsOutput; 
 
-	[SerializeField]
-	private string[] audioName = {"walk", "run", "jump", "attack", "underAttack", "shoot", "death"}; 
+	//[SerializeField]
+	//private string[] audioName = {"walk", "run", "jump", "attack", "underAttack", "shoot", "death"}; 
 
 	[SerializeField]
 	private  AudioClip[] audioClipsInput; 
@@ -30,23 +30,47 @@ public class SoundController : MonoBehaviour {
 		}
 	}
 
-	public static void PlaySound (int index) {
-		
-		if(audioSource.clip != audioClipsOutput[0] && audioSource.isPlaying == false){
-			//Debug.Log("heresound");
-			audioSource.Stop();
-			audioSource.volume = Random.Range(0.8f, 1);
-			audioSource.pitch = Random.Range(0.8f, 1);
-			audioSource.clip = audioClipsOutput[index];
-			audioSource.PlayOneShot(audioClipsOutput[index]);
-		}else if (index != 0){
-			audioSource.Stop();
-			audioSource.clip = audioClipsOutput[index];
-			audioSource.volume = Random.Range(0.8f, 1);
-			audioSource.PlayOneShot(audioClipsOutput[index]);
-			
-		}
-	}
+	public static void PlaySound (int index)
+    {
+        audioSource.volume = Random.Range(0.8f, 1);
+        audioSource.pitch = Random.Range(0.8f, 1);
+        audioSource.clip = audioClipsOutput[index];
+        audioSource.PlayOneShot(audioClipsOutput[index]);
+
+
+        //      // footsteps
+        //      if(index ==0)
+        //      {
+        //          //audioSource.loop = true;
+
+        //          audioSource.volume = Random.Range(0.8f, 1);
+        //          audioSource.pitch = Random.Range(0.8f, 1);
+        //          audioSource.clip = audioClipsOutput[index];
+
+        //          audioSource.PlayOneShot(audioClipsOutput[index]);
+        //      }
+
+        //else if(audioSource.clip != audioClipsOutput[0] && audioSource.isPlaying == false)
+        //      {
+        //	//Debug.Log("heresound");
+        //	//audioSource.Stop();
+        //	audioSource.volume = Random.Range(0.8f, 1);
+        //	audioSource.pitch = Random.Range(0.8f, 1);
+        //	audioSource.clip = audioClipsOutput[index];
+        //	audioSource.PlayOneShot(audioClipsOutput[index]);
+        //}
+
+
+
+        //      else// if (index != 0)
+        //      {
+        //	audioSource.Stop();
+        //	audioSource.clip = audioClipsOutput[index];
+        //	audioSource.volume = Random.Range(0.8f, 1);
+        //	audioSource.PlayOneShot(audioClipsOutput[index]);
+
+        //}
+    }
 
 	public static void StopPlayingSound () {
 		if(audioSource.clip == audioClipsOutput[0]){
