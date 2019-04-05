@@ -60,7 +60,7 @@ public class PlayerTestController : MonoBehaviour
 
     public bool is3DMode;
 
-    private bool m_isRunning;
+
   
 
     CapsuleCollider m_Capsule;
@@ -71,8 +71,6 @@ public class PlayerTestController : MonoBehaviour
     }
     void Start()
     {
-        m_isRunning = false;
-
         m_rigidbody = GetComponent<Rigidbody>();
         m_animator = GetComponent<Animator>();
         
@@ -136,28 +134,14 @@ public class PlayerTestController : MonoBehaviour
 
         if(m_blockStatements[0] == 0)
         {
-            // Check if it's running. If it is, then play the running sound.
-            if(Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0)
-            {
-                m_isRunning = true;
-            }
-            else if(Input.GetAxisRaw("Horizontal") ==0 && Input.GetAxisRaw("Vertical") ==0)
-            {
-                m_isRunning = false;
-            }
-
             float horizontalInput = 0f;
-
-            // left side
             if( (m_blockStatements[1] == 0) && Input.GetAxisRaw("Horizontal") < 0) // not block left
             {
                 horizontalInput = Input.GetAxisRaw("Horizontal");
             }
-
-            // right side
             else if( (m_blockStatements[2] == 0) && Input.GetAxisRaw("Horizontal") > 0 ) // not block right
             {
-                horizontalInput = Input.GetAxisRaw("Horizontal");
+                 horizontalInput = Input.GetAxisRaw("Horizontal");
             }
 
             m_directionInput = new Vector2(horizontalInput, Input.GetAxis("Vertical"));
@@ -165,7 +149,6 @@ public class PlayerTestController : MonoBehaviour
             if (is3DMode)
             {
                 float v = Input.GetAxis("Vertical");
-
                 // calculate move direction to pass to character
                 if (m_Cam != null)
                 {
@@ -180,8 +163,8 @@ public class PlayerTestController : MonoBehaviour
                 }
 
 #if !MOBILE_INPUT
-                // walk speed multiplier
-                if (Input.GetKey(KeyCode.LeftShift)) m_Move *= 1.5f;
+            // walk speed multiplier
+            if (Input.GetKey(KeyCode.LeftShift)) m_Move *= 1.5f;
 #endif
             }
 
@@ -216,21 +199,16 @@ public class PlayerTestController : MonoBehaviour
 
     //
     // Summary:
-    //     trigger the different sound effects according to behavior state
+    //     tigger the different sound effects according to behavior state
     //
     private void SoundEffectController()
     {
-        if(m_isRunning)
-        {
-            SoundController.PlaySound(0);
-        }
-  //      if( Mathf.Abs(m_directionInput.x) > 2 * zero_threshold && isOnGround){
-  //          //Debug.Log("herecall");
-		//	SoundController.PlaySound(0);
-		//}else{
-		//	SoundController.StopPlayingSound();
-		//}
-
+        if( Mathf.Abs(m_directionInput.x) > 2 * zero_threshold && isOnGround){
+            //Debug.Log("herecall");
+			SoundController.PlaySound(0);
+		}else{
+			SoundController.StopPlayingSound();
+		}
         // if(playerAttack)
         // {
             
@@ -546,9 +524,9 @@ public class PlayerTestController : MonoBehaviour
     //
     // Summary:
     //     Switch the enabled state of melee attack area
-    //public void KnifeAttackAppear() {
-    //    knifeAttack.enabled = !knifeAttack.enabled;
-    //}
+    public void KnifeAttackAppear() {
+        knifeAttack.enabled = !knifeAttack.enabled;
+    }
 
     //
     // Summary:

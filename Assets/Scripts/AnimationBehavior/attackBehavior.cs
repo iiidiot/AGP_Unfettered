@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class attackBehavior : StateMachineBehaviour
-{
-    // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
-    override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    {
+public class attackBehavior : StateMachineBehaviour {
+
+	 // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
+	override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
 		animator.SetBool("isAttacking", true);
 		List<int> blockstate = new List<int>();
         blockstate.Add(1);
@@ -21,7 +20,8 @@ public class attackBehavior : StateMachineBehaviour
 
         //Transform effectPos = sword1.transform.Find("SwordTipPlus").transform;
         //GameObject swordEffect = Instantiate(Resources.Load("Prefabs/Effects/SlashParticle"), effectPos.position, effectPos.rotation) as GameObject;
-        //SoundController.PlaySound(1);
+        SoundController.PlaySound(1);
+		
 	}
 
 	// OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

@@ -123,12 +123,9 @@ public class PlayerController : MonoBehaviour {
 	 */
     private void HandleMovement(float horizontal, float vertical)
     {
-		if( Mathf.Abs(horizontal) > 2 * offsetValue && OnGround)
-        {
+		if( Mathf.Abs(horizontal) > 2 * offsetValue && OnGround){
 			SoundController.PlaySound(0);
-		}
-        else
-        {
+		}else{
 			SoundController.StopPlayingSound();
 		}
 
@@ -142,7 +139,6 @@ public class PlayerController : MonoBehaviour {
 		myRigibody.velocity = new Vector2(horizontal * movementSpeed, myRigibody.velocity.y);
 
 		myAnimator.SetFloat("speed", Mathf.Abs(horizontal));
-
 		// check velocity.y to avoid double jump at the edge
 		if(Jump && OnGround && myRigibody.velocity.y < 0.1f)
         {
