@@ -11,11 +11,13 @@ public class Boss1ChaseController : MonoBehaviour {
     public float m_gravity = -10;//重力加速度，每秒
 
     public float x_Velocity;
+    public Animator m_animator;
 
     // Use this for initialization
     void Start () {
         m_IsOnGround = false;
         m_rigidbody = GetComponent<Rigidbody>();
+        m_animator = GetComponent<Animator>();
     }
 	
 	// Update is called once per frame
@@ -30,6 +32,9 @@ public class Boss1ChaseController : MonoBehaviour {
             m_rigidbody.velocity = new Vector3(x_Velocity, 0, 0);
         }
 
+
+        m_animator.SetFloat("HorizontalVelocity", Mathf.Abs(m_rigidbody.velocity.x));
+        m_animator.SetFloat("VerticalVelocity", m_rigidbody.velocity.y);
     }
 
     private void OnCollisionEnter(Collision collision)
