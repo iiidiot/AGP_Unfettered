@@ -22,7 +22,7 @@ public class Boss1ChaseController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        
+       
         if (!m_IsOnGround)
         {
             m_rigidbody.velocity = new Vector3(x_Velocity, m_rigidbody.velocity.y + m_gravity * Time.fixedDeltaTime, 0);
@@ -39,10 +39,37 @@ public class Boss1ChaseController : MonoBehaviour {
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.collider.tag == "BossGround")
+        Debug.Log(this.name + ": " + collision.collider.name);
+        if (collision.collider.tag == "Ground")
         {
             m_IsOnGround = true;
         }
     }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        Debug.Log(this.name + ": " + collision.collider.name);
+        if (collision.collider.tag == "Ground")
+        {
+            m_IsOnGround = false;
+        }
+    }
+    //private void OnTriggerStay(Collider other)
+    //{
+    //    if(other.tag == "Ground")
+    //    {
+    //        m_IsOnGround = true;
+    //    }
+    //}
+
+
+
+    //private void OnTriggerExit(Collider other)
+    //{
+    //    if (other.tag == "Ground")
+    //    {
+    //        m_IsOnGround = false;
+    //    }
+    //}
 
 }
