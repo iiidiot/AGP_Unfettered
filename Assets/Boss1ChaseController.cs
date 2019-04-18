@@ -5,6 +5,20 @@ using UnityEngine;
 // This is the controller script for the boss chasing player in cave scene part4
 public class Boss1ChaseController : MonoBehaviour {
 
+    private static Boss1ChaseController m_instance;
+    public static Boss1ChaseController instance
+    {
+        get
+        {
+            if (m_instance == null)
+            {
+                m_instance = GameObject.FindObjectOfType<Boss1ChaseController>();
+            }
+            return m_instance;
+        }
+    }
+
+
     public bool m_IsOnGround;
     private Rigidbody m_rigidbody;
 
@@ -12,6 +26,9 @@ public class Boss1ChaseController : MonoBehaviour {
 
     public float x_Velocity;
     public Animator m_animator;
+
+    // Obj collided with the player 
+    public List<int> grounds;
 
     // Use this for initialization
     void Start () {
@@ -22,7 +39,16 @@ public class Boss1ChaseController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-       
+
+        if (grounds.Count > 0)
+        {
+            m_IsOnGround = true;
+        }
+        else
+        {
+            m_IsOnGround = false;
+        }
+
         if (!m_IsOnGround)
         {
             m_rigidbody.velocity = new Vector3(x_Velocity, m_rigidbody.velocity.y + m_gravity * Time.fixedDeltaTime, 0);
@@ -42,7 +68,8 @@ public class Boss1ChaseController : MonoBehaviour {
         Debug.Log(this.name + ": " + collision.collider.name);
         if (collision.collider.tag == "Ground")
         {
-            m_IsOnGround = true;
+            grounds.Add(collision.gameObject.GetInstanceID());
+            //m_IsOnGround = true;
         }
     }
 
@@ -51,25 +78,10 @@ public class Boss1ChaseController : MonoBehaviour {
         Debug.Log(this.name + ": " + collision.collider.name);
         if (collision.collider.tag == "Ground")
         {
-            m_IsOnGround = false;
+            grounds.Remove(collision.gameObject.GetInstanceID());
+            //m_IsOnGround = false;
         }
     }
-    //private void OnTriggerStay(Collider other)
-    //{
-    //    if(other.tag == "Ground")
-    //    {
-    //        m_IsOnGround = true;
-    //    }
-    //}
 
-
-
-    //private void OnTriggerExit(Collider other)
-    //{
-    //    if (other.tag == "Ground")
-    //    {
-    //        m_IsOnGround = false;
-    //    }
-    //}
 
 }

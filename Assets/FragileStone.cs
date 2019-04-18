@@ -1,28 +1,28 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class FragileStone : MonoBehaviour
 {
-
-
-    public GameObject fragments;
+    public Transform rockMeshTransform;
 
     // shaking factors
     private bool isShaking = false;
     public float shakeTime = 1f; //shake time
     private float shakeTimeLeft = 0f;
-    public float shakePrequencyFactor = 0.5f;
+    public float fallDownSpeedFactor = 1f;
 
-    public bool doShake = false;
+
+    private bool doShake = false;
 
 
     //public float shakeAmount = 0.7f;       //抖动幅度（振幅）
     //public float decreaseFactor = 1.0f;    //振幅越大抖动越厉害
     Vector3 originalPos;
 
-    public Vector3 shakeMaxXYZ = new Vector3(0.5f, 0.5f, 0);
-    public bool isLockZ = false;
+    private Vector3 shakeMaxXYZ = new Vector3(0.5f, 0.5f, 0);
+    private bool isLockZ = false;
 
 
     private bool m_hasPlayerEntered = false;
@@ -32,7 +32,16 @@ public class FragileStone : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        originalPos = this.transform.position;
+
+        if (!rockMeshTransform)  // place holder!!!
+        {
+            rockMeshTransform = this.transform;
+        }
+
+    
+
+
+        originalPos = rockMeshTransform.position;
         m_hasPlayerEntered = false;
     }
 
@@ -56,16 +65,19 @@ public class FragileStone : MonoBehaviour
                 {
                     randomOffset.z *= shakeMaxXYZ.z;
                 }
-                this.transform.position = originalPos + randomOffset;
 
 
-                shakeTimeLeft -= Time.deltaTime * shakePrequencyFactor;
+                rockMeshTransform.position = originalPos + randomOffset;
+
+
+                shakeTimeLeft -= Time.deltaTime;
             }
             else
             {
                 shakeTimeLeft = 0f;
-                this.transform.position = originalPos;
+                rockMeshTransform.position = originalPos;
                 isShaking = false;
+                StoneSink();
             }
         }
     }
@@ -81,7 +93,7 @@ public class FragileStone : MonoBehaviour
             {
                 m_hasPlayerEntered = true;
                 DoShake();
-                Invoke("DestoryStone", 1);
+                //Invoke("StoneSink", 1);
             }
         }
 
@@ -89,7 +101,7 @@ public class FragileStone : MonoBehaviour
 
     public void DoShake()
     {
-        originalPos = this.transform.position;
+        originalPos = rockMeshTransform.position;
         isShaking = true;
         shakeTimeLeft = shakeTime;
     }
@@ -97,8 +109,19 @@ public class FragileStone : MonoBehaviour
 
     public void DestoryStone()
     {
-        Instantiate(fragments, transform.position, transform.rotation);
+        //Instantiate(fragments, transform.position, transform.rotation);
         //Destroy(gameObject);
         gameObject.SetActive(false);
+    }
+
+    public void StoneSink()
+    {
+        //rockMeshTransform.position = originalPos;
+
+        float curY = this.transform.position.y;
+        this.transform.DOMoveY(curY-40, 2*fallDownSpeedFactor);
+ //       this.GetComponent<Rigidbody>().velocity = new Vector3(0,0, -1 * sinkSpeed);
+
+        Invoke("DestoryStone", 2);
     }
 }

@@ -25,15 +25,22 @@ public class StoneDestory : MonoBehaviour {
 
             if (this.tag == "Ground")
             {
-                PlayerTestController playerTestController = CharactersConfigManager.GetPlayerGameObject().GetComponent<PlayerTestController>();
+                
                 int gameObjectId = this.transform.gameObject.GetInstanceID();
-                if (playerTestController.grounds.Contains(gameObjectId) )
+                if (PlayerTestController.instance.grounds.Contains(gameObjectId) )
                 {
-                    playerTestController.grounds.Remove(gameObjectId);
+                    PlayerTestController.instance.grounds.Remove(gameObjectId);
+                }
+                if (Boss1ChaseController.instance.grounds.Contains(gameObjectId))
+                {
+                    Boss1ChaseController.instance.grounds.Remove(gameObjectId);
                 }
 
+
+
             }
-            Destroy(gameObject);
+            gameObject.SetActive(false);
+            //Destroy(gameObject); 
         }
           
     }

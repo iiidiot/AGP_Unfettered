@@ -14,11 +14,19 @@ public class FallDownDie : MonoBehaviour {
 		
 	}
 
-	void OnTriggerEnter(Collider other)
+	//void OnTriggerEnter(Collider other)
+ //   {
+ //       if (other.tag == "Player")
+ //       {
+ //           other.gameObject.transform.position = GameRunTimeStatus.RebornPlace;
+ //       }
+ //   }
+
+    private void OnCollisionEnter(Collision collision)
     {
-        if (other.tag == "Player")
+        if (collision.collider.tag == "Player")
         {
-            other.gameObject.transform.position = GameRunTimeStatus.RebornPlace;
+            collision.collider.gameObject.transform.position = GameRunTimeStatus.RebornPlace;
         }
     }
 
