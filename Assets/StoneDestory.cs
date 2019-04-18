@@ -6,8 +6,10 @@ public class StoneDestory : MonoBehaviour {
 
     public GameObject fragments;
 
-	// Use this for initialization
-	void Start () {
+
+    private GameObject m_instantiatedFragments;
+    // Use this for initialization
+    void Start () {
 		
 	}
 	
@@ -21,7 +23,7 @@ public class StoneDestory : MonoBehaviour {
         Debug.Log( this.name + ": " +  collision.collider.name);
         if (collision.collider.gameObject.layer == LayerMask.NameToLayer("Boss"))
         {
-            Instantiate(fragments, transform.position, transform.rotation);
+            m_instantiatedFragments = Instantiate(fragments, transform.position, transform.rotation);
 
             if (this.tag == "Ground")
             {
@@ -41,8 +43,13 @@ public class StoneDestory : MonoBehaviour {
             }
             gameObject.SetActive(false);
             //Destroy(gameObject); 
+            Invoke("DestroyInstantiatedFragments", 2);
         }
           
     }
 
+    private void DestroyInstantiatedFragments()
+    {
+        Destroy(m_instantiatedFragments);
+    }
 }

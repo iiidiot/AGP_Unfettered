@@ -71,6 +71,12 @@ public class Boss1ChaseController : MonoBehaviour {
             grounds.Add(collision.gameObject.GetInstanceID());
             //m_IsOnGround = true;
         }
+
+        if (collision.collider.tag == "Player")
+        {
+            GameObject part04 = GameObject.Find("SceneRoot/Part04");
+            part04.GetComponent<Part04Restart>().DoPart04Restart();
+        }
     }
 
     private void OnCollisionExit(Collision collision)

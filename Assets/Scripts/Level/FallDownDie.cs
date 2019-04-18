@@ -14,19 +14,20 @@ public class FallDownDie : MonoBehaviour {
 		
 	}
 
-	//void OnTriggerEnter(Collider other)
- //   {
- //       if (other.tag == "Player")
- //       {
- //           other.gameObject.transform.position = GameRunTimeStatus.RebornPlace;
- //       }
- //   }
-
-    private void OnCollisionEnter(Collision collision)
+    void OnTriggerEnter(Collider other)
     {
-        if (collision.collider.tag == "Player")
+        if (other.tag == "Player")
         {
-            collision.collider.gameObject.transform.position = GameRunTimeStatus.RebornPlace;
+            GameObject part04 = GameObject.Find("SceneRoot/Part04");
+            if (part04.activeSelf) // if in part04
+            {
+                part04.GetComponent<Part04Restart>().DoPart04Restart();
+            }
+            else
+            {
+                other.gameObject.transform.position = GameRunTimeStatus.RebornPlace;
+
+            }
         }
     }
 

@@ -16,9 +16,6 @@ public class FragileStone : MonoBehaviour
 
     private bool doShake = false;
 
-
-    //public float shakeAmount = 0.7f;       //抖动幅度（振幅）
-    //public float decreaseFactor = 1.0f;    //振幅越大抖动越厉害
     Vector3 originalPos;
 
     private Vector3 shakeMaxXYZ = new Vector3(0.5f, 0.5f, 0);
@@ -37,9 +34,6 @@ public class FragileStone : MonoBehaviour
         {
             rockMeshTransform = this.transform;
         }
-
-    
-
 
         originalPos = rockMeshTransform.position;
         m_hasPlayerEntered = false;
@@ -107,7 +101,7 @@ public class FragileStone : MonoBehaviour
     }
 
 
-    public void DestoryStone()
+    public void DestroyStone()
     {
         //Instantiate(fragments, transform.position, transform.rotation);
         //Destroy(gameObject);
@@ -116,12 +110,15 @@ public class FragileStone : MonoBehaviour
 
     public void StoneSink()
     {
-        //rockMeshTransform.position = originalPos;
-
         float curY = this.transform.position.y;
         this.transform.DOMoveY(curY-40, 2*fallDownSpeedFactor);
- //       this.GetComponent<Rigidbody>().velocity = new Vector3(0,0, -1 * sinkSpeed);
-
         Invoke("DestoryStone", 2);
+    }
+
+
+    public void Restore()
+    {
+        m_hasPlayerEntered = false;
+        this.transform.position = originalPos;
     }
 }
