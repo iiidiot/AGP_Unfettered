@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FallDownDie : MonoBehaviour {
+public class FallDownDiePart04 : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
@@ -18,11 +18,10 @@ public class FallDownDie : MonoBehaviour {
     {
         if (other.tag == "Player")
         {
-           
-                other.gameObject.transform.position = GameRunTimeStatus.RebornPlace;
+            GameObject part04 = GameObject.Find("SceneRoot/Part04");
 
-           
+            part04.GetComponent<Part04Restart>().DoPart04Restart();
+         
         }
     }
-
 }
