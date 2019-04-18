@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Com.LuisPedroFonseca.ProCamera2D;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,7 +12,7 @@ public class Part04Restart : MonoBehaviour {
     {
         RestoreFragileStones();
 
-        part04Camera.GetComponent<RestoreOriginalPosition>().DoRestoreOriginalPosition();
+        ProCamera2D.Instance.Reset();
 
         boss.Find("boss01Anime01").GetComponent<Rigidbody>().position = bossBornPlace.position;
         CharactersConfigManager.GetPlayerGameObject().transform.position = GameRunTimeStatus.RebornPlace;
