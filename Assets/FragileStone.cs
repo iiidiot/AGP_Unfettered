@@ -24,6 +24,7 @@ public class FragileStone : MonoBehaviour
 
     private bool m_hasPlayerEntered = false;
 
+    private bool m_restoreLock = false;
 
 
     // Use this for initialization
@@ -37,6 +38,7 @@ public class FragileStone : MonoBehaviour
 
         originalPos = rockMeshTransform.position;
         m_hasPlayerEntered = false;
+        m_restoreLock = false;
     }
 
     // Update is called once per frame
@@ -74,6 +76,21 @@ public class FragileStone : MonoBehaviour
                 StoneSink();
             }
         }
+
+
+        if (m_restoreLock)
+        {
+            if (this.transform.position != originalPos)
+            {
+                this.transform.position = originalPos;
+            }
+            else
+            {
+                m_restoreLock = false;
+                m_hasPlayerEntered = false;
+            }
+        }
+
     }
 
 
@@ -111,8 +128,8 @@ public class FragileStone : MonoBehaviour
     public void StoneSink()
     {
         float curY = this.transform.position.y;
-        this.transform.DOMoveY(curY-40, 2*fallDownSpeedFactor);
-        Invoke("DestoryStone", 2);
+        this.transform.DOMoveY(curY-20, 1);
+        Invoke("DestoryStone", 1);
     }
 
 
@@ -120,5 +137,6 @@ public class FragileStone : MonoBehaviour
     {
         m_hasPlayerEntered = false;
         this.transform.position = originalPos;
+        m_restoreLock = true;
     }
 }

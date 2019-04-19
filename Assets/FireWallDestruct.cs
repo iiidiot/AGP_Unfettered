@@ -17,7 +17,9 @@ public class FireWallDestruct : MonoBehaviour {
 
     public void Do()
     {
-        this.gameObject.SetActive(false);
+        //this.gameObject.SetActive(false);
+        this.transform.Find("FireWallEffect").GetComponent<ParticleSystem>().Stop();
+        this.GetComponent<BoxCollider>().enabled = false;
     }
 
 }

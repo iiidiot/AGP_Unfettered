@@ -25,7 +25,7 @@ public class Part04Restart : MonoBehaviour {
         {
             GameObject o = platformGroup.GetChild(i).gameObject;
             o.SetActive(true);
-            if (o.name.Contains("Fragile"))
+            if (o.GetComponent<FragileStone>())
             {
                 o.GetComponent<FragileStone>().Restore();
             }
