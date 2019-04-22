@@ -12,16 +12,18 @@ public class FragileStone : MonoBehaviour
     public float shakeTime = 1f; //shake time
     private float shakeTimeLeft = 0f;
     public float fallDownSpeedFactor = 1f;
-    public float shakeAmountFactor = 1f;
+    public float shakeAmountFactor = 2f;
+    public float shakeFrequencyFactor = 100f; // 100 as standard, 50 seems ok
 
     private bool doShake = false;
 
     Vector3 originalPos;
 
     private Vector3 shakeMaxXYZ = new Vector3(0.5f, 0.5f, 0);
-    private bool isLockZ = false;
 
+    public bool isLockNegY;
 
+    public bool isLockY;
     private bool m_hasPlayerEntered = false;
 
     private bool m_restoreLock = false;
@@ -41,32 +43,22 @@ public class FragileStone : MonoBehaviour
         m_restoreLock = false;
     }
 
+    float timeTarget;
+
     // Update is called once per frame
     void Update()
     {
-
         if (isShaking)
         {
             if (shakeTimeLeft > 0)
             {
-                Vector3 randomOffset = Random.insideUnitSphere;
-                randomOffset.x *= shakeMaxXYZ.x / shakeAmountFactor;
-                randomOffset.y *= shakeMaxXYZ.y / shakeAmountFactor;
-
-                if (isLockZ)
+                float timeSpent = shakeTime - shakeTimeLeft;
+                if (timeSpent > timeTarget)
                 {
-                    randomOffset.z = 0;
+                    ShakeTheTransform();
+                    timeTarget = timeSpent + shakeTime/shakeFrequencyFactor;
                 }
-                else
-                {
-                    randomOffset.z *= shakeMaxXYZ.z / shakeAmountFactor;
-                }
-
-
-                rockMeshTransform.position = originalPos + randomOffset;
-
-
-                shakeTimeLeft -= Time.deltaTime;
+                shakeTimeLeft -= Time.deltaTime ;
             }
             else
             {
@@ -74,6 +66,7 @@ public class FragileStone : MonoBehaviour
                 rockMeshTransform.position = originalPos;
                 isShaking = false;
                 StoneSink();
+                timeTarget = 0;
             }
         }
 
@@ -93,8 +86,29 @@ public class FragileStone : MonoBehaviour
 
     }
 
+    private void ShakeTheTransform()
+    {
+        Vector3 randomOffset = Random.insideUnitSphere;
+        randomOffset.x *= shakeMaxXYZ.x / shakeAmountFactor;
+       
+        randomOffset.z *= shakeMaxXYZ.z / shakeAmountFactor;
+
+        if (isLockY)
+        {
+            randomOffset.y = 0;
+        }
+        else if (isLockNegY)
+        {
+            randomOffset.y *= Mathf.Abs(shakeMaxXYZ.y) / shakeAmountFactor;
+        }
+        else
+        {
+            randomOffset.y *= shakeMaxXYZ.y / shakeAmountFactor;
+        }
 
 
+        rockMeshTransform.position = originalPos + randomOffset;
+    }
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -115,6 +129,7 @@ public class FragileStone : MonoBehaviour
         originalPos = rockMeshTransform.position;
         isShaking = true;
         shakeTimeLeft = shakeTime;
+        timeTarget = 0;
     }
 
 
