@@ -29,6 +29,9 @@ public class Part04Restart : MonoBehaviour {
             {
                 o.GetComponent<FragileStone>().Restore();
             }
+          
+               
+            
         }
     }
 }

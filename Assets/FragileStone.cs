@@ -6,92 +6,148 @@ using DG.Tweening;
 public class FragileStone : MonoBehaviour
 {
     public Transform rockMeshTransform;
-
-    // shaking factors
-    private bool isShaking = false;
     public float shakeTime = 1f; //shake time
-    private float shakeTimeLeft = 0f;
     public float fallDownSpeedFactor = 1f;
     public float shakeAmountFactor = 2f;
     public float shakeFrequencyFactor = 100f; // 100 as standard, 50 seems ok
-
-    private bool doShake = false;
-
-    Vector3 originalPos;
-
-    private Vector3 shakeMaxXYZ = new Vector3(0.5f, 0.5f, 0);
-
     public bool isLockNegY;
-
     public bool isLockY;
-    private bool m_hasPlayerEntered = false;
 
-    private bool m_restoreLock = false;
 
+    //public AudioClip audioClip;
+    public GameObject platformGroup;
+    private AudioSource m_MyAudioSource;
+
+    // shaking factors
+    private bool m_isShaking = false;
+    private float m_shakeTimeLeft = 0f;
+
+    private Vector3 m_RockOriginalPos;
+    private Vector3 m_ThisOriginalPos;
+
+    private Vector3 m_shakeMaxXYZ = new Vector3(0.5f, 0.5f, 0);
+
+    public bool m_hasPlayerEntered = false;
+
+    public bool m_restoreLock = false;
+
+    private float m_timeTarget;
+
+    private bool m_isPlaying;
+
+    private float m_SinkTime = 1f;
 
     // Use this for initialization
     void Start()
     {
-
-        if (!rockMeshTransform)  // place holder!!!
+        
+        if (!platformGroup)
         {
-            rockMeshTransform = this.transform;
+            platformGroup = GameObject.Find("Part03/EnvRoot/PlatformGroup");
         }
-
-        originalPos = rockMeshTransform.position;
+        m_RockOriginalPos = rockMeshTransform.position;
+        m_ThisOriginalPos = transform.position;
         m_hasPlayerEntered = false;
         m_restoreLock = false;
+
+        m_MyAudioSource = platformGroup.GetComponent<AudioSource>();
+        //m_MyAudioSource.clip = audioClip;
+        m_isPlaying = false;
+        m_SinkTime = 1f;
+        Debug.Log(this.gameObject.name + "m_RockOriginalPos" + m_RockOriginalPos);
+        Debug.Log(this.gameObject.name + "m_ThisOriginalPos" + m_ThisOriginalPos);
     }
 
-    float timeTarget;
+
 
     // Update is called once per frame
     void Update()
     {
-        if (isShaking)
+        if (m_isShaking)
         {
-            if (shakeTimeLeft > 0)
+            if (!m_MyAudioSource.isPlaying)
             {
-                float timeSpent = shakeTime - shakeTimeLeft;
-                if (timeSpent > timeTarget)
+
+                m_MyAudioSource.Play();
+
+            }
+
+            if (m_shakeTimeLeft > 0)
+            {
+                float timeSpent = shakeTime - m_shakeTimeLeft;
+                if (timeSpent > m_timeTarget)
                 {
                     ShakeTheTransform();
-                    timeTarget = timeSpent + shakeTime/shakeFrequencyFactor;
+                    m_timeTarget = timeSpent + shakeTime/shakeFrequencyFactor;
                 }
-                shakeTimeLeft -= Time.deltaTime ;
+                m_shakeTimeLeft -= Time.deltaTime ;
             }
             else
             {
-                shakeTimeLeft = 0f;
-                rockMeshTransform.position = originalPos;
-                isShaking = false;
-                StoneSink();
-                timeTarget = 0;
+                EndShake();
             }
         }
 
 
-        if (m_restoreLock)
+        //if (m_restoreLock)
+        //{
+        //    Debug.Log(this.gameObject.name + ": restore lock on");
+        //    Debug.Log(this.gameObject.name + "m_RockOriginalPos" + m_RockOriginalPos);
+        //    Debug.Log(this.gameObject.name + "m_ThisOriginalPos" + m_ThisOriginalPos);
+        //    Debug.Log(this.gameObject.name + "this.transform.position" + this.transform.position);
+        //    Debug.Log(this.gameObject.name + "rockMeshTransform.position" + rockMeshTransform.position);
+        //    if (!TwoVectorEqual(this.transform.position, m_ThisOriginalPos) || !TwoVectorEqual(rockMeshTransform.position, m_RockOriginalPos))
+        //    {
+        //        Debug.Log(this.gameObject.name + ": try restore");
+
+        //        this.transform.position = m_ThisOriginalPos;
+        //        rockMeshTransform.position = m_RockOriginalPos;
+        //    }
+        //    else
+        //    {
+        //        Debug.Log(this.gameObject.name + ": restore done");
+        //        m_restoreLock = false;
+        //        m_hasPlayerEntered = false;
+        //    }
+        //}
+
+    }
+
+    private bool TwoVectorEqual(Vector3 a, Vector3 b)
+    {
+        float delta = 0.01f;
+        if (Mathf.Abs(a.x - b.x) <= delta && Mathf.Abs(a.y - b.y) <= delta && Mathf.Abs(a.z - b.z) <= delta)
         {
-            if (this.transform.position != originalPos)
-            {
-                this.transform.position = originalPos;
-            }
-            else
-            {
-                m_restoreLock = false;
-                m_hasPlayerEntered = false;
-            }
+            return true;
         }
 
+        else
+        {
+            return false;
+        }
+    }
+
+
+    private void EndShake()
+    {
+        if (m_MyAudioSource.isPlaying)
+        {
+            m_MyAudioSource.Stop();
+
+        }
+        m_shakeTimeLeft = 0f;
+        rockMeshTransform.position = m_RockOriginalPos;
+        m_isShaking = false;
+        StoneSink();
+        m_timeTarget = 0;
     }
 
     private void ShakeTheTransform()
     {
         Vector3 randomOffset = Random.insideUnitSphere;
-        randomOffset.x *= shakeMaxXYZ.x / shakeAmountFactor;
+        randomOffset.x *= m_shakeMaxXYZ.x / shakeAmountFactor;
        
-        randomOffset.z *= shakeMaxXYZ.z / shakeAmountFactor;
+        randomOffset.z *= m_shakeMaxXYZ.z / shakeAmountFactor;
 
         if (isLockY)
         {
@@ -99,15 +155,15 @@ public class FragileStone : MonoBehaviour
         }
         else if (isLockNegY)
         {
-            randomOffset.y *= Mathf.Abs(shakeMaxXYZ.y) / shakeAmountFactor;
+            randomOffset.y *= Mathf.Abs(m_shakeMaxXYZ.y) / shakeAmountFactor;
         }
         else
         {
-            randomOffset.y *= shakeMaxXYZ.y / shakeAmountFactor;
+            randomOffset.y *= m_shakeMaxXYZ.y / shakeAmountFactor;
         }
 
 
-        rockMeshTransform.position = originalPos + randomOffset;
+        rockMeshTransform.position = m_RockOriginalPos + randomOffset;
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -126,10 +182,10 @@ public class FragileStone : MonoBehaviour
 
     public void DoShake()
     {
-        originalPos = rockMeshTransform.position;
-        isShaking = true;
-        shakeTimeLeft = shakeTime;
-        timeTarget = 0;
+        m_RockOriginalPos = rockMeshTransform.position;
+        m_isShaking = true;
+        m_shakeTimeLeft = shakeTime;
+        m_timeTarget = 0;
     }
 
 
@@ -143,15 +199,37 @@ public class FragileStone : MonoBehaviour
     public void StoneSink()
     {
         float curY = this.transform.position.y;
-        this.transform.DOMoveY(curY-20, 1);
-        Invoke("DestoryStone", 1);
+        this.transform.DOMoveY(curY-20, m_SinkTime);
+        Invoke("SinkComplete", m_SinkTime+0.1f);
+    }
+
+    public void SinkComplete()
+    {
+        if (m_restoreLock)
+        {
+            this.transform.position = m_ThisOriginalPos;
+            rockMeshTransform.position = m_RockOriginalPos;
+            m_restoreLock = false;
+        }
     }
 
 
     public void Restore()
     {
+        
+
+        //if (!TwoVectorEqual(this.transform.position, m_ThisOriginalPos) || !TwoVectorEqual(rockMeshTransform.position, m_RockOriginalPos))
+
+
+        if (m_hasPlayerEntered)
+        {
+            this.transform.position = m_ThisOriginalPos;
+            rockMeshTransform.position = m_RockOriginalPos;
+
+            m_restoreLock = true;
+        }
         m_hasPlayerEntered = false;
-        this.transform.position = originalPos;
-        m_restoreLock = true;
+
+
     }
 }

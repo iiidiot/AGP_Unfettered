@@ -32,6 +32,9 @@ public class FallDownDiePart03 : MonoBehaviour {
                 {
                     o.GetComponent<FragileStone>().Restore();
                 }
+               
+                    
+                
             }
 
         }
