@@ -12,7 +12,7 @@ public class FragileStone : MonoBehaviour
     public float shakeTime = 1f; //shake time
     private float shakeTimeLeft = 0f;
     public float fallDownSpeedFactor = 1f;
-
+    public float shakeAmountFactor = 1f;
 
     private bool doShake = false;
 
@@ -50,8 +50,8 @@ public class FragileStone : MonoBehaviour
             if (shakeTimeLeft > 0)
             {
                 Vector3 randomOffset = Random.insideUnitSphere;
-                randomOffset.x *= shakeMaxXYZ.x;
-                randomOffset.y *= shakeMaxXYZ.y;
+                randomOffset.x *= shakeMaxXYZ.x / shakeAmountFactor;
+                randomOffset.y *= shakeMaxXYZ.y / shakeAmountFactor;
 
                 if (isLockZ)
                 {
@@ -59,7 +59,7 @@ public class FragileStone : MonoBehaviour
                 }
                 else
                 {
-                    randomOffset.z *= shakeMaxXYZ.z;
+                    randomOffset.z *= shakeMaxXYZ.z / shakeAmountFactor;
                 }
 
 
