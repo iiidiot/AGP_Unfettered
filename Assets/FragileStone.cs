@@ -15,7 +15,7 @@ public class FragileStone : MonoBehaviour
 
 
     //public AudioClip audioClip;
-    public GameObject platformGroup;
+    private GameObject m_FragileAudioSourceGameObject;
     private AudioSource m_MyAudioSource;
 
     // shaking factors
@@ -41,16 +41,16 @@ public class FragileStone : MonoBehaviour
     void Start()
     {
         
-        if (!platformGroup)
+        if (!m_FragileAudioSourceGameObject)
         {
-            platformGroup = GameObject.Find("Part03/EnvRoot/PlatformGroup");
+            m_FragileAudioSourceGameObject = GameObject.Find("FragileSound");
         }
         m_RockOriginalPos = rockMeshTransform.position;
         m_ThisOriginalPos = transform.position;
         m_hasPlayerEntered = false;
         m_restoreLock = false;
 
-        m_MyAudioSource = platformGroup.GetComponent<AudioSource>();
+        m_MyAudioSource = m_FragileAudioSourceGameObject.GetComponent<AudioSource>();
         //m_MyAudioSource.clip = audioClip;
         m_isPlaying = false;
         m_SinkTime = 1f;
