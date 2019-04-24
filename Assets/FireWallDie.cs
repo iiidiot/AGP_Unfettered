@@ -2,32 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FallDownDiePart04 : MonoBehaviour {
-
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+public class FireWallDie : MonoBehaviour {
 
     void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Player")
         {
             CastDamage();
-
-
         }
     }
 
     private void CastDamage()
     {
-        //PlayerTestController.instance.GetDamage(100);
-        Invoke("DoPart04Restart", 0f);
+        PlayerTestController.instance.GetDamage(100);
+        Invoke("DoPart04Restart", 1f);
 
     }
 

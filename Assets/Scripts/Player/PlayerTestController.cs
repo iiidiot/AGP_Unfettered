@@ -321,11 +321,19 @@ public class PlayerTestController : MonoBehaviour
 		if(PlayerStatus.Health <= 0)
 		{
 			m_animator.SetTrigger("isDying");
-            diePanel.SetActive(true);
+            grounds.Clear();
+            //diePanel.SetActive(true);
 		}
 		else{
 			m_animator.SetBool("isDamagedBool",true);
 		}
+    }
+
+    public void Restart()
+    {
+        PlayerStatus.Health = PlayerStatus.MaxHealth;
+        m_animator.SetBool("isDied", false);
+        m_blockStatements[0] = 0;
     }
 
     //

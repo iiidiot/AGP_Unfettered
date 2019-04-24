@@ -4,7 +4,8 @@ using UnityEngine;
 
 // This is the controller script for the boss chasing player in cave scene part4
 public class Boss1ChaseController : MonoBehaviour {
-
+    private const string k_IsAttack = "IsAttack";
+    private const string k_IsReadyToJumpToLava = "IsReadyToJumpToLava";
     private static Boss1ChaseController m_instance;
     public static Boss1ChaseController instance
     {
@@ -35,10 +36,28 @@ public class Boss1ChaseController : MonoBehaviour {
         m_IsOnGround = false;
         m_rigidbody = GetComponent<Rigidbody>();
         m_animator = GetComponent<Animator>();
+        Initializations();
     }
 	
+
+    public void Initializations()
+    {
+        m_animator.SetBool(k_IsReadyToJumpToLava, false);
+        m_animator.SetBool(k_IsAttack, false);
+    }
+
 	// Update is called once per frame
-	void Update () {
+	void Update ()
+    {
+        if (m_animator.GetBool(k_IsAttack))
+        {
+            x_Velocity = 0;
+        }
+        else
+        {
+            x_Velocity = -5;
+        }
+        
 
         if (grounds.Count > 0)
         {
@@ -74,9 +93,24 @@ public class Boss1ChaseController : MonoBehaviour {
 
         if (collision.collider.tag == "Player")
         {
-            GameObject part04 = GameObject.Find("SceneRoot/Part04");
-            part04.GetComponent<Part04Restart>().DoPart04Restart();
+            m_animator.SetBool(k_IsAttack, true);
+            Invoke("CastDamage", 1f);
+           
         }
+    }
+
+
+    private void CastDamage()
+    {
+        PlayerTestController.instance.GetDamage(100);
+        Invoke("DoPart04Restart", 1f);
+       
+    }
+
+    private void DoPart04Restart()
+    {
+        GameObject part04 = GameObject.Find("SceneRoot/Part04");
+        part04.GetComponent<Part04Restart>().DoPart04Restart();
     }
 
     private void OnCollisionExit(Collision collision)
