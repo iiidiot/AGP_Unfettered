@@ -22,4 +22,10 @@ public class FireWallDestruct : MonoBehaviour {
         this.GetComponent<BoxCollider>().enabled = false;
     }
 
+    public void Restore()
+    {
+        this.transform.Find("FireWallEffect").GetComponent<ParticleSystem>().Play();
+        this.GetComponent<BoxCollider>().enabled = true;
+    }
+
 }

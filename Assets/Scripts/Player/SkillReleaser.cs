@@ -39,6 +39,26 @@ public class SkillReleaser : MonoBehaviour {
 
     }
 
+    private void Tm_CollisionEnter_WaterBall(object sender, RFX4_TransformMotion.RFX4_CollisionInfo e)
+    {
+        Debug.Log(e.Hit.transform.name); //will print collided object name to the console.
+        Transform hitTransform = e.Hit.transform;
+        if (hitTransform.tag == "Fire")
+        {
+            hitTransform.GetComponent<FireWallDestruct>().Do();
+        }
+
+        //MonsterCollider monsterCollider = e.Hit.transform.GetComponent<MonsterCollider>();
+        //if (monsterCollider)
+        //{
+        //    MonsterController monsterController = monsterCollider.GetMonsterController();
+        //    monsterController.GetAttack(MonsterController.DamageType.Fu, PlayerStatus.FireBallAttack);
+        //    //monsterCollider.GetMonsterController().GetAttack(fireBallAttack);
+        //}
+
+    }
+
+
     // Update is called once per frame
     void Update () {
 
@@ -54,7 +74,7 @@ public class SkillReleaser : MonoBehaviour {
 
     private void ReleaseFireBallEffect()
     {
-        
+        InitFireBall();
         bool isPlayerFaceLeft = !PlayerTestController.instance.facingRight;
            
         isPlayerFaceLeft = (skillSpellingPoint.position.x - m_playerTransform.position.x < 0); // in 3d mode
@@ -69,6 +89,31 @@ public class SkillReleaser : MonoBehaviour {
             fireBall.transform.SetPositionAndRotation(skillSpellingPoint.position, Quaternion.Euler(0, 90, 0));
         }
         fireBall.SetActive(true);
+    }
+
+
+    private void ReleaseNewWaterBallEffect()
+    {
+        waterBall = Instantiate(Resources.Load("Prefabs/Effects/WaterBall"), skillSpellingPoint.position, Quaternion.Euler(0, !PlayerTestController.instance.facingRight ? -90 : 90, 0)) as GameObject;
+        bool isPlayerFaceLeft = !PlayerTestController.instance.facingRight;
+
+        isPlayerFaceLeft = (skillSpellingPoint.position.x - m_playerTransform.position.x < 0); // in 3d mode
+  
+        if (isPlayerFaceLeft)
+        {
+            waterBall.transform.SetPositionAndRotation(skillSpellingPoint.position, Quaternion.Euler(0, -90, 0));
+        }
+        else
+        {
+            waterBall.transform.SetPositionAndRotation(skillSpellingPoint.position, Quaternion.Euler(0, 90, 0));
+        }
+        waterBall.SetActive(true);
+
+
+        var tm = waterBall.GetComponentInChildren<RFX4_TransformMotion>(true);
+        if (tm != null) tm.CollisionEnter += Tm_CollisionEnter_WaterBall;
+
+
     }
 
     private void InitFireBall()
@@ -111,7 +156,7 @@ public class SkillReleaser : MonoBehaviour {
         if(FuName == "FrostBall")
         {
             //Debug.Log("水水水水水水水水水水水水");
-            ReleaseWaterBallEffect();
+            ReleaseNewWaterBallEffect();
         }
     }
 

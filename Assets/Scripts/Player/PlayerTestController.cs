@@ -52,7 +52,7 @@ public class PlayerTestController : MonoBehaviour
     private float m_jumpSpeed;//起跳速度
 
     // the 0-6 means: [0]isBlockAllManipulation, [1]isBlockLeftMovement, [2]isBlocRightkMovement, [3]isBlockJumpMovement, [4]isBlockMeleeAttack, [5]isBlockFuAttack, [6]isBlockItemUsage
-    public int[] m_blockStatements = new int[7];
+    public int[] blockStatements = new int[7];
 
     private Transform m_Cam;                  // A reference to the main camera in the scenes transform
     private Vector3 m_CamForward;             // The current forward direction of the camera
@@ -116,7 +116,7 @@ public class PlayerTestController : MonoBehaviour
     private void HandleInput()
     {
         //melee attack
-        if( (m_blockStatements[4] == 0) && (m_blockStatements[0] == 0) )
+        if( (blockStatements[4] == 0) && (blockStatements[0] == 0) )
         {
             if(Input.GetMouseButtonDown(0))
             {
@@ -125,21 +125,21 @@ public class PlayerTestController : MonoBehaviour
             }
         }
         // fu attack
-        if((m_blockStatements[5] == 0) && (m_blockStatements[0] == 0) )
+        if((blockStatements[5] == 0) && (blockStatements[0] == 0) )
         {
 
         }
 
         m_directionInput = Vector3.zero;
 
-        if(m_blockStatements[0] == 0)
+        if(blockStatements[0] == 0)
         {
             float horizontalInput = 0f;
-            if( (m_blockStatements[1] == 0) && Input.GetAxisRaw("Horizontal") < 0) // not block left
+            if( (blockStatements[1] == 0) && Input.GetAxisRaw("Horizontal") < 0) // not block left
             {
                 horizontalInput = Input.GetAxisRaw("Horizontal");
             }
-            else if( (m_blockStatements[2] == 0) && Input.GetAxisRaw("Horizontal") > 0 ) // not block right
+            else if( (blockStatements[2] == 0) && Input.GetAxisRaw("Horizontal") > 0 ) // not block right
             {
                  horizontalInput = Input.GetAxisRaw("Horizontal");
             }
@@ -169,7 +169,7 @@ public class PlayerTestController : MonoBehaviour
             }
 
 
-            if (Input.GetKeyDown(KeyCode.Space) && (m_blockStatements[3] == 0) )
+            if (Input.GetKeyDown(KeyCode.Space) && (blockStatements[3] == 0) )
             {
                 playerJump = true;
             }
@@ -181,17 +181,17 @@ public class PlayerTestController : MonoBehaviour
         }
 
         // item usage
-        if( (m_blockStatements[6] == 0) && (m_blockStatements[0] == 0) )
+        if( (blockStatements[6] == 0) && (blockStatements[0] == 0) )
         {
 
         }
 
-        if (Input.GetKey(KeyCode.F1) && (m_blockStatements[0] == 0) )
+        if (Input.GetKey(KeyCode.F1) && (blockStatements[0] == 0) )
         {
             SaveAndLoadUtil.SavePlayerStatus();
         }
 
-        if (Input.GetKey(KeyCode.F2) && (m_blockStatements[0] == 0) )
+        if (Input.GetKey(KeyCode.F2) && (blockStatements[0] == 0) )
         {
             SaveAndLoadUtil.LoadPlayerStatus();
         }
@@ -333,7 +333,7 @@ public class PlayerTestController : MonoBehaviour
     {
         PlayerStatus.Health = PlayerStatus.MaxHealth;
         m_animator.SetBool("isDied", false);
-        m_blockStatements[0] = 0;
+        blockStatements[0] = 0;
     }
 
     //
@@ -368,6 +368,12 @@ public class PlayerTestController : MonoBehaviour
             } 
         }
 
+    }
+
+    public void SetXZVelocityZero()
+    {
+        m_rigidbody.velocity = new Vector3(0, m_rigidbody.velocity.y, 0);
+        m_animator.SetFloat("horizontalSpeed", Mathf.Abs(0));
     }
 
     //
@@ -547,7 +553,7 @@ public class PlayerTestController : MonoBehaviour
     {
         foreach(int state in blockState)
         {
-            m_blockStatements[state] += 1;
+            blockStatements[state] += 1;
         }
     }
     //
@@ -561,10 +567,19 @@ public class PlayerTestController : MonoBehaviour
     {
         foreach(int state in blockState)
         {
-            if(m_blockStatements[state] > 0)
-                m_blockStatements[state] -= 1;
+            if(blockStatements[state] > 0)
+                blockStatements[state] -= 1;
         }  
     }
+
+    public void BlockStateClearAll()
+    {
+        for (int i = 0; i < blockStatements.Length; i++)
+        {
+            blockStatements[i] = 0;
+        }    
+    }
+
 
     //
     // Summary:
@@ -586,7 +601,7 @@ public class PlayerTestController : MonoBehaviour
         if(m_animator.GetBool("isDied"))
         {
             Debug.Log("我觉得这里有蜜汁bug");
-            m_blockStatements[0] += 1;
+            blockStatements[0] += 1;
             m_rigidbody.mass = 10000;
         }
 

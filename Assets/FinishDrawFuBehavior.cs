@@ -19,7 +19,8 @@ public class FinishDrawFuBehavior : StateMachineBehaviour {
     {
         List<int> blockstate = new List<int>();
         blockstate.Add(0);
-        PlayerTestController.instance.UnblockPlayerInput(blockstate);
+        //PlayerTestController.instance.UnblockPlayerInput(blockstate);
+        PlayerTestController.instance.BlockStateClearAll() ;
         Debug.Log("Unblcok!");
         SoundController.PlaySound(3);
     }

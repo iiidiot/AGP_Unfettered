@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+// for part 4
 public class FireWallDie : MonoBehaviour {
 
-    void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision collision)
     {
-        if (other.tag == "Player")
+        if (collision.collider.tag == "Player")
         {
             CastDamage();
         }
@@ -15,6 +17,7 @@ public class FireWallDie : MonoBehaviour {
     private void CastDamage()
     {
         PlayerTestController.instance.GetDamage(100);
+
         Invoke("DoPart04Restart", 1f);
 
     }

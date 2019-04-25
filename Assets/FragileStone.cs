@@ -130,11 +130,11 @@ public class FragileStone : MonoBehaviour
 
     private void EndShake()
     {
-        if (m_MyAudioSource.isPlaying)
-        {
-            m_MyAudioSource.Stop();
+        //if (m_MyAudioSource.isPlaying)
+        //{
+        //    m_MyAudioSource.Stop();
 
-        }
+        //}
         m_shakeTimeLeft = 0f;
         rockMeshTransform.position = m_RockOriginalPos;
         m_isShaking = false;
@@ -199,7 +199,7 @@ public class FragileStone : MonoBehaviour
     public void StoneSink()
     {
         float curY = this.transform.position.y;
-        this.transform.DOMoveY(curY-20, m_SinkTime);
+        this.transform.DOMoveY(curY-30, m_SinkTime);
         Invoke("SinkComplete", m_SinkTime+0.1f);
     }
 
@@ -227,6 +227,10 @@ public class FragileStone : MonoBehaviour
             rockMeshTransform.position = m_RockOriginalPos;
 
             m_restoreLock = true;
+        }
+        else
+        {
+            m_restoreLock = false;
         }
         m_hasPlayerEntered = false;
 

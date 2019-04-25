@@ -30,10 +30,13 @@ public class Boss1ChaseController : MonoBehaviour {
 
     // Obj collided with the player 
     public List<int> grounds;
+    public bool isIdle = false;
+
 
     // Use this for initialization
     void Start () {
         m_IsOnGround = false;
+        isIdle = false;
         m_rigidbody = GetComponent<Rigidbody>();
         m_animator = GetComponent<Animator>();
         Initializations();
@@ -46,16 +49,17 @@ public class Boss1ChaseController : MonoBehaviour {
         m_animator.SetBool(k_IsAttack, false);
     }
 
+    
 	// Update is called once per frame
 	void Update ()
     {
-        if (m_animator.GetBool(k_IsAttack))
+        if (m_animator.GetBool(k_IsAttack) || isIdle)
         {
             x_Velocity = 0;
         }
         else
         {
-            x_Velocity = -5;
+            x_Velocity = -6.5f;
         }
         
 

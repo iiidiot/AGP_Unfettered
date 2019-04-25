@@ -18,26 +18,23 @@ public class FallDownDiePart03 : MonoBehaviour {
     {
         if (other.tag == "Player")
         {
-
-            other.gameObject.transform.position = GameRunTimeStatus.RebornPlace;
-
-
-            GameObject part03Platforms = GameObject.Find("SceneRoot/Part03/EnvRoot/PlatformGroup");
-
-            for (int i = 0; i < part03Platforms.transform.childCount; i++)
-            {
-                GameObject o = part03Platforms.transform.GetChild(i).gameObject;
-                o.SetActive(true);
-                if (o.GetComponent<FragileStone>())
-                {
-                    o.GetComponent<FragileStone>().Restore();
-                }
-               
-                    
-                
-            }
+            CastDamage();
 
         }
+    }
+
+    private void CastDamage()
+    {
+        //PlayerTestController.instance.GetDamage(100);
+
+        Invoke("DoPart03Restart", 0f);
+
+    }
+
+    private void DoPart03Restart()
+    {
+        GameObject part03 = GameObject.Find("SceneRoot/Part03");
+        part03.GetComponent<Part03Restart>().DoPart03Restart();
     }
 
 }
