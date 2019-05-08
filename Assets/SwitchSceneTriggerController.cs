@@ -8,6 +8,8 @@ public class SwitchSceneTriggerController : MonoBehaviour {
     public GameObject boss;
     public GameObject text;
 
+    public GameObject bgm;
+
 
     // Use this for initialization
     void Start () {
@@ -29,6 +31,7 @@ public class SwitchSceneTriggerController : MonoBehaviour {
             PlayerTestController.instance.SetXZVelocityZero();
             boss.GetComponent<Boss1ChaseController>().isIdle = true;
             text.SetActive(true);
+            bgm.SetActive(false);
         }
     }
 }
