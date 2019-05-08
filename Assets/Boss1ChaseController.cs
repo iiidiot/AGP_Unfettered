@@ -59,7 +59,7 @@ public class Boss1ChaseController : MonoBehaviour {
         }
         else
         {
-            x_Velocity = -6.5f;
+            x_Velocity = -6.0f;
         }
         
 

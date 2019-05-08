@@ -316,7 +316,7 @@ public class PlayerTestController : MonoBehaviour
     public void GetDamage(double damage)
     {
         // play some animation maybe
-        PlayerStatus.Health -= damage; // record some damage 
+        PlayerStatus.Health -= 0; // record some damage 
 
 		if(PlayerStatus.Health <= 0)
 		{
